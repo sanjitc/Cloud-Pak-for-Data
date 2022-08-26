@@ -2,6 +2,10 @@
 
 1. [Download Processing on Bastion Node](#Download-Processing-on-Jump-Server)
    - [Install Supporting Packages](#install-podman-skopeo-httpdtools)
+   - [Prepare Environment](#Prepare-Environment)
+   - [Download files](#Download-files)
+   	- [Tool files](#Tool-files)
+   	- [Download of Velero-plugin and the UBI-minimal](#Download-Velero-plugin, UBI-minimal)
 3. [Install Operator on Cluster](#Install-operator-on-cluster)
 
 ## Download Processing on Jump Server
@@ -88,7 +92,7 @@ wget https://github.com/fullstorydev/grpcurl/releases/download/v1.8.6/grpcurl_1.
 
 ```
 
-#### Download of Velero-plugin and the UBI-minimal
+#### Download Velero-plugin and UBI-minimal
 Download steps
 ```
 CPU_ARCH=`uname -m`
