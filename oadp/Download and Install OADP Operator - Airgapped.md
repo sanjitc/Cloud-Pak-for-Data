@@ -4,9 +4,7 @@
    - [Install Supporting Packages](#install-podman-skopeo-httpdtools)
    - [Prepare Environment](#Prepare-Environment)
    - [Download files](#Download-files)
-   	-- [Tool files](#Tool-files)
-   	-- [Download of Velero-plugin and the UBI-minimal](#Download-Velero-plugin, UBI-minimal)
-3. [Install Operator on Cluster](#Install-operator-on-cluster)
+2. [Install Operator on Cluster](#Install-operator-on-cluster)
 
 ## Download Processing on Jump Server
 
