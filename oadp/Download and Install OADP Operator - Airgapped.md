@@ -218,7 +218,7 @@ mv /data/oadp/oadp-operator.tgz /data/oadp/files-to-transfer/.
 ### Transfer files to Target System
 
 
-## Install operator on the cluster
+## Install operator on cluster
 ## Prepare Environment
 Create env-vars-oadp file and update with your Red Hat Entitlement Credentials   
 ```
