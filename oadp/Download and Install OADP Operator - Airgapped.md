@@ -1,5 +1,8 @@
 # Download and Install OADP Operator - Airgapped
 
+1. [Download Processing on Bastion Node](#Download-Processing-on-Jump-Server)
+2. [Install operator on cluster](#Install-operator-on-cluster)
+
 ## Download Processing on Jump Server
 
 ----------
@@ -215,7 +218,7 @@ mv /data/oadp/oadp-operator.tgz /data/oadp/files-to-transfer/.
 ### Transfer files to Target System
 
 
-## Install the operator on the target cluster
+## Install operator on the cluster
 ## Prepare Environment
 Create env-vars-oadp file and update with your Red Hat Entitlement Credentials   
 ```
