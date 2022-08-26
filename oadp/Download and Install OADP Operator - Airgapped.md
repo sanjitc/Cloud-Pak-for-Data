@@ -1,7 +1,10 @@
 # Download and Install OADP Operator - Airgapped
 
 1. [Download Processing on Bastion Node](#Download-Processing-on-Jump-Server)
-2. [Install operator on cluster](#Install-operator-on-cluster)
+	1.1. [Install Supporting Packages(#Install-podman-skopeo-httpd-tools)
+	1.2. [Prepare Environment](#Prepare-Environment)
+	3.2.
+3. [Install Operator on Cluster](#Install-operator-on-cluster)
 
 ## Download Processing on Jump Server
 
