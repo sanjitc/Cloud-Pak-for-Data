@@ -19,3 +19,13 @@ total 1024
 -rw-r-----. 1 1000650000 root 329937 Oct 18 19:45 messages.log
 -rw-r-----. 1 1000650000 root 349125 Oct 18 19:45 trace.log
 ```
+## Collect Hummingbrid Job Logs using API Explorer 
+1. Generate the authentication token 
+```
+curl -X GET https://<CPD_HOST>/v1/preauth/validateAuth -H 'Cache-Control: no-cache' -H 'Content-Type: application/json'  -H 'username: <cpdUserName>' -H 'password: <cpdUserPassword>' --insecure
+```
+2. Go to Hummingbrid tasks explorer from web browser
+```
+https://<CPD_HOST>/v2/data_profiles/api/explorer/#/Hummingbird%20tasks/getHbTaskLogs
+```
+
