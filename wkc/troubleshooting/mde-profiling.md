@@ -28,4 +28,4 @@ curl -X GET https://<CPD_HOST>/v1/preauth/validateAuth -H 'Cache-Control: no-cac
 ```
 https://<CPD_HOST>/v2/data_profiles/api/explorer/#/Hummingbird%20tasks/getHbTaskLogs
 ```
-
+![](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/API-Explorer-Hummingbrid-Job-Log.png)
