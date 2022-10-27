@@ -63,8 +63,8 @@ curl -X GET -k "https://$HOSTNAME/v2/catalogs/default/healthcheck" -s -H "Author
 ### QuickScan job failure
 * Run `is-en-conductor-0:/opt/IBM/InformationServer/ASBNode/bin/ODFAdmin.sh` script from inside the pod. Common script options are:
 ```
- a -l	  List recent analysis requests
- a -d <arg>		Show detailed status of a specific request by its id
+ a -l	      List recent analysis requests
+ a -d <arg>	  Show detailed status of a specific request by its id
  a -d <numbe>
 ```
 * Review pod logs form `odf-fast-analyzer`
