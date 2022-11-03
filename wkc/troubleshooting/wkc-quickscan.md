@@ -13,10 +13,9 @@ Application logs
 
 
 ## Status
-WKC Healthcheck
-```
+### WKC Healthcheck
+
 [https://github.com/IBM-ICP4D/cpd-health-check-v4/blob/main/util/WKC/wkc_healthcheck.sh](https://github.com/IBM-ICP4D/cpd-health-check-v4/blob/main/util/WKC/wkc_healthcheck.sh)
-```
 
 ## Common Problems
 ### Fail to browse assets from connection
