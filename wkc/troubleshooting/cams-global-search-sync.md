@@ -5,7 +5,7 @@
 
 ## Status
 
-## How to resync CAMS?
+## How to resync CAMS? [^1]
 1. Get List of all catalog to find CATALOG_ID for default catalog
 ```
 GET {CPD_URL}/v2/catalogs
@@ -25,3 +25,6 @@ Note that it needs to be run with Basic Auth + Service ID credentials
 - Ran [cpd_gs_sync.sh](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/scripts/cpd_gs_sync.sh) (Orginal location - https://github.ibm.com/wdp-gov/wdp-catalog-service/wiki/How-to-run-GS-resync-for-specific-catalogs-in-CPD-environment) for particular catalog. Script will ask for:
   - Project name where catalog resides, 
   - catalog_id
+
+
+[^1]: SF Ticket TS010669978
