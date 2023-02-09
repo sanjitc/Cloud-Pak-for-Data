@@ -20,6 +20,6 @@ curl -XDELETE --header 'Content-Type:text/plain' --header 'Accept:application/js
 ```
 Note that it needs to be run with Basic Auth + Service ID credentials
 4. Run reindex job
-````
+```
 oc create job --from=cronjob/wkc-search-reindexing-cronjob wkc-search-reindexing-cronjob-manual-01
 ```
