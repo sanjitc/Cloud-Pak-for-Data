@@ -1,9 +1,7 @@
+### Backup CPD Volumes after quiesce. 
+### Update MAILTO, SATOKEN and APIURL varables, before execute the script.
+
 #!/bin/ksh
-
-#
-# Weiren's touch
-#
-
 trap 'exit' INT TERM QUIT HUP
 
 rc_ok()
