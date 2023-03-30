@@ -7,10 +7,6 @@
 
 ## Logs
 
-## Status
-
-## Troubleshooting
-
 1.  Get the Active/Failed job id form MDE job log.
 
 2.  Use the following swagger and get the corresponding job payload for that job id (hb_task_id):
@@ -44,3 +40,4 @@ https://<CPD_HOST>/v2/data_profiles/api/explorer/#/Hummingbird%20tasks/getHbTask
 ```
   echo <encryptedString> | base64 -d | gunzip | xmllint --format -
 ```  
+7. The hb task logs from swagger `https://<CPD_URL>/v2/data_profiles/api/explorer/#/Hummingbird%20tasks/getHbTaskLogs`
