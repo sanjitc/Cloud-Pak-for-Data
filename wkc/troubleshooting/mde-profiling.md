@@ -8,6 +8,9 @@ wkc-mde-service-manager-78d674c7d4-x5l4z                     1/1     Running    
 $ oc get pods | grep "wdp-profiling-"
 wdp-profiling-66f8475bb8-fgblj                               0/1     Running                 985        15d
 wdp-profiling-7675464d6d-9lmjl                               0/1     Running                 2629       40d
+
+$ oc get pod | grep wkc-term-assignment 
+wkc-term-assignment-5698b87dbc-f5skx                         1/1     Running     0               27d
 ```
 
 ## Logs
