@@ -28,3 +28,8 @@ curl -k -X PATCH "https://<host>/v2/jobs/${jobid}/runs/${jobrunid}?project_id=${
 -H "Authorization: Bearer <token>" \
 -d @replace.json
 ```
+
+## A second alternative 
+```
+DELETE /v2/assets/${assetId}?project_id=${project_id}&purge_on_delete=true
+```
