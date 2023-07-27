@@ -1,0 +1,3 @@
+
+# Log
+oc exec rabbitmq-ha-0 -- rabbitmqctl report
