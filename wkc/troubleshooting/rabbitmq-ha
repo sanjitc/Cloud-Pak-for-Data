@@ -1,3 +1,13 @@
+# Troubleshooting - Rabbit MQ issues
+## Prods 
 
-# Log
+```
+rabbitmq-ha-*
+```
+
+## Logs
+
+1.  Get the application log
+```
 oc exec rabbitmq-ha-0 -- rabbitmqctl report
+```
