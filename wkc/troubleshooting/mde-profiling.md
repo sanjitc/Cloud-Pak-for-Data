@@ -26,6 +26,16 @@ total 1024
 -rw-r-----. 1 1000650000 root 329937 Oct 18 19:45 messages.log
 -rw-r-----. 1 1000650000 root 349125 Oct 18 19:45 trace.log
 ```
+Get all Spark related appliction logs from `spark-hb-control-plane` pod
+```
+$ oc rsh <spark-hb-control-plane> bash
+bash-4.4$ cd /logs
+bash-4.4$ ls -l
+
+total 1024
+-rw-r-----. 1 1000650000 root 329937 Oct 18 19:45 messages.log
+```
+
 ## Collect Hummingbrid Job Logs using API Explorer 
 1. Generate the authentication token 
 ```
