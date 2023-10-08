@@ -1,4 +1,4 @@
-# Cancel Medatadata Import job forcefully
+# Cancel Medatadata Import/Export job forcefully
 
 
 
