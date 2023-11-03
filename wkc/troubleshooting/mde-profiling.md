@@ -13,6 +13,7 @@ $ oc get pod | grep wkc-term-assignment
 wkc-term-assignment-5698b87dbc-f5skx                         1/1     Running     0               27d
 
 Also "finley-public*" pods
+jobs-api* pods
 ```
 
 ## Logs
