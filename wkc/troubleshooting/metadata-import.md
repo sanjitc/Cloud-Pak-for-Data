@@ -1,7 +1,6 @@
 # Troubleshooting - Metadata Import
 
-## Check if metadata_discovery queues draining from CLI. 
-## If queue is not draining, restart the metadata_discovery pods.
+## Check if metadata_discovery queues draining from CLI. If queue is not draining, restart the metadata_discovery pods.
 ```
 oc exec rabbitmq-ha-0 -- rabbitmqctl list_queues | grep metadata-discovery
 ```
