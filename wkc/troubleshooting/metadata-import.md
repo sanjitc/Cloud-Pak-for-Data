@@ -10,7 +10,7 @@ metadata-discovery-7db58cb974-crbds                               1/1     Runnin
 
 jobs-api*
 wdp-couchdb*
-rabbit-mq*
+rabbitmq*
 ``` 
 
 ## Logs
