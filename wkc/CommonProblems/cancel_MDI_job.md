@@ -33,3 +33,7 @@ curl -k -X PATCH "https://<host>/v2/jobs/${jobid}/runs/${jobrunid}?project_id=${
 ```
 DELETE /v2/assets/${assetId}?project_id=${project_id}&purge_on_delete=true
 ```
+## Last alternative 
+```
+DELETE /v2/jobs/{job_id}
+```
