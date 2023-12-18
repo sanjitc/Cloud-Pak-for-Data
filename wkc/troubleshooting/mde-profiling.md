@@ -37,7 +37,7 @@ bash-4.4$ ls -l
 total 1024
 -rw-r-----. 1 1000650000 root 329937 Oct 18 19:45 messages.log
 
-oc rsync spark-hb-control-plane-5b5d97bff5-mk4vm:logs ./logs 
+$ oc rsync spark-hb-control-plane-5b5d97bff5-mk4vm:logs ./logs 
 ```
 
 ## Collect Hummingbird Job Logs using API Explorer 
