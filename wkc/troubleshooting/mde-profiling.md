@@ -57,3 +57,23 @@ https://<CPD_HOST>/v2/data_profiles/api/explorer/#/Hummingbird%20tasks/getHbTask
 ```
 https://<CPD_HOST>/v2/asset_files/docs/swagger/#/Asset%20Files/getAssetFile
 ```
+
+## Find long running table/query that causing problem from Hummingbird job log
+1. Collect Hummingbird Job Logs using API Explorer
+2. Find list of all tasks executed.
+   We can find the finished tasks using a custom log message as: `Waiting for the last results to be written`.
+   Extract the task ID from the finished tasks.
+   Sort the output based on task ID.
+   Store the final output to a file.
+```
+grep "Waiting for the last results to be written" <Hummingbird log> | awk '{print $11}' | sort -n > output_file
+```
+Example:
+```
+grep "Waiting for the last results to be written" application_octet-stream_logs_blob_https___datacatalog.verizon.com_b09d8a01-512a-4d51-85e0-c5e575a05f66 | awk '{print $11}' | sort -n > output_file
+```
+3. Check the missing task ID.
+   Open the file in vi and turn on line number using `:se nu`.
+   In this example task IS `197.0` is missing
+   
+   
