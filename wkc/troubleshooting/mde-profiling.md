@@ -74,6 +74,8 @@ grep "Waiting for the last results to be written" application_octet-stream_logs_
 ```
 3. Check the missing task ID.
    Open the file in vi and turn on line number using `:se nu`.
-   In this example task IS `197.0` is missing
-   
+   In this example task ID `197.0` is missing
+![](../../images/missing-taskid.png)
+
+4. Search for TID 197, i found 2 results and the query is this:
    
