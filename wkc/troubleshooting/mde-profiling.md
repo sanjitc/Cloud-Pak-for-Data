@@ -77,5 +77,20 @@ grep "Waiting for the last results to be written" application_octet-stream_logs_
    In this example task ID `197.0` is missing
 ![](../../images/missing-taskid.png)
 
-4. Search for TID 197, i found 2 results and the query is this:
+4. Search for the missing task ID. In this case searching for task ID 197.0 as `TID 197`. We found 2 results. 
+```
+ % grep -n "TID 197" application_octet-stream_logs_blob_https___datacatalog.verizon.com_b09d8a01-512a-4d51-85e0-c5e575a05f66
+8959:[INFO ] 2024-02-02 02:57:44.301 [Executor task launch worker for task 197.0 in stage 0.0 (TID 197)] WDPConnectorSession: 161 - Connector login config null
+8975:[INFO ] 2024-02-02 02:57:44.303 [Executor task launch worker for task 197.0 in stage 0.0 (TID 197)] WDPConnectorMiniBatchRecordReader: 114 - Maximum records to read: 10000, Minimum records to read: 0, sampling percentage: 10.0, using approximation: false
+```
+5. If the SQL not displayed in the search result, you need to open the Hummingbird Job Logs and look for lines below the line where result found.
+```
+8975 [INFO ] 2024-02-02 02:57:44.303 [Executor task launch worker for task 197.0 in stage 0.0 (TID 197)] WDPConnectorMiniBatchRecordReader: 114 - Maximum records to read: 10000, Minimum records to read: 0, sampling      percentage: 10.0, using approximation: false
+8976 INFO: CDICO0004I: Interaction properties: {row_limit=10001, schema_name=FTTP100, table_name=VE_CPE_MANAGER_IVIEW_PD}.
+8977 INFO: CDICO2050I: The specified schema name is: FTTP100
+8978 INFO: CDICO2019I: The specified table name is: VE_CPE_MANAGER_IVIEW_PD
+8979 INFO: CDICO2020I: The connector will run the statement: SELECT "CIRCUIT_ID", "CUST_ACCT_NUM", "ITEM_MAKE", "ITEM_MODEL", "STATUS", "STATUS_DESCRIPTION", "ACTIVATION_CODE", "IP_ADDRESS", "ITEM_LOGISTICS_SOURCE"     , "ITEM_SHIP_DATE", "ITEM_INSTALL_DATE", "ITEM_WARRANTY_END_DATE", "ITEM_DISCONNECT_DATE", "REPLACE_REASON", "USOC_ID", "USOC_DESCRIPTION", "ITEM_QTY", "CUSTOMER_NAME", "CUSTOMER_BILLING_PHONE", "CUSTOMER_CONT     ACT_NAME", "CUSTOMER_CONTACT_PHONE", "CUSTOMER_CONTACT_PHONE_EXTN", "SERVICE_ADDR_STREET", "SERVICE_ADDR_CITY", "SERVICE_ADDR_STATE", "SERVICE_ADDR_ZIP", "PART_CATEGORY", "ITEM_WARRANTY_START_DATE", "OWNER", "     VISION_CUSTOMER_ID", "VISION_ACCOUNT_ID", "SERVICEPLAN", "USAGE_COUNT" FROM "FTTP100"."VE_CPE_MANAGER_IVIEW_PD" FETCH FIRST 10001 ROWS ONLY
+8980 PERF: CDICO0002I: Completed prepareStatement operation on the JDBC driver. [0 ms]
+8981 PERF: CDICO0002I: Completed getMetaData for the prepared statement on the JDBC driver. [100 ms]
+```
    
