@@ -84,6 +84,7 @@ grep "Waiting for the last results to be written" application_octet-stream_logs_
 8975:[INFO ] 2024-02-02 02:57:44.303 [Executor task launch worker for task 197.0 in stage 0.0 (TID 197)] WDPConnectorMiniBatchRecordReader: 114 - Maximum records to read: 10000, Minimum records to read: 0, sampling percentage: 10.0, using approximation: false
 ```
 5. If the SQL not displayed in the search result, you need to open the Hummingbird Job Logs and look for lines below the line where result found.
+   In this example, SQL found in line 8979 for task ID `197.0`. 
 ```
 8975 [INFO ] 2024-02-02 02:57:44.303 [Executor task launch worker for task 197.0 in stage 0.0 (TID 197)] WDPConnectorMiniBatchRecordReader: 114 - Maximum records to read: 10000, Minimum records to read: 0, sampling      percentage: 10.0, using approximation: false
 8976 INFO: CDICO0004I: Interaction properties: {row_limit=10001, schema_name=FTTP100, table_name=VE_CPE_MANAGER_IVIEW_PD}.
