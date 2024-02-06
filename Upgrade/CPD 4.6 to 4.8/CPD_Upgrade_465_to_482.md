@@ -132,8 +132,10 @@ oc get ae analyticsengine-sample -o yaml > analyticsengine-cr.yaml
 
 #### 1.1.4 If you installed the resource specification injection (RSI) feature, uninstall the cluster-scoped webhook
 https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=services-uninstalling-rsi-webhook
+```
 cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --all
 cat cpd-cli-workspace/olm-utils-workspace/work/get_rsi_patch_info.log
+```
 
 #### 1.1.5 if you installed hotfixes, uninstall all hotfixes
 Edit Zensevice, CCS, WKC, AE custom resources and remove all hotfix references.
