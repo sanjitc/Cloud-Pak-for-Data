@@ -45,11 +45,11 @@ Part 1: Pre-upgrade
 
 
 Part 2: Upgrade
-2.1 Upgrade CPD to 4.8.1
+2.1 Upgrade CPD to 4.8.2
 2.1.1 Migrate to private topology
 2.1.2 Preparing to upgrade an CPD instance
-2.1.3 Upgrade foundation service and CPD platform to 4.8.1
-2.2 Upgrade CPD services to 4.8.1
+2.1.3 Upgrade foundation service and CPD platform to 4.8.2
+2.2 Upgrade CPD services to 4.8.2
 
 Part 3: Post-upgrade
 3.1 Validate CPD & CPD services
@@ -60,7 +60,7 @@ Part 3: Post-upgrade
 ### 1.1 Collect information and review upgrade runbook
 #### 1.1.1 Prepare cpd_vars.sh
 
-To upgrade from Cloud Pak for Data Version 4.6 to Version 4.8, based on the variables file for 4.6 such as cpd_vars.sh, you must update the VERSION environment variable and add several new environment variables. Update them into a cpd_vars_481.sh script like this 
+To upgrade from Cloud Pak for Data Version 4.6 to Version 4.8, based on the variables file for 4.6 such as cpd_vars.sh, you must update the VERSION environment variable and add several new environment variables. Update them into a cpd_vars_482.sh script like this 
 
 ```
 export PROJECT_CPFS_OPS=ibm-common-services
@@ -73,7 +73,7 @@ export PROJECT_CS_CONTROL=cs-control
 # export PROJECT_SCHEDULING_SERVICE=cpd-scheduler
 export PROJECT_CPD_INST_OPERATORS=cpd-operators
 export PROJECT_CPD_INST_OPERANDS=cpd-instance
-export VERSION=4.8.1
+export VERSION=4.8.2
 
 export SERVER_ARGUMENTS="--server=${OCP_URL}"
 export LOGIN_ARGUMENTS="--username=${OCP_USERNAME} --password=${OCP_PASSWORD}"
@@ -82,7 +82,7 @@ export CPDM_OC_LOGIN="cpd-cli manage login-to-ocp ${SERVER_ARGUMENTS} ${LOGIN_AR
 export OC_LOGIN="oc login ${OCP_URL} ${LOGIN_ARGUMENTS}"
 
 
-export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,dashboard,rstudio,wml,datastage_ent_plus,dv,dmc,wkc,analyticsengine
+export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,wkc,analyticsengine
 
 # export OLM_UTILS_IMAGE=${PRIVATE_REGISTRY_LOCATION}/cpd/olm-utils-v2:latest
 # export CPD_CLI_MANAGE_WORKSPACE=<enter a fully qualified directory>
@@ -93,7 +93,7 @@ export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtime
 Schedule a review meeting with SWAT team to go over the upgrade runbook
 
 #### 1.1.3 Backup before upgrade
-Note: Create a folder for 4.6.6 and maintain below created copies in that folder.
+Note: Create a folder for 4.6.5 and maintain below created copies in that folder.
 
 Make a copy of existing catalog sources (Recommended)
 
@@ -124,13 +124,7 @@ oc get zenservice lite-cr -o yaml > lite-cr.yaml
 
 oc get wkc wkc-cr -o yaml > wkc-cr.yaml
 
-oc get dvservice dv-service -o yaml > dv-service-cr.yaml
-
 oc get ae analyticsengine-sample -o yaml > analyticsengine-cr.yaml
-
-oc get dmc data-management-console -o yaml >dmc-cr.yaml
-
-oc get bigsql db2u-dv -o yaml > bigsql-cr.yaml
 ```
 
 #### 1.1.4 (OPTIONAL)If you installed the resource specification injection (RSI) feature, uninstall the cluster-scoped webhook
@@ -162,11 +156,11 @@ yum install openssl httpd-tools podman skopeo wget -y
 
 3. Download and setup CPD CLI
 
-Take CPD 4.8.1 as example, please change the version to what you want to download
+Take CPD 4.8.2 as example, please change the version to what you want to download
 
 ```
-mkdir -p /ibm/cpd/4.8.1
-cd /ibm/cpd/4.8.1
+mkdir -p /ibm/cpd/4.8.2
+cd /ibm/cpd/4.8.2
 wget https://github.com/IBM/cpd-cli/releases/download/v13.1.1/cpd-cli-linux-EE-13.1.1.tgz
 
 tar xvf cpd-cli-linux-EE-13.1.1.tgz
@@ -177,20 +171,20 @@ rm -rf cpd-cli-linux-EE-13.1.1-83
 4. Copy the cpd_vars.sh over and add path to it
 
 ```
-cd /ibm/cpd/4.8.1
-vi cpd_vars_481.sh
+cd /ibm/cpd/4.8.2
+vi cpd_vars_482.sh
 ```
 
-Add this line into the head of cpd_vars_481.sh
+Add this line into the head of cpd_vars_482.sh
 
 ```
-export PATH=/ibm/cpd/4.8.1:$PATH
+export PATH=/ibm/cpd/4.8.2:$PATH
 ```
 
-Run this command to apply cpd_vars_481.sh
+Run this command to apply cpd_vars_482.sh
 
 ```
-source cpd_vars_481.sh
+source cpd_vars_482.sh
 ```
 
 Check out with this commands
@@ -206,7 +200,7 @@ cpd-cli
 	Version: 13.1.1
 	Build Date: 2023-12-15T15:02:08
 	Build Number: 83
-	CPD Release Version: 4.8.1
+	CPD Release Version: 4.8.2
 ```
 
 #### 1.2.2 Make olm-utils available in bastion
@@ -214,8 +208,8 @@ cpd-cli
 Go to the client workstation with internet
 
 ```
-cd /ibm/cpd/4.8.1
-source cpd_vars_481.sh
+cd /ibm/cpd/4.8.2
+source cpd_vars_482.sh
 
 cpd-cli manage save-image \
 --from=icr.io/cpopen/cpd/olm-utils-v2:latest
@@ -247,8 +241,8 @@ For details please refer to 4.8 doc (https://www.ibm.com/docs/en/cloud-paks/cp-d
 Go to the client workstation with internet
 
 ```
-cd /ibm/cpd/4.8.1
-source cpd_vars_481.sh
+cd /ibm/cpd/4.8.2
+source cpd_vars_482.sh
 ```
 
 Log into IBM registry and list images
@@ -323,7 +317,7 @@ export COMPONENTS=ws
 Make a tar ball to have all downloaded images
 
 ```
-tar czvf cpd-images.tar -C /ibm/cpd/4.8.1 .
+tar czvf cpd-images.tar -C /ibm/cpd/4.8.2 .
 ```
 
 2. Ship the tar ball into bastion node
@@ -336,7 +330,7 @@ Unpack the tar ball
 ```
 tar xvf cpd-images.tar
 
-source cpd_vars_481.sh
+source cpd_vars_482.sh
 ```
 
 Log into PCR
@@ -487,7 +481,7 @@ Make sure there is no pod listed in  unhealthypods.txt
 
 ## Part 2: Upgrade
 
-### 2.1 Upgrade CPD to 4.8.1
+### 2.1 Upgrade CPD to 4.8.2
 
 #### 2.1.1 Migrate to private topology
 1. Create new projects
@@ -583,7 +577,7 @@ cpd-cli manage authorize-instance-topology --cpd_operator_ns=${PROJECT_CPD_INST_
 cpd-cli manage authorize-instance-topology --cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 2.1.3 Upgrade foundation service and CPD platform to 4.8.1
+#### 2.1.3 Upgrade foundation service and CPD platform to 4.8.2
 1.	Run the cpd-cli manage login-to-ocp command to log in to the cluster.
 ```
 cpd-cli manage login-to-ocp \
@@ -652,7 +646,7 @@ oc logs -f cpd-platform-operator-manager-XXXX-XXXX -n ${PROJECT_CPD_INST_OPERATO
 cpd-cli manage get-cr-status \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
-NOTE: cpd_platform has been upgraded to 4.8.1
+NOTE: cpd_platform has been upgraded to 4.8.2
 
 7.	Clean up any failed operand requests in the operands project:
 
@@ -700,165 +694,13 @@ oc edit secretshare ibm-cpp-config \
 ```
 - Remove the entry for the instance project from the sharewith list and save your changes to the SecretShare.
 
-### 2.2 Upgrade CPD services to 4.8.1
-
-#### 2.2.1 Upgrade Watson Machine Learning service
-```
-export COMPONENTS=wml
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
-```
-#### 2.2.2 Upgrade Watson Studio service
-```
-export COMPONENTS=ws
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
-```
-Upgrade all installed Watson Studio Runtimes:
-```
-export COMPONENTS=ws_runtimes
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
-```
-#### 2.2.3 Upgrade RStudio Server Runtimes
-```
-export COMPONENTS=rstudio
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
-```
-#### 2.2.4 Upgrade Db2 Data Management Console service
-```
-# 1.Upgrade the service
-export COMPONENTS=dmc
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
-
-# 2.Confirm the version of service instance is 4.8.0
-oc get dmc -n ${PROJECT_CPD_INST_OPERANDS}
-```
-#### 2.2.5 Upgrade Watson Query service
-1. Upgrade the service
-```
-export COMPONENTS=dv
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
-```
-2. Creating a profile before upgrading the service instance
-```
-# 1. Generate the API key that you need for user authentication by going to your Profile and settings page in the Cloud Pak for Data client and clicking Generate API key.
-
-# 2. Set the following environment variables
-export API_KEY=<api-key>
-export CPD_ADMIN_USER=<user-name>
-export LOCAL_USER=<local-user>
-export CPD_PROFILE_NAME=<profile-name>
-export CPD_PROFILE_URL=<cpd-url>
-
-# for example
-export CPD_ADMIN_USER=admin
-export LOCAL_USER=admin
-export CPD_PROFILE_NAME=adminProfile
-export CPD_PROFILE_URL=https://<cpd_route>
-
-# 3. Create a local user configuration to store your username and API key
-cpd-cli config users set ${LOCAL_USER} \
---username ${CPD_ADMIN_USER} \
---apikey ${API_KEY}
-
-# 4. Create a profile to store the Cloud Pak for Data URL and to associate the profile with your local user configuration.
-cpd-cli config profiles set ${CPD_PROFILE_NAME} \
---user ${LOCAL_USER} \
---url ${CPD_PROFILE_URL}
-
-# 5. Verify with the following command
-cpd-cli service-instance list --service-type=dv
-```
-
-3. Upgrading the service instance
-```
-oc project ${PROJECT_CPD_INST_OPERANDS}
-
-cpd-cli service-instance list --service-type=dv
-
-# set the name of the instance that you want to upgrade
-export WQ_INSTANCE_NAME=<instance-name>
-
-export AUDIT_PVC_SIZE=30Gi
-
-# Verify that the STG_CLASS_FILE and CPD_PROFILE_NAME environment variables are set.
-echo ${STG_CLASS_FILE}
-echo ${CPD_PROFILE_NAME}
-
-# Create an instance override file for the instance that you are upgrading. Use the file name dv_override_${WQ_INSTANCE_NAME}.yaml and include the following parameters:
-cat <<EOF > dv_override_${WQ_INSTANCE_NAME}.yaml
-parameters:
- workerCount: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep workerCount | cut -d':' -f2 | cut -d'"' -f2)
-
- resources.dv.requests.cpu: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep resources.dv.requests.cpu | cut -d':' -f2 | cut -d'"' -f2)
- resources.dv.requests.memory: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep resources.dv.requests.memory | cut -d':' -f2 | cut -d'"' -f2)
-
- persistence.storageClass: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep persistence.storageClass | cut -d':' -f2 | cut -d'"' -f2)
- persistence.size: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep persistence.size | cut -d':' -f2 | cut -d'"' -f2)
-
- persistence.cachingpv.storageClass: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep persistence.cachingpv.storageClass | cut -d':' -f2 | cut -d'"' -f2)
- persistence.cachingpv.size: $(cpd-cli service-instance get ${WQ_INSTANCE_NAME} --service-type dv --profile=${CPD_PROFILE_NAME} | grep persistence.cachingpv.size | cut -d':' -f2 | cut -d'"' -f2)
-
- persistence.auditpv.storageClass: ${STG_CLASS_FILE}
- persistence.auditpv.size: ${AUDIT_PVC_SIZE}
-EOF
-
-# The following example shows an override file with the parameter values set:
-parameters:
- workerCount: 1
-
- resources.dv.requests.cpu: 4
- resources.dv.requests.memory: 16Gi
-
- persistence.storageClass: nfs-client
- persistence.size: 50Gi
-
- persistence.cachingpv.storageClass: nfs-client
- persistence.cachingpv.size: 50Gi
-
- persistence.auditpv.storageClass: nfs-client
- persistence.auditpv.size: 30Gi
-
-# Upgrade the instance
-cpd-cli service-instance upgrade 
---instance-name=${WQ_INSTANCE_NAME} \
---service-type=dv \
---profile=${CPD_PROFILE_NAME}
---override dv_override_${WQ_INSTANCE_NAME}.yaml
-
-# Verify the version now reads 2.2.0
-cpd-cli service-instance list
-oc get bigsql db2u-dv -o jsonpath='{.status.version}{"\n"}'
-```
+### 2.2 Upgrade CPD services to 4.8.2
 
 #### 2.2.6 Upgrade Watson OpenScale
 ```
 export COMPONENTS=openscale
 
 cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
-```
-#### 2.2.7 Upgrade Watson Pipelines
-```
-export COMPONENTS=ws_pipelines
-
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
@@ -889,56 +731,6 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 # NOTE: wkc and analyticsengine,datastage_ent_plus have been upgraded to 4.8.1, db2aaservice to 4.8.0, datarefinery to 8.1.0
 
 # OPTIONAL: Check Post-upgrade tasks of wkc here https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=u-upgrading-from-version-46-20#cli-upgrade__next-steps
-```
-
-#### 2.2.9 Install Cognos Dashboards
-1. Create the required OLM objects for Cognos Dashboards
-```
-cpd-cli manage apply-olm \
---release=${VERSION} \
---cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} \
---components=dashboard
-```
-
-2. Create the custom resource for Cognos Dashboards
-```
-cpd-cli manage apply-cr \
---components=dashboard \
---release=${VERSION} \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---block_storage_class=${STG_CLASS_BLOCK} \
---file_storage_class=${STG_CLASS_FILE} \
---license_acceptance=true
-```
-
-3. Validating the installation
-```
-cpd-cli manage get-cr-status \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---components=dashboard
-```
-
-4. Post install
-Setup permission: https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=dashboards-post-installation-setup
-
-5. Migrate each existing dashboard that you created on Cognos Dashboards Version 4.6 if needed
-https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=dashboards-opening-from-version-46-earlier
-https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=dashboards-migrating-cognos-analytics
-
-6. (Optional) Uninstall the old version
-
-```
-# Delete the custom resource for Cognos Dashboards(skip).
-
-cpd-cli manage delete-cr \
---components=cde \
---cpd_instance_ns=${PROJECT_CPD_INSTANCE}
-
-# Delete the OLM objects for Cognos Dashboards
-
-cpd-cli manage delete-olm-artifacts \
---cpd_operator_ns=${PROJECT_CPD_OPS} \
---components=cde
 ```
 
 ### 2.3 Remove the shared operators
