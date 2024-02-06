@@ -1,6 +1,9 @@
 # Verizon CPD Upgrade Runbook
 
 ---
+## Upgrade documentation
+[Upgrading from IBM Cloud Pak for Data Version 4.6 to Version 4.8](
+https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=upgrading-from-cloud-pak-data-version-46)
 
 ## Upgrade context
 
