@@ -20,6 +20,11 @@ PCR
   port 5002 - CPD
   port 5003 - test
 ```
+Existing services on the Development environemnt:
+```
+Deployed components list is:
+ cpfs,cpd_platform,analyticsengine,dmc,db2aaservice,ws,wml,wkc,dp,openscale,datastage_ent,datastage_ent_plus,db2oltp,db2wh,match360,productmaster,ws_runtimes
+```
 
 To
 
