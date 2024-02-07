@@ -25,6 +25,31 @@ Existing services on the Development environemnt:
 Deployed components list is:
  cpfs,cpd_platform,analyticsengine,dmc,db2aaservice,ws,wml,wkc,dp,openscale,datastage_ent,datastage_ent_plus,db2oltp,db2wh,match360,productmaster,ws_runtimes
 ```
+Current CR status
+```
+# component,CR-kind,CR-name,status,version,creationtimestamp,reconciled-version,operator-info
+ws_runtimes,NotebookRuntime,ibm-cpd-ws-runtime-222-py,Completed,6.5.0,2023-06-21T21:22:17Z,6.5.0,6.5.0012
+ws_runtimes,NotebookRuntime,ibm-cpd-ws-runtime-py39,Completed,5.3.0,2023-06-21T21:22:17Z,5.3.0,6.5.0012
+opencontent_fdb,FdbCluster,mdm-foundationdb-1692305141878844,Completed,--,2023-08-17T20:50:57Z,--,--
+opencontent_fdb,FdbCluster,wkc-foundationdb-cluster,Completed,--,2023-07-12T19:31:33Z,--,--
+match360,MasterDataManagement,mdm-cr,Completed,2.3.29,2023-08-17T20:44:45Z,--,--
+db2wh,Db2whService,db2wh-cr,Completed,4.6.4,2023-06-21T21:20:54Z,4.6.4+11.5.8.0-cn2+2039,4.6.4+11.5.8.0-cn2+2039
+datastage_ent_plus,DataStage,datastage,Completed,4.6.5,2023-06-21T21:20:53Z,--,--
+datastage_ent,DataStage,datastage,Completed,4.6.5,2023-06-21T21:20:53Z,--,--
+openscale,WOService,aiopenscale,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
+openscale,WOService,openscale-defaultinstance,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
+openscale,WOService,vzopenscaledev,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
+dp,DP,dp-cr,Completed,4.6.5,2023-06-21T21:21:00Z,4.6.5,1482
+wkc,WKC,wkc-cr,Completed,4.6.5,2023-06-21T21:22:46Z,--,--
+wml,WmlBase,wml-cr,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,4.6.5-4816
+ws,WS,ws-cr,Completed,6.5.0,2023-06-21T21:22:46Z,6.5.0,20
+db2aaservice,Db2aaserviceService,db2aaservice-cr,Completed,4.6.4,2023-06-21T21:20:53Z,4.6.4+11.5.8.0-cn2+2039,4.6.4+11.5.8.0-cn2+2039
+datarefinery,DataRefinery,datarefinery-sample,Completed,6.5.0,2023-06-21T21:20:53Z,--,--
+analyticsengine,AnalyticsEngine,analyticsengine-sample,Completed,4.6.5,2023-06-21T21:20:33Z,4.6.5,1507
+ccs,CCS,ccs-cr,Completed,6.5.0,2023-06-21T21:20:34Z,6.5.0,132
+cpd_platform,Ibmcpd,ibmcpd-cr,Completed,4.6.5,2023-06-21T21:21:19Z,--,--
+zen,ZenService,lite-cr,Completed,4.8.3,2023-06-21T21:22:47Z,4.8.3,zen operator 1.8.3 build 26
+```
 
 To
 
