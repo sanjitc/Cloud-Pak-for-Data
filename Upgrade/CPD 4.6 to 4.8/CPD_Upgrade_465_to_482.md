@@ -486,7 +486,7 @@ Log onto bastion node, and make sure IBM Cloud Pak for Data command-line interfa
 Run this command in terminal and make sure the Lite and all the services' status are in Ready status.
 
 ```
-cpd-cli status -n <enter your Cloud Pak for Data installation project>
+cpd-cli manage get-cr-status -n <enter your Cloud Pak for Data installation project>
 ```
 
 Run this command and make sure all pods healthy.
