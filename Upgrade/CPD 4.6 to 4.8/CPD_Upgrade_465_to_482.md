@@ -738,7 +738,49 @@ oc edit secretshare ibm-cpp-config \
 - Remove the entry for the instance project from the sharewith list and save your changes to the SecretShare.
 
 ### 2.2 Upgrade CPD services to 4.8.2
+#### 2.2.1 Upgrade Watson Machine Learning service
+```
+export COMPONENTS=wml
 
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
+```
+#### 2.2.2 Upgrade Watson Studio service
+```
+export COMPONENTS=ws
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
+```
+Upgrade all installed Watson Studio Runtimes:
+```
+export COMPONENTS=ws_runtimes
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+```
+#### 2.2.3 Upgrade RStudio Server Runtimes
+```
+export COMPONENTS=rstudio
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
+```
+#### 2.2.4 Upgrade Db2 Data Management Console service
+```
+# 1.Upgrade the service
+export COMPONENTS=dmc
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+
+# 2.Confirm the version of service instance is 4.8.0
+oc get dmc -n ${PROJECT_CPD_INST_OPERANDS}
+```
 #### 2.2.6 Upgrade Watson OpenScale
 ```
 export COMPONENTS=openscale
