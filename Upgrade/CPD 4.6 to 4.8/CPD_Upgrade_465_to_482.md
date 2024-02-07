@@ -781,6 +781,32 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --co
 # 2.Confirm the version of service instance is 4.8.0
 oc get dmc -n ${PROJECT_CPD_INST_OPERANDS}
 ```
+#### 2.2.5 Upgrade Db2 Warehouse
+```
+# 1.Upgrade the service
+export COMPONENTS=db2wh
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+
+# 2. Upgrading Db2 Warehouse service instances
+# 2.1. Get a list of your Db2 Warehouse service instances
+cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
+
+# 2.2. If you have applied any custom patches to override scripts, remove them. This will restart Db2 Warehouse pods. 
+oc set volume statefulset/c-${DB2U_ID}-db2u -n ${PROJECT_CPD_INST_OPERANDS} --remove --name=<volume_name>
+
+# 2.3. Upgrade Db2 Warehouse service instances
+cpd-cli service-instance upgrade --profile=${CPD_PROFILE_NAME} --instance-name=${INSTANCE_NAME} --service-type=${COMPONENTS}
+
+# 3. Verifying the service instance upgrade
+# 3.1. Wait for the status to change to Ready
+oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
+
+3.2. Check the service instances have updated
+cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
+```
 #### 2.2.6 Upgrade Watson OpenScale
 ```
 export COMPONENTS=openscale
