@@ -240,9 +240,9 @@ Output like this
 
 ```
 cpd-cli
-	Version: 13.1.1
-	Build Date: 2023-12-15T15:02:08
-	Build Number: 83
+	Version: 13.1.2
+	Build Date: 
+	Build Number: 89
 	CPD Release Version: 4.8.2
 ```
 
