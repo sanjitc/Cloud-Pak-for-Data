@@ -567,12 +567,12 @@ cpd-cli manage apply-cluster-components --release=${VERSION} --license_acceptanc
 ```
 oc get pod -n ${PROJECT_CERT_MANAGER}
 ```
-CSV name is ibm-cert-manager-operator.v4.3.0
+CSV name is ibm-cert-manager-operator.~~v4.3.0~~  **<- Need to check**
 - Confirm that the License Service pods in the ${PROJECT_CS_CONTROL} project are Running:
 ```
 oc get pods --namespace=${PROJECT_CS_CONTROL}
 ``` 
-CSV name is ibm-licensing-operator.v4.3.0
+CSV name is ibm-licensing-operator.~~v4.3.0~~  **<- Need to check**
 
 5. (Optional) If the scheduling service is installed, migrate and upgrade the scheduling service.
 ```
