@@ -13,18 +13,14 @@ From
 OCP: 4.12
 CPD: 4.6.5
 Storage: SPP 10.1.12
-Componenets: cpfs,cpd_platform,wkc,analyticsengine,openscale
+Componenets: cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow
 PCR
   port 5000 - openshift
   port 5001 - OLM
   port 5002 - CPD
   port 5003 - test
 ```
-Existing services on the Development environemnt:
-```
-Deployed components list is:
- cpfs,cpd_platform,analyticsengine,dmc,db2aaservice,ws,wml,wkc,dp,openscale,datastage_ent,datastage_ent_plus,db2oltp,db2wh,match360,productmaster,ws_runtimes
-```
+
 Current CR status
 ```
 # component,CR-kind,CR-name,status,version,creationtimestamp,reconciled-version,operator-info
