@@ -204,11 +204,11 @@ Take CPD 4.8.2 as example, please change the version to what you want to downloa
 ```
 mkdir -p /ibm/cpd/4.8.2
 cd /ibm/cpd/4.8.2
-wget https://github.com/IBM/cpd-cli/releases/download/v13.1.1/cpd-cli-linux-EE-13.1.1.tgz
+wget https://github.com/IBM/cpd-cli/releases/download/v13.1.2/cpd-cli-linux-EE-13.1.2.tgz
 
-tar xvf cpd-cli-linux-EE-13.1.1.tgz
-mv cpd-cli-linux-EE-13.1.1-83/* .
-rm -rf cpd-cli-linux-EE-13.1.1-83
+tar xvf cpd-cli-linux-EE-13.1.2.tgz
+mv cpd-cli-linux-EE-13.1.2-89/* .
+rm -rf cpd-cli-linux-EE-13.1.2-89
 ```
 
 4. Copy the cpd_vars.sh over and add path to it
