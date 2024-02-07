@@ -53,7 +53,7 @@ To
 OCP: 4.12
 CPD: 4.8.2
 Storage: SPP ???
-Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,wkc,analyticsengine,openscale
+Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow
 ```
 
 ## Table of Content
