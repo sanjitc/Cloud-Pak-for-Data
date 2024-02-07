@@ -817,7 +817,14 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 # OPTIONAL: Check Post-upgrade tasks of wkc here https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=u-upgrading-from-version-46-20#cli-upgrade__next-steps
 ```
+#### 2.2.9 Upgrade Match 360
+```
+export COMPONENTS=match360
 
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
+```
 ### 2.3 Remove the shared operators
 Complete this task only if all of the instances of Cloud Pak for Data are upgraded to Version 4.8.
 If any of the instances have not been upgraded and migrated to the private topology, the instances will stop working.
