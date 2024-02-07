@@ -46,6 +46,15 @@ ccs,CCS,ccs-cr,Completed,6.5.0,2023-06-21T21:20:34Z,6.5.0,132
 cpd_platform,Ibmcpd,ibmcpd-cr,Completed,4.6.5,2023-06-21T21:21:19Z,--,--
 zen,ZenService,lite-cr,Completed,4.8.3,2023-06-21T21:22:47Z,4.8.3,zen operator 1.8.3 build 26
 ```
+Current IAM and SAML setup
+```
+export ZEN_NAMESPACE=<cpd/wkc namespace>
+oc -n ${ZEN_NAMESPACE} get zenservice lite-cr -o jsonpath="{.spec.iamIntegration}{'\n'}"
+
+oc exec -it -n ${ZEN_NAMESPACE} \
+$(oc get pod -n ${ZEN_NAMESPACE} -l component=ibm-nginx | tail -1 | cut -f1 -d\ ) \
+-- bash -c "ls -al /user-home/_global_/config/saml/samlConfig.json"
+```
 
 To
 
