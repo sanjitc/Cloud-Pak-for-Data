@@ -55,6 +55,8 @@ oc exec -it -n ${ZEN_NAMESPACE} \
 $(oc get pod -n ${ZEN_NAMESPACE} -l component=ibm-nginx | tail -1 | cut -f1 -d\ ) \
 -- bash -c "ls -al /user-home/_global_/config/saml/samlConfig.json"
 ```
+![IAM, SAML Setup on 4.6.5](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/IAM-SAML-465-setup.png)
+```
 
 To
 
