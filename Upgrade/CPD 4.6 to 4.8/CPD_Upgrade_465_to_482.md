@@ -186,7 +186,8 @@ If you use SAML SSO, export your SSO configuration. You will need to reapply you
 ```
 oc cp -n=${PROJECT_CPD_INSTANCE} $(oc get pods -l component=usermgmt -n ${PROJECT_CPD_INSTANCE} -o jsonpath='{.items[0].metadata.name}'):/user-home/_global_/config/saml ./samlConfig.json
 ```
-#### 1.1.7 Enable internal admin user if it disabled. Once upgrade complet you can disable it again. 
+#### 1.1.7 Enable default admin user if it's disabled. Once upgrade complet you can disable it again. 
+https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=users-disabling-default-admin-user#taskremove-admin__postreq__1
 
 ### 1.2 Mirror CPD images into PCR
 
