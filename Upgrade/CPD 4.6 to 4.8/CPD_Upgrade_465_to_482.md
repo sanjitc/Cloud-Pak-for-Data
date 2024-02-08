@@ -919,6 +919,7 @@ Log into CPD web UI with admin and check out each services, including provision 
 ### 3.2 Enable RSI patches
 
 ### 3.3 Enable Relationship Explorer feature
+(https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%204.6%20to%204.8/Enabling_Relationship_Explorer_480%20-%20disclaimer%200208.pdf)
 
 ### 3.2 Summarize and close out the upgrade
 
