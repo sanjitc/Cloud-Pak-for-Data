@@ -1,4 +1,4 @@
-# Verizon CPD Upgrade Runbook
+# CPD Upgrade Runbook
 
 ---
 ## Upgrade documentation
