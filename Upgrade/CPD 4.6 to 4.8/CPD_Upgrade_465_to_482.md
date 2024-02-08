@@ -807,7 +807,33 @@ oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
 3.2. Check the service instances have updated
 cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
 ```
-#### 2.2.6 Upgrade Watson OpenScale
+#### 2.2.6 Upgrade Db2 OLTP
+```
+# 1.Upgrade the service
+export COMPONENTS=db2oltp
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+
+# 2. Upgrading Db2 Warehouse service instances
+# 2.1. Get a list of your Db2 Warehouse service instances
+cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
+
+# 2.2. If you have applied any custom patches to override scripts, remove them. This will restart Db2 pods. 
+oc set volume statefulset/c-${DB2U_ID}-db2u -n ${PROJECT_CPD_INST_OPERANDS} --remove --name=<volume_name>
+
+# 2.3. Upgrade Db2 Warehouse service instances
+cpd-cli service-instance upgrade --profile=${CPD_PROFILE_NAME} --instance-name=${INSTANCE_NAME} --service-type=${COMPONENTS}
+
+# 3. Verifying the service instance upgrade
+# 3.1. Wait for the status to change to Ready
+oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
+
+3.2. Check the service instances have updated
+cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
+```
+#### 2.2.7 Upgrade Watson OpenScale
 ```
 export COMPONENTS=openscale
 
@@ -815,7 +841,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.7 Upgrade Watson Pipelines
+#### 2.2.8 Upgrade Watson Pipelines
 ```
 export COMPONENTS=ws_pipelines
 
@@ -823,7 +849,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.8 Upgrade IBM Knowledge Catalog service
+#### 2.2.9 Upgrade IBM Knowledge Catalog service
 WARNING: If you need to migrate WKC legacy feature data, install and follow the steps for the patch here (https://www.ibm.com/support/pages/node/7003929#4.8.1). Make sure you have exported the legacy data using cpd-cli export-import command, before doing the upgrade in this section. Note that this migration feature will be ready after 4.7.0.
 ```
 # 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
@@ -851,7 +877,7 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 # OPTIONAL: Check Post-upgrade tasks of wkc here https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=u-upgrading-from-version-46-20#cli-upgrade__next-steps
 ```
-#### 2.2.9 Upgrade Match 360
+#### 2.2.10 Upgrade Match 360
 ```
 export COMPONENTS=match360
 
@@ -859,7 +885,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.10 Upgrade DataStage edition plus
+#### 2.2.11 Upgrade DataStage edition plus
 ```
 export COMPONENTS=datastage_ent_plus
 
