@@ -549,7 +549,7 @@ ${CPDM_OC_LOGIN}
 ```
 3.	Move the Certificate manager and License Service from the shared operators project to the cs-control project.
 ```
-cpd-cli manage detach-cpd-instance --cpfs_operator_ns=${PROJECT_CPFS_OPS} --control_ns=${PROJECT_CS_CONTROL}
+cpd-cli manage detach-cpd-instance --cpfs_operator_ns=${PROJECT_CPFS_OPS} --control_ns=${PROJECT_CS_CONTROL} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 - Wait for the cpd-cli to return the following message before proceeding to the next step:
 ```
