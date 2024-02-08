@@ -174,7 +174,8 @@ https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=services-uninstalling
 cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --all
 cat cpd-cli-workspace/olm-utils-workspace/work/get_rsi_patch_info.log
 ```
-**We need disabled the RSI patches and post install enabled them**
+_**We need disabled the RSI patches and post install enabled them**_
+
 #### 1.1.6 (OPTIONAL) If use SAML SSO, export SSO configuration
 
 If you use SAML SSO, export your SSO configuration. You will need to reapply your SAML SSO configuration after you upgrade to Version 4.8. Skip this step if you use the IBM Cloud Pak foundational services Identity Management Service
