@@ -1,4 +1,4 @@
-# Verizon CPD Ugrade From 4.7.1 to 4.8.1
+# CPD Ugrade From 4.7.1 to 4.8.1
 
 ## Upgrade Context
 
