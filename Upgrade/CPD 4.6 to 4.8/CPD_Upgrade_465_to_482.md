@@ -658,23 +658,22 @@ If you want to continue with the migration, please type: 'I have validated that 
 - Check the version, refer to the following operator version
 
 ```
-Catalogsource                                Operator version    Operand version                     
-cpd-platform                                 5.1.0               4.8.1
+cpd_platform*                                5.2.0               4.8.2
 opencloud-operators                          4.3.0               4.3.0
 ibm-cpd-ws-operator-catalog                  8.1.0               8.1.0
 ibm-cpd-ws-runtimes-operator-catalog         8.1.0               8.1.0
 ibm-cpd-wml-operator-catalog                 5.1.0               4.8.1
-ibm-cpd-wkc-operator-catalog                 1.8.1               4.8.1
+ibm-cpd-wkc-operator-catalog*                1.8.2               4.8.2
 ibm-cpd-ae-operator-catalog                  5.1.0               4.8.1
 ibm-cpd-datarefinery-operator-catalog        8.1.0               8.1.0
-ibm-cpd-datastage-operator-catalog           5.1.0               4.8.1
-ibm-dv-operator-catalog                      4.0.0               2.2.0
-ibm-dmc-operator-catalog                     4.0.0               4.8.0   
+ibm-cpd-datastage-operator-catalog*          5.2.0               4.8.2
+ibm-dv-operator-catalog*                     4.2.0               2.2.2
+ibm-dmc-operator-catalog*                    4.1.0               4.8.2   
 ibm-cpd-rstudio-operator-catalog             8.1.0               8.1.0
-ibm-cpd-ccs-operator-catalog                 8.1.0               8.1.0
-ibm-db2aaservice-cp4d-operator-catalog       5.0.0               4.8.0
-ibm-db2uoperator-catalog                     5.0.0               11.5.8.0-cn6
-ibm-elasticsearch-catalog                    1.1.1845            1.1.1845
+ibm-cpd-ccs-operator-catalog*                8.2.0               8.2.0
+ibm-db2aaservice-cp4d-operator-catalog*      5.1.0               4.8.2
+ibm-db2uoperator-catalog*                    5.1.0               11.5.8.0-cn7
+ibm-elasticsearch-catalog*                   1.1.1934            1.1.1934
 ibm-fdb-operator-catalog                     3.1.6               3.1.6
 ibm-cloud-databases-redis-operator-catalog   1.6.11
 ibm-dashboard-operator-catalog               2.1.0               4.8.1
