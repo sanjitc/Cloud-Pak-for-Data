@@ -554,6 +554,7 @@ ${CPDM_OC_LOGIN}
 cpd-cli manage detach-cpd-instance --cpfs_operator_ns=${PROJECT_CPFS_OPS} --control_ns=${PROJECT_CS_CONTROL} 
 ```
 - Wait for the cpd-cli to return the following message before proceeding to the next step:
+- Monitor the install plan and approved them as needed
 ```
 [SUCCESS] ... The detach-cpd-instance command ran successfully.
 ```
