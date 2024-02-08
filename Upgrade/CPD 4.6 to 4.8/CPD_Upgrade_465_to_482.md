@@ -916,6 +916,10 @@ cpd-cli manage delete-olm-artifacts \
 
 Log into CPD web UI with admin and check out each services, including provision instance and functions of each service
 
+### 3.2 Enable RSI patches
+
+### 3.3 Enable Relationship Explorer feature
+
 ### 3.2 Summarize and close out the upgrade
 
 Schedule a wrap-up meeting and review the upgrade procedure and lessons learned from it.
