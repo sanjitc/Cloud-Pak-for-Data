@@ -175,7 +175,8 @@ https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=services-uninstalling
 cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --all
 cat cpd-cli-workspace/olm-utils-workspace/work/get_rsi_patch_info.log
 ```
-_**We need disabled the RSI patches and post install enabled them**_
+_**We need to disable the RSI patches and post install enabled them**_
+
 We should **not** disable any selinux patches. We can disable all non-selinux patches. Once the upgrade is complete we can enable them depending on if not fixed on 8.4.2.
 
 #### 1.1.6 If use SAML SSO, export SSO configuration
