@@ -165,6 +165,10 @@ oc get wkc wkc-cr -o yaml > wkc-cr.yaml
 
 oc get ae analyticsengine-sample -o yaml > analyticsengine-cr.yaml
 ```
+Make a copy of existing custom route under CPD namespace
+```
+oc get route <custom route> -n <CPD namespace> -o yaml > custom_route.yaml
+```
 
 #### 1.1.4 if you installed hotfixes, uninstall all hotfixes
 Edit Zensevice, CCS, WKC, AE custom resources and remove all hotfix references.
