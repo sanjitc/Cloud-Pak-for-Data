@@ -745,7 +745,7 @@ oc edit secretshare ibm-cpp-config \
 
 ### 2.2 Upgrade CPD services to 4.8.2
 #### 2.2.1 Upgrade IBM Knowledge Catalog service
-WARNING: If you need to migrate WKC legacy feature data, install and follow the steps for the patch here (https://www.ibm.com/support/pages/node/7003929#4.8.1). Make sure you have exported the legacy data using cpd-cli export-import command, before doing the upgrade in this section. Note that this migration feature will be ready after 4.7.0.
+WARNING: If you need to migrate WKC legacy feature data, install and follow the steps for the patch here (https://www.ibm.com/support/pages/node/7003929#4.8.2). Make sure you have exported the legacy data using cpd-cli export-import command, before doing the upgrade in this section. Note that this migration feature will be ready after 4.7.0.
 ```
 # 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
 vim cpd-cli-workspace/olm-utils-workspace/work/install-options.yml
