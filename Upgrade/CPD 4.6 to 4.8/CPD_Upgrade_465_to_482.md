@@ -92,7 +92,8 @@ Part 2: Upgrade
 
 Part 3: Post-upgrade
 3.1 Validate CPD & CPD services
-3.2 Summarize and close out the upgrade
+3.2 Migration cleanup - legacy features
+3.3 Summarize and close out the upgrade
 ```
 
 ## Part 1: Pre-upgrade
@@ -934,12 +935,21 @@ cpd-cli manage delete-olm-artifacts \
 
 Log into CPD web UI with admin and check out each services, including provision instance and functions of each service
 
-### 3.2 Enable RSI patches
+### 3.2 [Migration cleanup - legacy features](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=tasks-migration-cleanup#migration_cleanup__services)
+```
+oc -n ${NAMESPACE} patch wkc/wkc-cr --patch '{"spec":{"legacyCleanup":true}}' --type=merge
+oc delete scc wkc-iis-scc
+oc delete sa wkc-iis-sa
 
-### 3.3 Enable Relationship Explorer feature
+# If the cleanup is successful, "legacyCleanup" will show Completed.
+oc get wkc wkc-cr -oyaml | grep "legacyCleanup"
+```
+### 3.3 Enable RSI patches
+
+### 3.4 Enable Relationship Explorer feature
 [Enable Relationship Explorer feature](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%204.6%20to%204.8/Enabling_Relationship_Explorer_480%20-%20disclaimer%200208.pdf)
 
-### 3.4 Configuring single sign-on
+### 3.5 Configuring single sign-on
 If post upgrade login using SAML doesn't work, then follow This instruction. You need to use the "/user-home/_global_/config/saml/samlConfig.json" file that you save at the beginning of upgrade.
 
 https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=environment-configuring-sso
