@@ -122,7 +122,7 @@ export OC_LOGIN="oc login ${OCP_URL} ${LOGIN_ARGUMENTS}"
 
 # export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow,dp
 
-export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,db2aaservice,db2oltp,db2wh,match360,dp
+export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,db2aaservice,db2oltp,db2wh,match360,dp, mantaflow
 # export OLM_UTILS_IMAGE=${PRIVATE_REGISTRY_LOCATION}/cpd/olm-utils-v2:latest
 # export CPD_CLI_MANAGE_WORKSPACE=<enter a fully qualified directory>
 ```
