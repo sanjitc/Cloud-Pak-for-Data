@@ -776,7 +776,16 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 # OPTIONAL: Check Post-upgrade tasks of wkc here https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=u-upgrading-from-version-46-20#cli-upgrade__next-steps
 ```
-#### 2.2.2 Upgrade Watson Machine Learning service
+
+#### 2.2.2 Upgrade MANTA service
+```
+export COMPONENTS=mantaflow
+
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
+```
+#### 2.2.3 Upgrade Watson Machine Learning service
 ```
 export COMPONENTS=wml
 
@@ -784,7 +793,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.3 Upgrade Watson Studio service
+#### 2.2.4 Upgrade Watson Studio service
 ```
 export COMPONENTS=ws
 
@@ -799,7 +808,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
 ```
-#### 2.2.4 Upgrade Data Privacy
+#### 2.2.5 Upgrade Data Privacy
 ```
 export COMPONENTS=dp
 
@@ -807,7 +816,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.5 Upgrade Db2 Data Management Console service
+#### 2.2.6 Upgrade Db2 Data Management Console service
 ```
 # 1.Upgrade the service
 export COMPONENTS=dmc
@@ -819,7 +828,7 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --co
 # 2.Confirm the version of service instance is 4.8.0
 oc get dmc -n ${PROJECT_CPD_INST_OPERANDS}
 ```
-#### 2.2.6 Upgrade Db2 Warehouse
+#### 2.2.7 Upgrade Db2 Warehouse
 ```
 # 1.Upgrade the service
 export COMPONENTS=db2wh
@@ -845,7 +854,7 @@ oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
 3.2. Check the service instances have updated
 cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
 ```
-#### 2.2.7 Upgrade Db2 OLTP
+#### 2.2.8 Upgrade Db2 OLTP
 ```
 # 1.Upgrade the service
 export COMPONENTS=db2oltp
@@ -871,7 +880,7 @@ oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
 3.2. Check the service instances have updated
 cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
 ```
-#### 2.2.8 Upgrade Watson OpenScale
+#### 2.2.9 Upgrade Watson OpenScale
 ```
 export COMPONENTS=openscale
 
@@ -879,7 +888,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.9 Upgrade Watson Pipelines
+#### 2.2.10 Upgrade Watson Pipelines
 ```
 export COMPONENTS=ws_pipelines
 
@@ -887,7 +896,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.10 Upgrade Match 360
+#### 2.2.11 Upgrade Match 360
 ```
 export COMPONENTS=match360
 
@@ -895,7 +904,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.11 Upgrade DataStage edition plus
+#### 2.2.12 Upgrade DataStage edition plus
 ```
 export COMPONENTS=datastage_ent_plus
 
