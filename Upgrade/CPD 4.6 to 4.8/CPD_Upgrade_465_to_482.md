@@ -802,7 +802,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-Upgrade all installed Watson Studio Runtimes:
+#### 2.2.4.1 Upgrade all installed Watson Studio Runtimes:
 ```
 export COMPONENTS=ws_runtimes
 cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --license_acceptance=true --upgrade=true
