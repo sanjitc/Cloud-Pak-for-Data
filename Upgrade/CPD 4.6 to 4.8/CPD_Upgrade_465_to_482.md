@@ -855,7 +855,7 @@ oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
 3.2. Check the service instances have updated
 cpd-cli service-instance list --profile=${CPD_PROFILE_NAME} --service-type=${COMPONENTS}
 ```
-#### 2.2.8 Upgrade Db2 OLTP
+~~#### 2.2.8 Upgrade Db2 OLTP~~
 ```
 # 1.Upgrade the service
 export COMPONENTS=db2oltp
