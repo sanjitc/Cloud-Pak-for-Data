@@ -817,7 +817,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.6 Upgrade Db2 Data Management Console service
+~~#### 2.2.6 Upgrade Db2 Data Management Console service~~
 ```
 # 1.Upgrade the service
 export COMPONENTS=dmc
