@@ -889,7 +889,7 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-#### 2.2.10 Upgrade Watson Pipelines
+~~#### 2.2.10 Upgrade Watson Pipelines~~
 ```
 export COMPONENTS=ws_pipelines
 
