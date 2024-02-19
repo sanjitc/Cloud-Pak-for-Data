@@ -81,7 +81,7 @@ Part 1: Pre-upgrade
 1.2.2 Make olm-utils available in bastion
 1.2.3 Mirror CPD images into PCR
 1.3 Health check OCP & CPD
-
+1.4 Remove "Access advanced mapping permission" from Administrator > Access control > Role
 
 Part 2: Upgrade
 2.1 Upgrade CPD to 4.8.2
