@@ -530,7 +530,8 @@ oc get po --no-headers --all-namespaces -o wide| grep -Ev '1/1|2/2|3/3|4/4|5/5|6
 
 Make sure there is no pod listed in  unhealthypods.txt
 
-
+### 1.4 Remove "Access advanced mapping permission" from Administrator > Access control > Role
+The Watson Knowledge Catalog wkc-post-upgrade-refresh-users job fails when the common core service (ccs) and Watson Knowledge Catalog operators reconcile in 4.7 ( https://www.ibm.com/docs/en/cloud-paks/cp-data/4.7.x?topic=limitations-watson-knowledge-catalog#wkc-post-upgrade-fails-wkc)
 
 
 ## Part 2: Upgrade
