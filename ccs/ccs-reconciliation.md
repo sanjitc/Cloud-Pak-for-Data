@@ -11,7 +11,7 @@ Make the change under the spec section in the YAML file.
 ```
 vim runtime-manager-upgrade-job.yaml
 spec:
-  activeDeadlineSeconds: 4800
+  activeDeadlineSeconds: 9600
 ```
 c. Monitor CCS operator pod log. Once is starts executing the "runtime-manager-upgrade-job", run following:
 ```
