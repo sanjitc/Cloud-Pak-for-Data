@@ -2,7 +2,7 @@
 ## Prods 
 - catalog-api (CAMS)
 ## Logs
-
+- Swagger Link - /v2/cams/explorer/#/Assets/retrieveAssets
 ## Status
 
 ## How to resync CAMS? [^1]
