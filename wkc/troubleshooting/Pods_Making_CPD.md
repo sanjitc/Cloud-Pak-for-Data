@@ -1,11 +1,11 @@
 # Pod reference table
-The following table provides reference information on the pods making up CP4D and its services.
+The following table provides reference information on the pods making up CPD and its services.
 
 |Pod name|Service|Scope*|Description*|Connected pods*|Impact of being down*|Impact of restart*|
 |---|---|---|---|---|---|---|
-|audit-trail-service|WKC|AD, QS|Used for storing AD, and QS job history and details. Removed in CP4D V4.0.|c-db2oltp-iis-db2u-0/iis-xmetarepo||Do not restart while discovery runs|
-|c-db2oltp-iis-db2u-0|WKC|AD, DQ, IAS, MI|XMeta metadata repository storing IAS, MI, and AD metadata (all legacy IGC metadata). Replaces iis-xmetarepo pod starting from CP4D V4.0|iis-services, ia-analysis|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|Requires subsequent restart of iis-services pod.|
-|c-db2oltp-wkc-db2u-0|WKC|general|Repository for DPS, wkc-glossary, wkc-workflow, lineage. Replaces wdp-db2-0 starting from CP4D V4.0.|wkc-glossary-service, wkc-workflow-service, wdp-policy-service|Glossary, lieage, DPS and workflow will all be down.|Restarting will take 5-15 minutes to start the pod, while starting some of the services will be down.|
+|audit-trail-service|WKC|AD, QS|Used for storing AD, and QS job history and details. Removed in CPD V4.0.|c-db2oltp-iis-db2u-0/iis-xmetarepo||Do not restart while discovery runs|
+|c-db2oltp-iis-db2u-0|WKC|AD, DQ, IAS, MI|XMeta metadata repository storing IAS, MI, and AD metadata (all legacy IGC metadata). Replaces iis-xmetarepo pod starting from CPD V4.0|iis-services, ia-analysis|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|Requires subsequent restart of iis-services pod.|
+|c-db2oltp-wkc-db2u-0|WKC|general|Repository for DPS, wkc-glossary, wkc-workflow, lineage. Replaces wdp-db2-0 starting from CPD V4.0.|wkc-glossary-service, wkc-workflow-service, wdp-policy-service|Glossary, lieage, DPS and workflow will all be down.|Restarting will take 5-15 minutes to start the pod, while starting some of the services will be down.|
 |c-db2u-dv-db2u-[1-*]|DV|DV|BigSQL Worker Nodes||||
 |c-db2u-dv-db2u-0|DV|DV|BigSQL Head Node||||
 |c-db2u-dv-dvapi|DV|DV|Backend DV APIs||||
@@ -14,7 +14,7 @@ The following table provides reference information on the pods making up CP4D an
 |c-db2u-dv-hurricane-dv|DV|DV|BigSQL Scheduler and Metastore||||
 |cassandra-0|WKC|IAS|Repository for relationship graph data|||Minor impact|
 |catalog-api|WKC|general|Back-end catalog and asset service, used to store metadata for catalog, project, etc.|wdp-couchdb, rabbitmq-ha, redis-ha-server, redis-ha-haproxy|Catalog assets won't be displayed.|Catalog assets temporarily won't be displayed.|
-|couchdb|CP4D|lite|Used to users and other metadata, not needed starting from V3.5||||
+|couchdb|CPD|lite|Used to users and other metadata, not needed starting from V3.5||||
 |dataconn-engine-opdiscovery|WKC|PRF, DPS|||||
 |dataconn-engine-service|WKC|PRF, DPS|Manages dataconn-engine-spark-cluster instances|rabbitmq-ha, redis-ha-server, dataconn-engine-spark-cluster|Data flows will not be run.|There could be some missing logs for data flows which are updating at the time the pod is brought down.|
 |dataconn-engine-spark-cluster|WKC|PRF, DPS|Runs data flows|rabbitmq-ha, redis-ha-server|Data flows will not be run.|Running data flows will not finish.|
@@ -28,13 +28,13 @@ The following table provides reference information on the pods making up CP4D an
 |gov-enterprise-search|WKC|UG|UI serving the GraphExplorer visualization of enterprise Search graph data|shop4info-rest-0 and other shop4info services|||
 |gov-quality-ui|WKC|AD, DQ|Data quality UI. Reads and writes to legacy Information Analyzer APIs.|iis-services||Affects UIs until pod is back.|
 |gov-ui-commons|WKC|UG|Common bundle for UG UIs with resources such as fonts, icons etc., no functionality as such||||
-|gov-user-prefs-service|WKC|UG|Microservice storing user specific configuration settings in key-value form, used by the UG UIs to save some personalized settings. Removed in CP4D V4.0.||||
+|gov-user-prefs-service|WKC|UG|Microservice storing user specific configuration settings in key-value form, used by the UG UIs to save some personalized settings. Removed in CPD V4.0.||||
 |ia-analysis|WKC|AD, QS, DQ|Backend for data quality projects. Also used for publishing QS results.|||Running AD and DQ jobs may fail. DQ UI does not work.|
-|ibm-nginx|CP4D|all|Proxy for handling all incoming http requests. Three instances for HA. Look into this pod if there is a UI issue but you don't see any activity in the corresponding UI pod.|several|Platform UIs and APIs won't be available.|Restarting one pod at a time should not bring downtime as the service is set up for high availablility.|
+|ibm-nginx|CPD|all|Proxy for handling all incoming http requests. Three instances for HA. Look into this pod if there is a UI issue but you don't see any activity in the corresponding UI pod.|several|Platform UIs and APIs won't be available.|Restarting one pod at a time should not bring downtime as the service is set up for high availablility.|
 |ibm-cpd-sched[*]|Scheduler|scheduling|Placement of pods CPD pods and enforcement of resource management policies|All wprkload pods|CPD pods will remain in a pending state|Scheduler pods can safely be restarted | 
 |igc-ui-react|WKC|IAS|Serving information assets, data discovery, and automation rules pages.|iis-services, gov-catalog-search-service|||
 |iis-services|WKC|AD, DQ, IAS, MI|Legacy IIS services tier. Runs IAS, AD, QS, DQ, MI backend and UI components.|c-db2oltp-iis-db2u-0/iis-xmetarepo, kafka-0, zookeeper-0|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|All AD, QS, and DQ jobs are cancelled. The IAS, MI, and DQ UIs are restarted. Takes > 10 min to restart.|
-|iis-xmetarepo|WKC|AD, DQ, IAS, MI|XMeta metadata repository storing IAS, MI, and AD metadata (all legacy IGC metadata). Replaced by c-db2oltp-iis-db2u-0 starting from CP4D V4.0.|iis-services, ia-analysis|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|Requires subsequent restart of iis-services pod.|
+|iis-xmetarepo|WKC|AD, DQ, IAS, MI|XMeta metadata repository storing IAS, MI, and AD metadata (all legacy IGC metadata). Replaced by c-db2oltp-iis-db2u-0 starting from CPD V4.0.|iis-services, ia-analysis|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|Requires subsequent restart of iis-services pod.|
 |is-en-conductor|WKC|AD, DQ, DS|Legacy IIS engine tier. Runs DataStage jobs for AD, and DQ, as well as ODF.|kafka-0, zookeeper-0|AD and DQ jobs won't run.|Running AD and DQ jobs will fail.|
 |is-engine-compute|WKC|AD, DS|Used for parallel execution of DataStage jobs for AD and DQ (if configured).|||Running AD and DQ jobs may fail.|
 |jobs-api|||||||
@@ -66,7 +66,7 @@ The following table provides reference information on the pods making up CP4D an
 |wdp-connect-connection|WKC|general|Provides access to the connection and datasource assets in the CAMS repository.|redis-ha-server, catalog-api, wdp-connect-connector|Connections cannot be created, or listed. Data flows referencing connected data assets will  not run. Any interaction with a data source that uses the connection service (e.g. discovery, preview, etc) will not function.|In progress operations may report errors or result in a long running spinner in the UI.  However, some operations may be processed once service resumes.  Alternatively, operation would have to be resubmitted.|
 |wdp-connect-connector|WKC|general|Helper for wdp-connect-connection. Interacts directly with connectors.  No public interface.|redis-ha-server|Connections cannot be created, or listed. Data flows referencing connected data assets will  not run.  Any interaction with a data source that uses the connection service (e.g. discovery, preview, etc) will not function.|In progress operations may report errors or result in a long running spinner in the UI. However, some operations may be processed once service resumes. Alternatively, operation would have to be resubmitted.|
 |wdp-couchdb|WKC|general|Repository for storing asset metadata for projects, catalogs, etc.||If all pods are down expect many issues with many services.|Restarting one pod at a time should not bring downtime as the service is set up for high availablility.|
-|wdp-db2-0|WKC|general|Repository for DPS, wkc-glossary, wkc-workflow, lineage. Replaced by c-db2oltp-wkc-db2u-0 starting from CP4D V4.0.|wkc-glossary-service, wkc-workflow-service, wdp-policy-service|Glossary, lieage, DPS and workflow will all be down.|Restarting will take 5-15 minutes to start the pod, while starting some of the services will be down.|
+|wdp-db2-0|WKC|general|Repository for DPS, wkc-glossary, wkc-workflow, lineage. Replaced by c-db2oltp-wkc-db2u-0 starting from CPD V4.0.|wkc-glossary-service, wkc-workflow-service, wdp-policy-service|Glossary, lieage, DPS and workflow will all be down.|Restarting will take 5-15 minutes to start the pod, while starting some of the services will be down.|
 |wdp-lineage|WKC|general|Backend to serve WKC Activity lineage seen in the WKC Catalog Asset view on Lineage tab||||
 |wdp-policy-service|WKC|DPS|Backend to do policy enforcement for data protection rules||||
 |wdp-profiling|WKC|general|Profiling tab in WKC asset browser|wdp-profiling-ui, spark*|Profiling of data sets will not be done. Enforcing governance will be impacted.||
