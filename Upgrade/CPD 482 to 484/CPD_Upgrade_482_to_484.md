@@ -21,30 +21,33 @@ PCR
 ```
 
 Current CR status
-```
-# component,CR-kind,CR-name,status,version,creationtimestamp,reconciled-version,operator-info
-ws_runtimes,NotebookRuntime,ibm-cpd-ws-runtime-222-py,Completed,6.5.0,2023-06-21T21:22:17Z,6.5.0,6.5.0012
-ws_runtimes,NotebookRuntime,ibm-cpd-ws-runtime-py39,Completed,5.3.0,2023-06-21T21:22:17Z,5.3.0,6.5.0012
-opencontent_fdb,FdbCluster,mdm-foundationdb-1692305141878844,Completed,--,2023-08-17T20:50:57Z,--,--
-opencontent_fdb,FdbCluster,wkc-foundationdb-cluster,Completed,--,2023-07-12T19:31:33Z,--,--
-match360,MasterDataManagement,mdm-cr,Completed,2.3.29,2023-08-17T20:44:45Z,--,--
-db2wh,Db2whService,db2wh-cr,Completed,4.6.4,2023-06-21T21:20:54Z,4.6.4+11.5.8.0-cn2+2039,4.6.4+11.5.8.0-cn2+2039
-datastage_ent_plus,DataStage,datastage,Completed,4.6.5,2023-06-21T21:20:53Z,--,--
-datastage_ent,DataStage,datastage,Completed,4.6.5,2023-06-21T21:20:53Z,--,--
-openscale,WOService,aiopenscale,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
-openscale,WOService,openscale-defaultinstance,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
-openscale,WOService,vzopenscaledev,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,105
-dp,DP,dp-cr,Completed,4.6.5,2023-06-21T21:21:00Z,4.6.5,1482
-wkc,WKC,wkc-cr,Completed,4.6.5,2023-06-21T21:22:46Z,--,--
-wml,WmlBase,wml-cr,Completed,4.6.5,2023-06-21T21:22:46Z,4.6.5,4.6.5-4816
-ws,WS,ws-cr,Completed,6.5.0,2023-06-21T21:22:46Z,6.5.0,20
-db2aaservice,Db2aaserviceService,db2aaservice-cr,Completed,4.6.4,2023-06-21T21:20:53Z,4.6.4+11.5.8.0-cn2+2039,4.6.4+11.5.8.0-cn2+2039
-datarefinery,DataRefinery,datarefinery-sample,Completed,6.5.0,2023-06-21T21:20:53Z,--,--
-analyticsengine,AnalyticsEngine,analyticsengine-sample,Completed,4.6.5,2023-06-21T21:20:33Z,4.6.5,1507
-ccs,CCS,ccs-cr,Completed,6.5.0,2023-06-21T21:20:34Z,6.5.0,132
-cpd_platform,Ibmcpd,ibmcpd-cr,Completed,4.6.5,2023-06-21T21:21:19Z,--,--
-zen,ZenService,lite-cr,Completed,4.8.3,2023-06-21T21:22:47Z,4.8.3,zen operator 1.8.3 build 26
-```
+Component|CR-kind|CR-name|Status|Version|Creationtimestamp|Reconciled-version|Operator-info
+------------------|--------------------|-----------------------------|-------------|---------|--------------------|-----------------------|----------------------------------
+cpfs|CommonService|common-service|Succeeded|N/A|2024-02-08T19:50:49Z|N/A|N/A
+cpfs|CommonService|dev-common-service|Succeeded|N/A|2023-06-21T21:20:43Z|N/A|N/A
+zen|ZenService|lite-cr|Completed|5.1.1|2023-06-21T21:22:47Z|5.1.1|zen operator 5.1.1 build 37
+cpd_platform|Ibmcpd|ibmcpd-cr|Completed|4.8.2|2023-06-21T21:21:19Z|N/A|cpdPlatform operator 5.2.0 build 1
+ccs|CCS|ccs-cr|Completed|8.2.0|2023-06-21T21:20:34Z|8.2.0|71
+analyticsengine|AnalyticsEngine|analyticsengine-sample|Completed|4.8.1|2023-06-21T21:20:33Z|4.8.1|602
+datarefinery|DataRefinery|datarefinery-sample|Completed|8.1.0|2023-06-21T21:20:53Z|8.1.0|110
+mantaflow|MantaFlow|mantaflow-wkc|InMaintenance|42.2.3|2024-02-12T23:30:38Z|42.2.3|N/A
+dmc|Dmcaddon|dmc-addon|N/A|4.8.2|2024-02-13T16:41:57Z|N/A|N/A
+db2aaservice|Db2aaserviceService|db2aaservice-cr|Completed|4.8.2|2023-06-21T21:20:53Z|4.8.2+11.5.8.0-cn7+2320|4.8.2+11.5.8.0-cn7+2320
+ws|WS|ws-cr|Completed|8.1.0|2023-06-21T21:22:46Z|8.1.0|30
+wml|WmlBase|wml-cr|Completed|4.8.1|2023-06-21T21:22:46Z|4.8.1|4.8.1-492
+wkc|WKC|wkc-cr|Completed|4.8.2|2023-06-21T21:22:46Z|N/A|N/A
+dp|DP|dp-cr|InProgress|4.8.2|2023-06-21T21:21:00Z|4.8.2|1794
+openscale|WOService|aiopenscale|Completed|4.8.0|2023-06-21T21:22:46Z|4.8.0|59
+openscale|WOService|openscale-defaultinstance|Completed|4.8.0|2023-06-21T21:22:46Z|4.8.0|59
+openscale|WOService|vzopenscaledev|Completed|4.8.0|2023-06-21T21:22:46Z|4.8.0|59
+datastage_ent|DataStage|datastage|Completed|4.8.2|2023-06-21T21:20:53Z|N/A|N/A
+datastage_ent_plus|DataStage|datastage|Completed|4.8.2|2023-06-21T21:20:53Z|N/A|N/A
+db2wh|Db2whService|db2wh-cr|Completed|4.8.2|2023-06-21T21:20:54Z|4.8.2+11.5.8.0-cn7+2320|4.8.2+11.5.8.0-cn7+2320
+match360|MasterDataManagement|mdm-cr|Completed|3.4.36|2024-03-06T16:58:38Z|N/A|N/A
+ibm_redis_cp|Rediscp|mdm-redis-cp-1709744386206649|Completed|1.1.4|2024-03-06T17:07:27Z|1.1.4|N/A
+ws_runtimes|NotebookRuntime|ibm-cpd-ws-runtime-222-py|Completed|8.1.0|2023-06-21T21:22:17Z|8.1.0|8.1.0012
+ws_runtimes|NotebookRuntime|ibm-cpd-ws-runtime-231-py|Completed|8.1.0|2024-02-13T14:39:09Z|8.1.0|8.1.0012
+
 Current IAM and SAML setup
 ```
 export ZEN_NAMESPACE=<cpd/wkc namespace>
