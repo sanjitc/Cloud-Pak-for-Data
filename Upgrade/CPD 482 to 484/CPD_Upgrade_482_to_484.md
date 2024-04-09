@@ -86,11 +86,11 @@ Part 1: Pre-upgrade
 1.4 Remove "Access advanced mapping permission" from Administrator > Access control > Role
 
 Part 2: Upgrade
-2.1 Upgrade CPD to 4.8.2
+2.1 Upgrade CPD to 4.8.4
 2.1.1 Migrate to private topology
 2.1.2 Preparing to upgrade an CPD instance
-2.1.3 Upgrade foundation service and CPD platform to 4.8.2
-2.2 Upgrade CPD services to 4.8.2
+2.1.3 Upgrade foundation service and CPD platform to 4.8.4
+2.2 Upgrade CPD services to 4.8.4
 
 Part 3: Post-upgrade
 3.1 Validate CPD & CPD services
@@ -102,7 +102,7 @@ Part 3: Post-upgrade
 ### 1.1 Collect information and review upgrade runbook
 #### 1.1.1 Prepare cpd_vars.sh
 
-To upgrade from Cloud Pak for Data Version 4.6 to Version 4.8, based on the variables file for 4.6 such as cpd_vars.sh, you must update the VERSION environment variable and add several new environment variables. Update them into a cpd_vars_482.sh script like this 
+To upgrade from Cloud Pak for Data Version 4.8.2 to Version 4.8.4, based on the variables file for 4.8.x such as cpd_vars.sh, you must update the VERSION environment variable and add several new environment variables. Update them into a cpd_vars_482.sh script like this 
 
 ```
 export PROJECT_CPFS_OPS=ibm-common-services
@@ -115,7 +115,7 @@ export PROJECT_CS_CONTROL=cs-control
 # export PROJECT_SCHEDULING_SERVICE=cpd-scheduler
 export PROJECT_CPD_INST_OPERATORS=cpd-operators
 export PROJECT_CPD_INST_OPERANDS=cpd-instance
-export VERSION=4.8.2
+export VERSION=4.8.4
 
 export SERVER_ARGUMENTS="--server=${OCP_URL}"
 export LOGIN_ARGUMENTS="--username=${OCP_USERNAME} --password=${OCP_PASSWORD}"
