@@ -297,8 +297,8 @@ For details please refer to 4.8 doc (https://www.ibm.com/docs/en/cloud-paks/cp-d
 Go to the client workstation with internet
 
 ```
-cd /ibm/cpd/4.8.2
-source cpd_vars_482.sh
+cd /ibm/cpd/4.8.4
+source cpd_vars_484.sh
 ```
 
 Log into IBM registry and list images
