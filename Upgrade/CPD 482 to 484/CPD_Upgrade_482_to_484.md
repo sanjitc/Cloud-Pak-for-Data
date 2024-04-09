@@ -574,9 +574,9 @@ oc get pods --namespace=${PROJECT_CS_CONTROL}
 ```
 4. Upgrade the Certificate manager and License Service
 
-The Certificate manager will be moved to the {PROJECT_CERT_MANAGER} project. The License Service will remain in the cs-control {PROJECT_CS_CONTROL} project.
+The License Service will remain in the cs-control {PROJECT_CS_CONTROL} project.
 ```
-cpd-cli manage apply-cluster-components --release=${VERSION} --license_acceptance=true --migrate_from_cs_ns=${PROJECT_CPFS_OPS} --cert_manager_ns=${PROJECT_CERT_MANAGER} --licensing_ns=${PROJECT_CS_CONTROL}
+cpd-cli manage apply-cluster-components --release=${VERSION} --license_acceptance=true --cert_manager_ns=${PROJECT_CERT_MANAGER} --licensing_ns=${PROJECT_CS_CONTROL}
 ```
 - Confirm that the Certificate manager pods in the ${PROJECT_CERT_MANAGER} project are Running:
 ```
