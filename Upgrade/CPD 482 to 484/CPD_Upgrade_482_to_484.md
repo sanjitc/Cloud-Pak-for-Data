@@ -255,7 +255,7 @@ Output like this
 cpd-cli
 	Version: 13.1.4
 	Build Date: 
-	Build Number: 89
+	Build Number: nn
 	CPD Release Version: 4.8.4
 ```
 
