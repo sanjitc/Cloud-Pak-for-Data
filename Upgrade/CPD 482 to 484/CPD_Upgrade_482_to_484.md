@@ -559,20 +559,7 @@ cpd-cli manage login-to-ocp \
 # or
 ${CPDM_OC_LOGIN}
 ```
-3.	Move the Certificate manager and License Service from the shared operators project to the cs-control project.
-```
-cpd-cli manage detach-cpd-instance --cpfs_operator_ns=${PROJECT_CPFS_OPS} --control_ns=${PROJECT_CS_CONTROL} 
-```
-- Wait for the cpd-cli to return the following message before proceeding to the next step:
-- Monitor the install plan and approved them as needed
-```
-[SUCCESS] ... The detach-cpd-instance command ran successfully.
-```
-- Confirm that the Certificate manager and License Service pods in the cs-control project are Running :
-```
-oc get pods --namespace=${PROJECT_CS_CONTROL}
-```
-4. Upgrade the Certificate manager and License Service
+3. Upgrade the Certificate manager and License Service
 
 The License Service will remain in the cs-control {PROJECT_CS_CONTROL} project.
 ```
@@ -589,7 +576,7 @@ oc get pods --namespace=${PROJECT_CS_CONTROL}
 ``` 
 CSV name is ibm-licensing-operator.~~v4.3.0~~  **<- Need to check**
 
-5. (Optional) If the scheduling service is installed, migrate and upgrade the scheduling service.
+4. (Optional) If the scheduling service is installed, migrate and upgrade the scheduling service.
 ```
 cpd-cli manage migrate-scheduler \
 --release=${VERSION} \
