@@ -373,7 +373,7 @@ export COMPONENTS=ws
 Make a tar ball to have all downloaded images
 
 ```
-tar czvf cpd-images.tar -C /ibm/cpd/4.8.2 .
+tar czvf cpd-images.tar -C /ibm/cpd/4.8.4 .
 ```
 
 2. Ship the tar ball into bastion node
@@ -386,7 +386,7 @@ Unpack the tar ball
 ```
 tar xvf cpd-images.tar
 
-source cpd_vars_482.sh
+source cpd_vars_484.sh
 ```
 
 Log into PCR
