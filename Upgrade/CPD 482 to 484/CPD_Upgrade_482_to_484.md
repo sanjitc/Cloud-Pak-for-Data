@@ -135,7 +135,7 @@ export COMPONENTS=ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtime
 Review upgrade runbook
 
 #### 1.1.3 Backup before upgrade
-Note: Create a folder for 4.6.5 and maintain below created copies in that folder.
+Note: Create a folder for 4.8.2 and maintain below created copies in that folder.
 
 Make a copy of existing catalog sources (Recommended)
 
@@ -212,35 +212,35 @@ yum install openssl httpd-tools podman skopeo wget -y
 
 3. Download and setup CPD CLI
 
-Take CPD 4.8.2 as example, please change the version to what you want to download
+Take CPD 4.8.4 as example, please change the version to what you want to download
 
 ```
-mkdir -p /ibm/cpd/4.8.2
-cd /ibm/cpd/4.8.2
-wget https://github.com/IBM/cpd-cli/releases/download/v13.1.2/cpd-cli-linux-EE-13.1.2.tgz
+mkdir -p /ibm/cpd/4.8.4
+cd /ibm/cpd/4.8.4
+wget https://github.com/IBM/cpd-cli/releases/download/v13.1.4/cpd-cli-linux-EE-13.1.4.tgz
 
-tar xvf cpd-cli-linux-EE-13.1.2.tgz
-mv cpd-cli-linux-EE-13.1.2-89/* .
-rm -rf cpd-cli-linux-EE-13.1.2-89
+tar xvf cpd-cli-linux-EE-13.1.4.tgz
+mv cpd-cli-linux-EE-13.1.4-89/* .
+rm -rf cpd-cli-linux-EE-13.1.4-89
 ```
 
 4. Copy the cpd_vars.sh over and add path to it
 
 ```
-cd /ibm/cpd/4.8.2
-vi cpd_vars_482.sh
+cd /ibm/cpd/4.8.4
+vi cpd_vars_484.sh
 ```
 
 Add this line into the head of cpd_vars_482.sh
 
 ```
-export PATH=/ibm/cpd/4.8.2:$PATH
+export PATH=/ibm/cpd/4.8.4:$PATH
 ```
 
-Run this command to apply cpd_vars_482.sh
+Run this command to apply cpd_vars_484.sh
 
 ```
-source cpd_vars_482.sh
+source cpd_vars_484.sh
 ```
 
 Check out with this commands
@@ -253,10 +253,10 @@ Output like this
 
 ```
 cpd-cli
-	Version: 13.1.2
+	Version: 13.1.4
 	Build Date: 
 	Build Number: 89
-	CPD Release Version: 4.8.2
+	CPD Release Version: 4.8.4
 ```
 
 #### 1.2.2 Make olm-utils available in bastion
@@ -264,8 +264,8 @@ cpd-cli
 Go to the client workstation with internet
 
 ```
-cd /ibm/cpd/4.8.2
-source cpd_vars_482.sh
+cd /ibm/cpd/4.8.4
+source cpd_vars_484.sh
 
 cpd-cli manage save-image \
 --from=icr.io/cpopen/cpd/olm-utils-v2:latest
