@@ -530,18 +530,10 @@ curl -k -u ${PRIVATE_REGISTRY_USER}:${PRIVATE_REGISTRY_PASSWORD} https://${PRIVA
 
 ## Part 2: Upgrade
 
-### 2.1 Upgrade CPD to 4.8.2
+### 2.1 Upgrade CPD to 4.8.4
 
 #### 2.1.1 Migrate to private topology
-1. Create new projects
-```
-${OC_LOGIN}
-oc new-project ${PROJECT_CS_CONTROL}             # This is for ibm-licensing operator and instance
-oc new-project ${PROJECT_CERT_MANAGER}           # This is for ibm-cert-manager operator and instance
-oc new-project ${PROJECT_CPD_INST_OPERATORS}     # This is for migrated cpd operator
-# oc new-project ${PROJECT_SCHEDULING_SERVICE}     # This is for ibm-scheduling operator and instance
-```
-2.	Run the cpd-cli manage login-to-ocp command to log in to the cluster
+1.	Run the cpd-cli manage login-to-ocp command to log in to the cluster
 ```
 cpd-cli manage login-to-ocp \
 --username=${OCP_USERNAME} \
@@ -551,7 +543,7 @@ cpd-cli manage login-to-ocp \
 # or
 ${CPDM_OC_LOGIN}
 ```
-3. Upgrade the Certificate manager and License Service
+2. Upgrade the Certificate manager and License Service
 
 The License Service will remain in the cs-control {PROJECT_CS_CONTROL} project.
 ```
@@ -567,19 +559,6 @@ CSV name is ibm-cert-manager-operator.~~v4.3.0~~  **<- Need to check**
 oc get pods --namespace=${PROJECT_CS_CONTROL}
 ``` 
 CSV name is ibm-licensing-operator.~~v4.3.0~~  **<- Need to check**
-
-4. (Optional) If the scheduling service is installed, migrate and upgrade the scheduling service.
-```
-cpd-cli manage migrate-scheduler \
---release=${VERSION} \
---license_acceptance=true \
---from_ns=${PROJECT_CPFS_OPS} \
---to_ns=${PROJECT_SCHEDULING_SERVICE}
-```
-Confirm that the scheduling service pods in the ${PROJECT_SCHEDULING_SERVICE} project are Running or Completed:
-```
-oc get pods --namespace=${PROJECT_SCHEDULING_SERVICE}
-```
 
 #### 2.1.2 Preparing to upgrade an CPD instance
 1.	Detache CPD instance from the shared operators
