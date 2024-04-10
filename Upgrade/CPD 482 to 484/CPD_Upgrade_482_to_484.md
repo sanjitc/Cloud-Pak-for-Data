@@ -176,15 +176,15 @@ oc get route <custom route> -n <CPD namespace> -o yaml > custom_route.yaml
 #### 1.1.4 if you installed hotfixes, uninstall all hotfixes
 Edit Zensevice, CCS, WKC, AE custom resources and remove all hotfix references.
 
-#### 1.1.5 If you installed the resource specification injection (RSI) feature, uninstall the cluster-scoped webhook
-https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=services-uninstalling-rsi-webhook
+#### ~~1.1.5 If you installed the resource specification injection (RSI) feature, uninstall the cluster-scoped webhook~~
+~~https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=services-uninstalling-rsi-webhook~~
 ```
 cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --all
 cat cpd-cli-workspace/olm-utils-workspace/work/get_rsi_patch_info.log
 ```
-_**We need to disable the RSI patches and post install enabled them**_
+~~_**We need to disable the RSI patches and post install enabled them**_~~
 
-We should **not** disable any selinux patches. We can disable all non-selinux patches. Once the upgrade is complete we can enable them depending on if not fixed on 8.4.2.
+~~We should **not** disable any selinux patches. We can disable all non-selinux patches. Once the upgrade is complete we can enable them depending on if not fixed on 8.4.2.~~
 
 #### 1.1.6 If use SAML SSO, export SSO configuration
 
