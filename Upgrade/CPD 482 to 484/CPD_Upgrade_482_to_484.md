@@ -231,7 +231,7 @@ cd /ibm/cpd/4.8.4
 vi cpd_vars_484.sh
 ```
 
-Add this line into the head of cpd_vars_482.sh
+Add this line into the head of cpd_vars_484.sh
 
 ```
 export PATH=/ibm/cpd/4.8.4:$PATH
@@ -622,7 +622,7 @@ cpd-cli manage authorize-instance-topology --cpd_operator_ns=${PROJECT_CPD_INST_
 cpd-cli manage authorize-instance-topology --cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 2.1.3 Upgrade foundation service and CPD platform to 4.8.2
+#### 2.1.3 Upgrade foundation service and CPD platform to 4.8.4
 1.	Run the cpd-cli manage login-to-ocp command to log in to the cluster.
 ```
 cpd-cli manage login-to-ocp \
@@ -738,7 +738,7 @@ oc edit secretshare ibm-cpp-config \
 ```
 - Remove the entry for the instance project from the sharewith list and save your changes to the SecretShare.
 
-### 2.2 Upgrade CPD services to 4.8.2
+### 2.2 Upgrade CPD services to 4.8.4
 #### 2.2.1 Upgrade IBM Knowledge Catalog service
 WARNING: If you need to migrate WKC legacy feature data, install and follow the steps for the patch here (https://www.ibm.com/support/pages/node/7003929#4.8.2). Make sure you have exported the legacy data using cpd-cli export-import command, before doing the upgrade in this section. Note that this migration feature will be ready after 4.7.0.
 ```
