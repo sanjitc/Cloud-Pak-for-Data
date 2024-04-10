@@ -828,21 +828,6 @@ cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_in
 
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --components=${COMPONENTS}
 ```
-### 2.3 Remove the shared operators
-Complete this task only if all of the instances of Cloud Pak for Data are upgraded to Version 4.8.
-If any of the instances have not been upgraded and migrated to the private topology, the instances will stop working.
-
-```
-# Log in to the cluster
-${CPDM_OC_LOGIN}
-
-# Delete the shared OLM objects.
-
-cpd-cli manage delete-olm-artifacts \
---cpd_operator_ns=ibm-common-services \
---delete_all_components=true \
---delete_shared_catsrc=true
-```
 
 ## Part 3: Post-upgrade
 
