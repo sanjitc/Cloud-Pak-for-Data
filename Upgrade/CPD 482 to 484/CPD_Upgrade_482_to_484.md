@@ -878,6 +878,9 @@ If post upgrade login using SAML doesn't work, then follow This instruction. You
 
 https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=environment-configuring-sso
 
+### 3.6 Upgrade to IBM Storage Fusion to Version 2.6 or later, if you want to use IBM Storage Fusion for backup and recovery.
+- [Version 2.6](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=upgrading-storage-fusion)
+
 ### 3.x Summarize and close out the upgrade
 
 Schedule a wrap-up meeting and review the upgrade procedure and lessons learned from it.
