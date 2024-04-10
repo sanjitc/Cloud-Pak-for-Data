@@ -660,9 +660,11 @@ NOTE: cpd_platform has been upgraded to 4.8.4
 ### 2.2 Upgrade CPD services to 4.8.4
 #### 2.2.1 Upgrade IBM Knowledge Catalog service
 WARNING: If you need to migrate WKC legacy feature data, install and follow the steps for the patch here (https://www.ibm.com/support/pages/node/7003929#4.8.2). Make sure you have exported the legacy data using cpd-cli export-import command, before doing the upgrade in this section. Note that this migration feature will be ready after 4.7.0.
-```
+
 # 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
+```
 vim cpd-cli-workspace/olm-utils-workspace/work/install-options.yml
+
 ################################################################################
 # IBM Knowledge Catalog parameters
 ################################################################################
@@ -670,22 +672,26 @@ custom_spec:
   wkc:
 #    enableKnowledgeGraph: False
 #    enableDataQuality: False
-
+```
 # 2.Upgrade WKC instance with default or custom installation
+```
 export COMPONENTS=wkc
+```
 
 # Custom installation (with installation options)
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --param-file=/tmp/work/install-options.yml --license_acceptance=true --upgrade=true
-
-# Default installation (without installation options)
-cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
-
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
-
-# NOTE: wkc and analyticsengine,datastage_ent_plus have been upgraded to 4.8.1, db2aaservice to 4.8.0, datarefinery to 8.1.0
-
-# OPTIONAL: Check Post-upgrade tasks of wkc here https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=u-upgrading-from-version-46-20#cli-upgrade__next-steps
 ```
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --param-file=/tmp/work/install-options.yml --license_acceptance=true --upgrade=true
+```
+# Default installation (without installation options)
+```
+cpd-cli manage apply-cr --components=${COMPONENTS} --release=${VERSION} --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --block_storage_class=${STG_CLASS_BLOCK} --file_storage_class=${STG_CLASS_FILE} --license_acceptance=true --upgrade=true
+```
+# Validate the upgrade
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+# Run the bulk sync utility before start using Global Search indexed data for relationships
+Follow the step in [Bulk sync relationships for global search (IBM Knowledge Catalog)](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=administering-bulk-sync-global-search)
 
 #### 2.2.2 Upgrade MANTA service
 ```
