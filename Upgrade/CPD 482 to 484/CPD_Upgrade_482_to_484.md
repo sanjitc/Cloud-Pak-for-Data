@@ -532,8 +532,12 @@ curl -k -u ${PRIVATE_REGISTRY_USER}:${PRIVATE_REGISTRY_PASSWORD} https://${PRIVA
 
 ### 2.1 Upgrade CPD to 4.8.4
 
-#### 2.1.1 Migrate to private topology
-1.	Run the cpd-cli manage login-to-ocp command to log in to the cluster
+#### 2.1.1 Upgrading shared cluster components in private topology
+1. Find out which project the License Service installed. Assuming it installed in ${PROJECT_CS_CONTROL}. If not, upgrade command needs to change.
+```
+oc get deployment -A |  grep ibm-licensing-operator
+```   
+2.	Run the cpd-cli manage login-to-ocp command to log in to the cluster
 ```
 cpd-cli manage login-to-ocp \
 --username=${OCP_USERNAME} \
@@ -543,9 +547,9 @@ cpd-cli manage login-to-ocp \
 # or
 ${CPDM_OC_LOGIN}
 ```
-2. Upgrade the Certificate manager and License Service
+3. Upgrade the Certificate manager and License Service
 
-The License Service will remain in the cs-control {PROJECT_CS_CONTROL} project.
+The License Service will remain in the cs-control ${PROJECT_CS_CONTROL} project.
 ```
 cpd-cli manage apply-cluster-components --release=${VERSION} --license_acceptance=true --cert_manager_ns=${PROJECT_CERT_MANAGER} --licensing_ns=${PROJECT_CS_CONTROL}
 ```
