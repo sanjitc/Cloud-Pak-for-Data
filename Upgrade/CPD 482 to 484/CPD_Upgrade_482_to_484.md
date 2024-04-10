@@ -844,16 +844,31 @@ cpd-cli manage delete-olm-artifacts \
 
 Log into CPD web UI with admin and check out each services, including provision instance and functions of each service
 
-### 3.2 [Migration cleanup - legacy features](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=tasks-migration-cleanup#migration_cleanup__services)
+### 3.2 Enable RSI patches
+#### 3.2.1 Install or update the webhook. Pull images from a private container registry.
 ```
-oc -n ${NAMESPACE} patch wkc/wkc-cr --patch '{"spec":{"legacyCleanup":true}}' --type=merge
-oc delete scc wkc-iis-scc
-oc delete sa wkc-iis-sa
+cpd-cli manage install-rsi \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+--rsi_image=${PRIVATE_REGISTRY_LOCATION}cpopen/cpd/zen-rsi-adm-controller:${VERSION}-x86_64
+```
 
-# If the cleanup is successful, "legacyCleanup" will show Completed.
-oc get wkc wkc-cr -oyaml | grep "legacyCleanup"
+#### 3.2.2 Enable the RSI.
 ```
-### 3.3 Enable RSI patches
+cpd-cli manage enable-rsi --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+### 3.3 Enabling users to upload JDBC drivers
+#### 3.3.1 Set the wdp_connect_connection_disable_jar_tab parameter to false
+```
+oc patch ccs ccs-cr \
+--namespace=${PROJECT_CPD_INST_OPERANDS} \
+--type=merge \
+--patch '{"spec": {"wdp_connect_connection_disable_jar_tab": "false"}}'
+```
+
+#### 3.3.2 Wait for the common core services status to be Completed
+```
+oc get ccs ccs-cr --namespace=${PROJECT_CPD_INST_OPERANDS}
+```
 
 ### 3.4 Enable Relationship Explorer feature
 [Enable Relationship Explorer feature](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%204.6%20to%204.8/Enabling_Relationship_Explorer_480%20-%20disclaimer%200208.pdf)
