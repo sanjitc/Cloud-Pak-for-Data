@@ -1,6 +1,7 @@
 ## Hotfix Deployment Process
 
 ### 1)	Review the hotfix installation instruction to identify Custom Resources need to patch part of the hotfix deployment.
+[March Hotfix-2 installation instruction](hotfix/March-hotfix-2/WKC 4.6.5 Hotfix 2 April 2024 for Verizon Installation Instructions.pdf)
 
 ### 2)	Take a backup of all CRs that going to patch.
 -	ibm-cpd-wkc-operator pod sescription
