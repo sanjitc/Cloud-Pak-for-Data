@@ -45,6 +45,7 @@ oc patch wkc wkc-cr -n ${PROJECT_CPD_INSTANCE} --type=merge -p '{"spec":{"wkc_me
 
 ### 8) Post hotfix considerations
 - Post CCS reconciliation
+
 a) Change the catalog-api deployment:
 ```
  > oc edit deployment catalog-api -o yaml
@@ -67,6 +68,7 @@ b) Change the asset-files-api deployment:
 ```
 
 - Post WKC reconciliation
+
 a) Change finley-public svc:
 ```
 > oc edit svc finley-public -o yaml
