@@ -23,3 +23,10 @@
 ```
 oc patch csv -n ${OPERATOR_NAMESPACE} ibm-cpd-wkc.v1.6.5 --type='json' -p='[{"op": "replace", "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/image", "value":"icr.io/cpopen/ibm-cpd-wkc-operator@sha256:9bb509867f1c5a9948796ea50b7087d23aa733eb5e88ed93a15425d98221c5d0"}] '
 ```
+
+- AE CR
+```
+oc patch AnalyticsEngine analyticsengine-sample -n ${PROJECT_CPD_INSTANCE} --type=merge -p '{"spec":{"image_digests":{"spark-hb-control-plane":"sha256:ef46de7224c6c37b2eadf2bfbbbaeef5be7b2e7e7c05d55c4f8b0eba1fb4e9e4","s
+park-hb-jkg-v33":"sha256:4b4eefb10d2a45ed1acab708a28f2c9d3619432f4417cfbfdc056f2ca3c085f7"}}}'
+```
+
