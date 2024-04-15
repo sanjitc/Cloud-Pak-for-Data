@@ -94,3 +94,5 @@ sessionAffinity: ClientIP
   clientIP:
    timeoutSeconds: 10800
 ```
+
+### 10) Restart wkc-search and elastic search pods
