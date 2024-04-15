@@ -12,7 +12,8 @@
 
 ### 3)	Take a note and copy all OpenShift resources definition that changed previously part of the CR maintenance mode.
 -	CCS - deployment catalog-api
--	CCS - asset-files-api deployment
+-	CCS - deployment asset-files-api 
+-	CCS - job job runtime-manager-upgrade-job
 -	WKC - svc finley-public
 
 ### 4)	Take out CRs from maintenance mode one at a time and wait it done with CR reconciliation. 
