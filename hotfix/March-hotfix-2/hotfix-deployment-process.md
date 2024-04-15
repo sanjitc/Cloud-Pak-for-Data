@@ -43,7 +43,11 @@ oc patch wkc wkc-cr -n ${PROJECT_CPD_INSTANCE} --type=merge -p '{"spec":{"wkc_me
 
 ### 7) Check all pods are running
 
-### 8) Post hotfix considerations
+### 8)	Put CRs in maintenance mode one at a time and wait it done with CR reconciliation. 
+-	CCS 
+-	WKC
+
+### 9) Post hotfix considerations
 - Post CCS reconciliation
 
 a) Change the catalog-api deployment:
