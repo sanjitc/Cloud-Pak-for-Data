@@ -77,6 +77,11 @@ b) Change the asset-files-api deployment:
            - /bin/bash
 ```
 
+c) Increase asset-files replicas to 6
+```
+oc scale deployment asset-files-api --replicas=6
+```
+
 - Post WKC reconciliation
 
 a) Change finley-public svc:
