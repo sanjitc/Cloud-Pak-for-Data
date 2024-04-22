@@ -14,11 +14,10 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
 4. Ensure node upsize and disk scale out are not initiated.
 5. Download the needed logs that you collected by using the IBM Storage Fusion Collect logs user interface page.
 6. [Mirror images in your enterprise registry / Artifactory](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=ersfi-mirroring-your-images-enterprise-registry)
-   - ~~Mirror Red Hat OpenShift Container Platform release images.~~
-   - ~~Mirror images for Red Hat operator.~~
-   - Mirror IBM Storage Fusion,
-   - Mirror IBM Spectrum Scale,
-   - Mirror IBM Spectrum Protect Plus,
-   - Mirror Backup & Restore images,
-   - ~~Mirror IBM Storage Fusion Data Foundation,~~
-   - Mirror Data Cataloging images. 
+   - [ ] Mirror Red Hat OpenShift Container Platform release images.
+   - [ ] Mirror images for Red Hat operator.
+   - [ ] Mirror IBM Storage Fusion,
+   - [ ] Mirror IBM Spectrum Scale,
+   - [ ] Mirror IBM Spectrum Protect Plus,
+   - [ ] Mirror Backup & Restore images,
+   - [ ] Mirror Data Cataloging images. 
