@@ -35,7 +35,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
   - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
 - Upgrade from Fusion 2.6.0 to Fusion 2.6.1
 
-Once done with above, go to Fusion 2.7.0
+#### Once done with above, go to Fusion 2.7.0
 - Upgrade to Fusion 2.7.0
 - Upgrade to Fusion 2.7.2
 - Deploy Fusion Backup and Restore service
