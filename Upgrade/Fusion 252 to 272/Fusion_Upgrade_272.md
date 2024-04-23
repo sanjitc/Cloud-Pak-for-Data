@@ -15,8 +15,8 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
 5. Download the needed logs that you collected by using the IBM Storage Fusion Collect logs user interface page.
 6. Mirror images in your enterprise registry / Artifactory [2.6 Images](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=ersfi-mirroring-your-images-enterprise-registry)
    - [ ] [Mirroring Data Foundation images](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=myier-mirroring-data-foundation-images-deployed-openshift-container-platform-version-412#sds_odf_mirror_images__step_hdp_5j5_fyb)
-   - [ ] Mirror Red Hat OpenShift Container Platform release images.
-   - [ ] Mirror images for Red Hat operator
+   - [ ] ~~Mirror Red Hat OpenShift Container Platform release images.~~
+   - [ ] ~~Mirror images for Red Hat operator~~
    - [ ] Mirror IBM Storage Fusion
    - [ ] Mirror IBM Spectrum Scale
    - [ ] Mirror IBM Spectrum Protect Plus
