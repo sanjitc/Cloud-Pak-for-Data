@@ -28,6 +28,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] Mirror Data Foundation images
    - [ ] Mirror Backup & Restore images
    - [ ] Mirror Data Cataloging images ??
+   - [ ] [Mirror Hot fix images](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
 
 ### Upgrade process
 - Update Openshift DF to 4.12
