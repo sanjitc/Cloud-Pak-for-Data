@@ -35,7 +35,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
 
 - Upgrade from Fusion 2.6.0 to Fusion 2.6.1
 - Deploy Fusion Backup and Restore service
-- [Migrate Backup & Restore Legacy policies to Backup and Restore policies]([see documentation on how to do so here](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
+- [Migrate Backup & Restore Legacy policies to Backup and Restore policies](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
   - The backup data stored on the S3 endpoint and the Backup and Restore Legacy catalog are not migrated by the operation above
   - [See the general note on the Backup and Restore Legacy deprecation](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=services-upgrade-prerequisites-backup-restore)
 
