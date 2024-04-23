@@ -18,16 +18,16 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] ~~Mirror Red Hat OpenShift Container Platform release images.~~
    - [ ] ~~Mirror images for Red Hat operator~~
    - [ ] Mirror IBM Storage Fusion
-   - [ ] Mirror IBM Spectrum Scale
+   - [ ] ~~Mirror IBM Spectrum Scale~~
    - [ ] Mirror IBM Spectrum Protect Plus
    - [ ] Mirror Backup & Restore images
-   - [ ] Mirror Data Cataloging images 
+   - [ ] Mirror Data Cataloging images ??
 7. Mirror images in your enterprise registry / Artifactory [2.7.0, 2.7.2 and hot fix Images](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=installation-mirroring-your-images-enterprise-registry)
    - [ ] Mirror IBM Storage Fusion
-   - [ ] Mirror IBM Spectrum Scale
+   - [ ] ~~Mirror IBM Spectrum Scale~~
    - [ ] Mirror Data Foundation images
    - [ ] Mirror Backup & Restore images
-   - [ ] Mirror Data Cataloging images 
+   - [ ] Mirror Data Cataloging images ??
 
 ### Upgrade process
 - Update Openshift DF to 4.12
