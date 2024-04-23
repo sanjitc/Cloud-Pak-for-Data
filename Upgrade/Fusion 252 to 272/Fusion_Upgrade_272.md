@@ -21,13 +21,13 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] ~~Mirror IBM Spectrum Scale~~
    - [ ] Mirror IBM Spectrum Protect Plus
    - [ ] Mirror Backup & Restore images
-   - [ ] Mirror Data Cataloging images ??
+   - [ ] ~~Mirror Data Cataloging images~~ ??
 7. Mirror images in your enterprise registry / Artifactory [2.7.0, 2.7.2 and hot fix Images](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=installation-mirroring-your-images-enterprise-registry)
    - [ ] Mirror IBM Storage Fusion
    - [ ] ~~Mirror IBM Spectrum Scale~~
    - [ ] Mirror Data Foundation images
    - [ ] Mirror Backup & Restore images
-   - [ ] Mirror Data Cataloging images ??
+   - [ ] ~~Mirror Data Cataloging images~~ ??
    - [ ] [Mirror Hot fix SDS images](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
 
 ### Upgrade process
