@@ -27,3 +27,25 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] Mirror Data Foundation images
    - [ ] Mirror Backup & Restore images
    - [ ] Mirror Data Cataloging images 
+
+### Upgrade process
+- Verizon clusters are all Red Hat OpenShift 4.12 so compatible with IBM Fusion 2.6.x
+  - Make sure we migrate from Red Hat ODF to Fusion DF
+  - RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12  here
+
+- Upgrade from Fusion 2.6.0 to Fusion 2.6.1
+- Deploy Fusion Backup and Restore service
+- Migrate Backup & Restore Legacy policies to Backup and Restore policies (see documentation on how to do so here).
+  - The backup data stored on the S3 endpoint and the Backup and Restore Legacy catalog are not migrated by the operation above
+  - See the general note on the Backup and Restore Legacy deprecation here
+
+    
+- Run an online backup using the new Backup and Restore
+- The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
+
+
+Once done with above, go to Fusion 2.7.0
+- Upgrade to Fusion 2.7.0
+- Upgrade to Fusion 2.7.2
+- Apply hot fix for 2.7.2 here
+- Run an online backup using the new Backup and Restore
