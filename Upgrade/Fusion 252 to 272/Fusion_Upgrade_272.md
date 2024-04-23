@@ -30,6 +30,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] Mirror Data Cataloging images 
 
 ### Upgrade process
+- Update Openshift DF to 4.12
 - Clusters are all on Red Hat OpenShift 4.12 so compatible with IBM Fusion 2.6.x
   - Make sure we migrate from Red Hat ODF to Fusion DF
   - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
