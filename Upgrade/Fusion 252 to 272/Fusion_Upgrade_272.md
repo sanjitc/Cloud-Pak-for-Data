@@ -29,6 +29,16 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.1 > 2.7.2
    - [ ] Mirror Backup & Restore images
    - [ ] ~~Mirror Data Cataloging images~~ ??
    - [ ] [Mirror Hot fix SDS images](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
+      Mirror instructions for applying 2.7.2 Backup & Restore hot fixes
+```
+skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505 docker://$TARGET_PATH/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505
+
+skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb docker://$TARGET_PATH/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb
+
+skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178
+
+skopeo copy --all docker://cp.icr.io/cp/isf-sds/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650 docker://$TARGET_PATH/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650
+```
 
 ### Upgrade process
 1. Update Openshift DF to 4.12 (ODF is already on 4.12)
