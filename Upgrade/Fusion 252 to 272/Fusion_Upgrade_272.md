@@ -35,7 +35,7 @@ skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-backup-se
 
 skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb docker://$TARGET_PATH/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb
 
-skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178
+skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178
 
 skopeo copy --all docker://cp.icr.io/cp/isf-sds/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650 docker://$TARGET_PATH/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650
 ```
