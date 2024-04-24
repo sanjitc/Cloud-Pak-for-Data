@@ -38,6 +38,8 @@ skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-transacti
 skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178
 
 skopeo copy --all docker://cp.icr.io/cp/isf-sds/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650 docker://$TARGET_PATH/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650
+
+skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9 docker://$TARGET_PATH/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9
 ```
 
 ### Upgrade process
