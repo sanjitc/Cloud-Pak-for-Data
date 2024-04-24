@@ -81,5 +81,5 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
    > You need to use image digest instead of tag.
    
 5. In OpenShift operator index pod failed with CrashLoop. Error: "cache requires rebuild: cache reports digest as xxx, but computed digest is yyy".
-   > It's a [problem related to oc-mirror](https://access.redhat.com/solutions/7041232). Need to download latest oc-mirror binary and mirror images using the new binary.
+   > It's a [problem related to oc-mirror](https://access.redhat.com/solutions/7041232). Need to download latest oc-mirror binary, then mirrored images using the new binary.
 
