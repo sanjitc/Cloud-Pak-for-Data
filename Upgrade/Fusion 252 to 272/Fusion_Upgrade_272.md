@@ -31,7 +31,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
    - [ ] [Mirror Hot fix SDS images](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
 
 ### Upgrade process
-- Update Openshift DF to 4.12
+- Update Openshift DF to 4.12 (ODF is already on 4.12)
 ![Fusion Servives version](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/Fusion-Services.png)
 - Clusters are all on Red Hat OpenShift 4.12 so compatible with IBM Fusion 2.6.x
   - Make sure we migrate from Red Hat ODF to Fusion DF
