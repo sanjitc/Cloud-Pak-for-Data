@@ -67,3 +67,19 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
 13. Run an online backup using the new Backup and Restore
 14. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
 
+### Problem encountered
+1. While mirroring "Data Foundation images" noticed oc-mirror OpenShift CLI plug-in missing on the basion node.
+   > Installed oc-mirror plug-in using [OpeShift documentation](https://docs.openshift.com/container-platform/4.15/installing/disconnected_install/installing-mirroring-disconnected.html#installation-oc-mirror-installing-plugin_installing-mirroring-disconnected).
+
+2. IBM Storage Fusion operator status does not go to Succeeded but keeps changing between "Installing > Pending > InstallReady"
+   > [Known issue](IBM Storage Fusion operator where operator status does not go to Succeeded but keeps changing between "Installing > Pending > InstallReady")
+
+3. Different fusion pods running out of memory (OOMKill) during upgrade.
+   > Increased memory limit in appropriate CSV.
+
+4. The isf-data-foundational catalog was using "version" as a tag, which caused failure in air-gapped environemnt.
+   > You need to use image digest instead of tag.
+   
+5. In OpenShift operator index pod failed with CrashLoop. Error: "cache requires rebuild: cache reports digest as xxx, but computed digest is yyy".
+   > It's a [problem related to oc-mirror](https://access.redhat.com/solutions/7041232). Need to download latest oc-mirror binary and mirror images using the new binary.
+
