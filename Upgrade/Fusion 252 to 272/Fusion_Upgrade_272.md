@@ -38,15 +38,16 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
   - Make sure we migrate from Red Hat ODF to Fusion DF
   - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12 - ~~Upgrade to Fusion 2.6.0~~](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
 4. [Upgrade from Fusion 2.6.0 to Fusion 2.6.1](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=upgrading-storage-fusion)
-5. Deploy Fusion Backup and Restore service
-6. [Migrate Backup & Restore Legacy policies to Backup and Restore policies](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
+5. [Red Hat AMQ Streams and OpenShift API for Data Protection (OADP) version requirements](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usfs-red-hat-amq-streams-openshift-api-data-protection-oadp-version-requirements)
+6. Deploy Fusion Backup and Restore service
+7. [Migrate Backup & Restore Legacy policies to Backup and Restore policies](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
   - The backup data stored on the S3 endpoint and the Backup and Restore Legacy catalog are not migrated by the operation above
   - [See the general note on the Backup and Restore Legacy deprecation](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=services-upgrade-prerequisites-backup-restore)
     
 #### Once done with above, go to Fusion 2.7.0
-7.  Upgrade to Fusion 2.7.0
-8. Upgrade to Fusion 2.7.2
-9. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
-10. Run an online backup using the new Backup and Restore
-11. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
+8.  Upgrade to Fusion 2.7.0
+9. Upgrade to Fusion 2.7.2
+10. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
+11. Run an online backup using the new Backup and Restore
+12. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
 
