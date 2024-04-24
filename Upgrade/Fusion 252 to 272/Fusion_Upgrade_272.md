@@ -48,8 +48,9 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.1 > 2.7.2
 #### Once done with above, go to Fusion 2.7.0
 8.  [Upgrade to Fusion 2.7.0](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=upgrading-storage-fusion)
    Once Fusion upgraded to 2.7.0. You need to upgrade the "Backup & Restore" service from the Fusion console. 
-10. Upgrade to Fusion 2.7.2
-11. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
-12. Run an online backup using the new Backup and Restore
-13. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
+10. Upgrade to Fusion 2.7.1
+11. Upgrade to Fusion 2.7.2
+12. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
+13. Run an online backup using the new Backup and Restore
+14. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
 
