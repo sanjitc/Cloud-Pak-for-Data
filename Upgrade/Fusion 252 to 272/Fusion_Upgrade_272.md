@@ -51,7 +51,8 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
   - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12 - ~~Upgrade to Fusion 2.6.0~~](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
 4. [Upgrade from Fusion 2.6.0 to Fusion 2.6.1](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=upgrading-storage-fusion)
 5. [Red Hat AMQ Streams and OpenShift API for Data Protection (OADP) version requirements](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usfs-red-hat-amq-streams-openshift-api-data-protection-oadp-version-requirements) - Follow this procedure for "baas" namespaces only.
-6. Deploy Fusion Backup and Restore service
+6. Deploy Fusion Backup and Restore service - Deploy it from the Fusion console.
+
 7. [Migrate Backup & Restore Legacy policies to Backup and Restore policies](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
     The instruction proves an exaple. You need to change the YAML file according to your application name. Migrate each application individually. 
   - The backup data stored on the S3 endpoint and the Backup and Restore Legacy catalog are not migrated by the operation above
