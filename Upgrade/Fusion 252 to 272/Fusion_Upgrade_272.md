@@ -72,7 +72,7 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
    > Installed oc-mirror plug-in using [OpeShift documentation](https://docs.openshift.com/container-platform/4.15/installing/disconnected_install/installing-mirroring-disconnected.html#installation-oc-mirror-installing-plugin_installing-mirroring-disconnected).
 
 2. IBM Storage Fusion operator status does not go to Succeeded but keeps changing between "Installing > Pending > InstallReady"
-   > [Known issue](IBM Storage Fusion operator where operator status does not go to Succeeded but keeps changing between "Installing > Pending > InstallReady")
+   > [Known issue](https://www.ibm.com/docs/en/storage-fusion/2.5?topic=fusion-storage-installation-upgrade-issues)
 
 3. Different fusion pods running out of memory (OOMKill) during upgrade.
    > Increased memory limit in appropriate CSV.
