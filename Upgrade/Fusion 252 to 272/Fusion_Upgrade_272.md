@@ -46,7 +46,7 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
   - [See the general note on the Backup and Restore Legacy deprecation](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=services-upgrade-prerequisites-backup-restore)
     
 #### Once done with above, go to Fusion 2.7.0
-8.  Upgrade to Fusion 2.7.0
+8.  [Upgrade to Fusion 2.7.0](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=upgrading-storage-fusion)
 9. Upgrade to Fusion 2.7.2
 10. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
 11. Run an online backup using the new Backup and Restore
