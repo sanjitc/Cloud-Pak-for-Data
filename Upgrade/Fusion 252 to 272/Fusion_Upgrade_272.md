@@ -33,10 +33,10 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.2
 ### Upgrade process
 - Update Openshift DF to 4.12 (ODF is already on 4.12)
 ![Fusion Servives version](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/Fusion-Services.png)
-- [Upgrade to 2.6](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=upgrading-storage-fusion)
+- [Upgrade to 2.6.0](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=upgrading-storage-fusion)
 - Clusters are all on Red Hat OpenShift 4.12 so compatible with IBM Fusion 2.6.x
   - Make sure we migrate from Red Hat ODF to Fusion DF
-  - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12 - Upgrade to Fusion 2.6.0](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
+  - [RH ODF 4.12 to IBM Fusion DF 2.6 for OCP 4.12 - ~~Upgrade to Fusion 2.6.0~~](https://www.ibm.com/docs/en/storage-fusion/2.6?topic=usf-upgrading-red-hat-openshift-data-foundation-412-storage-fusion-data-foundation-412)
 - Upgrade from Fusion 2.6.0 to Fusion 2.6.1
 - Deploy Fusion Backup and Restore service
 - [Migrate Backup & Restore Legacy policies to Backup and Restore policies](https://www.ibm.com/docs/en/sfhs/2.7.x?topic=restore-migrating-from-backup-legacy).
