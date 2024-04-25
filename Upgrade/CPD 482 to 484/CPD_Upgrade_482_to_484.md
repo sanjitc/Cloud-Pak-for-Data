@@ -46,7 +46,7 @@ db2wh|Db2whService|db2wh-cr|Completed|4.8.2|2023-06-21T21:20:54Z|4.8.2+11.5.8.0-
 match360|MasterDataManagement|mdm-cr|Completed|3.4.36|2024-03-06T16:58:38Z|N/A|N/A
 ibm_redis_cp|Rediscp|mdm-redis-cp-1709744386206649|Completed|1.1.4|2024-03-06T17:07:27Z|1.1.4|N/A
 ws_runtimes|NotebookRuntime|ibm-cpd-ws-runtime-222-py|Completed|8.1.0|2023-06-21T21:22:17Z|8.1.0|8.1.0012
-ws_runtimes|NotebookRuntime|ibm-cpd-ws-runtime-231-py|Completed|8.1.0|2024-02-13T14:39:09Z|8.1.0|8.1.0012
+
 
 Current IAM and SAML setup
 ```
