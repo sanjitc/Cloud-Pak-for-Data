@@ -73,6 +73,7 @@ The following table provides reference information on the pods making up CPD and
 |wdp-profiling-messaging|WKC|general|Profiling tab in WKC asset browser||Profiling of data sets will not be done. Enforcing governance will be impacted.||
 |wdp-profiling-ui|WKC|general|Implements profiling tab in WKC asset browser UI.|wdp-profiling|Viewing profiling results will be impacted. Data class information of columns will be missing in asset preview.||
 |wdp-shaper|WKC|general|Data refinery||||
+|wkc-bi-data-service|WKC|Reporting|Reporting for IBM Knowledge Catalog|wkc-bi-data-service|||
 |wkc-glossary-service|WKC|general|Backend for WKC glossary interacts with OMAG via Kafka and uses RabbitMQ for DPS. Connects to Db2 (BGDB ), XMETA (ILGDB), uses Redis|c-db2oltp-wkc-db2u-0/wdp-db2-0, kafka-0, rabbitmq-ha-0, redis, wkc-workflow-service, wdp-policy-service, wkc-search|||
 |wkc-gov-ui|WKC|WKC|UI for WKC governance artifacts and workflow. Used for starting AD and QS jobs.|wkc-glossary-service, wkc-workflow-service, wdp-search, wkc-policy-service, catalog-api, shop4info-rest-0||Affects UIs until pod is back.|
 |wkc-mde-service-manager|WKC|MDE (metadata enrichment)|Managing MDE jobs and routing the different tasks of the jobs to other services ( profiling, term assignment, finley-public )|catalog-api, rabbitmq-ha, projects-api, wdp-couchdb, wdp-profiling, finley-public, wkc-term-assignment|Metadata enrichment jobs will fail.|Metadata enrichment jobs will resume, depending on the state of the job, the jobs may fail, but can be restarted manually via MDE UI.|
