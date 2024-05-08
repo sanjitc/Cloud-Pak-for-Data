@@ -20,3 +20,18 @@
    ```
    cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE}
    ```
+
+2. [Creating and scheduling online backups of Cloud Pak for Data with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/bar_same_cluster_bckup_spectrum.html)
+   - Confirm backup process backup the following information:
+      - Cloud Pak for Data operators project
+      - Cloud Pak for Data instance
+      - IBM Storage Fusion project
+      - IBM Spectrum® Protect Plus catalog
+      ```
+      oc get policyassignments.data-protection.isf.ibm.com -n ${PROJECT_FUSION}
+      ```
+   - Backed up data is available in the backup object storage location.
+   - Retrieve the spp-connection secret to find the IBM Spectrum Protect Plus URL and user interface credentials
+   ```
+   oc extract secret/spp-connection --to=- -n ${PROJECT_FUSION}
+   ```
