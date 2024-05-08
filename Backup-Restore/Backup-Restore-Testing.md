@@ -52,6 +52,7 @@
                     job-key: es-restore-job
                     timeout: 3600s <--- increase from 900s to 3600s
           ```
+   - [For restore, make sure cpdbr service install is performed before restore is initiated.](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=utilities-installing-cpdbr-services-storage-fusion-integration)
    - [Validate all installed services support online backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-services-that-support-backup-restore)
    ```
    cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE}
@@ -79,9 +80,25 @@
    ```
    - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. 
    - During restore approve any install plans as the operators are restored.
+   - Restore of Db2 might fail if `/mnt/blumeta0` is restored with permissions 755 instead of 777.
+      - Workaround is to manually change the permissions of `/mnt/blumeta0` to 777.
+      - If the issue is detected and resolved early enough in the restore process, then the restore might finish successfully.
+      - If the issue is not detected and the restore fails, then the permissions can be manually fixed and restore retry attempted.
+      - This is an ODF 4.12 (and beyond) change in the way permissions are restored.
+   - "Connection to remote host was lost” message.
+      - There is a known issue where a restore (or backup) will fail in Fusion during recipe workflow due to a lost connection.
+      - When this occurs, the only thing to do is to cleanup and retry the restore.
   
 4. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
    - Watson Knowledge Catalog metadata enrichment jobs
    - Watson Knowledge Catalog lineage data import jobs
-
+   - After restore is complete, perform the disable selinux relabeling patch: `https://www.ibm.com/support/pages/node/7105604`
+   - Check if the apple-fdb-controller-manager operator pod, in the cpd operators namespace, fails to come up with oom
+      - To resolve, increased the memory for the failing pod in the foundationdb csv.
+   - During WKC reconcile, the wkc-base will fail if return code 409 is not accepted as a good rc.
+      - Manually edit the wkc-post-install-config script and skip the check for both HTTP rc 200 and 409.
+      ```
+      $ oc edit cm wkc-post-install-config
+         Change line:    if [ "$http_code" != "409" ] && [ "$http_code" != "200" ]; then`
+      ```
 
