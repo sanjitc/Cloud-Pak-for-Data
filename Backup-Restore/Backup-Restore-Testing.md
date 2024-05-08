@@ -42,7 +42,16 @@
             \n        - name: zen-ckpt-mark-exclusion\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
             \n        - name: zen-ckpt-restore\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
         ```
-          
+   - Elasticsearch restore job timeout extension. This is required to allow restore of large elasticsearch data store.
+        - Edit the `elasticsearch-master-aux-ckpt-cm` configmap and increase timeout from 900 seconds to 3600 seconds.
+          ```
+          $ oc edit cm elasticsearch-master-aux-ckpt-cm
+              restore-meta: |
+                post-hooks:
+                  exec-job:
+                    job-key: es-restore-job
+                    timeout: 3600s <--- increase from 900s to 3600s
+          ```
    - [Validate all installed services support online backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-services-that-support-backup-restore)
    ```
    cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE}
