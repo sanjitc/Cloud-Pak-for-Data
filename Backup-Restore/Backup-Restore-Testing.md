@@ -35,3 +35,17 @@
    ```
    oc extract secret/spp-connection --to=- -n ${PROJECT_FUSION}
    ```
+
+3. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
+   - Delete the Cloud Pak for Data instance project
+   ```
+   oc delete namespace ${PROJECT_CPD_INSTANCE}
+   ```
+   - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. 
+   - During restore approve any install plans as the operators are restored.
+  
+4. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
+   - Watson Knowledge Catalog metadata enrichment jobs
+   - Watson Knowledge Catalog lineage data import jobs
+
+
