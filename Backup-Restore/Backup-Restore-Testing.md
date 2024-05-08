@@ -16,6 +16,33 @@
    ```
    oc get cm -l cpdfwk.aux-kind=checkpoint -o jsonpath="{range .items[*]}{.metadata.labels.cpdfwk\.component}{': '}{.metadata.name}{'\n'}{end}" |sort
    ```
+   - Modify configmap wkc-foundationdb-cluster-aux-checkpoint-cm, if it exists:
+      - In the data.aux-meta section:
+      ```
+      managed-resources:
+        - resource-kind: deployment  <------------------------- delete this line
+          labels: fdb-cluster=wkc-foundationdb-cluster  <------ delete this line
+        - resource-kind: pod
+          labels: foundationdb.org/fdb-cluster-name=wkc-foundationdb-cluster
+        - resource-kind: pod  <-------------------------------- delete this line
+          labels: fdb-cluster=wkc-foundationdb-cluster  <------ delete this line
+      ```
+   - For disconnected (air-gap) clusters, fix images referenced by tag in configmap: `cpd-zen-aux-ckpt-cm`.
+        - To check for the problem: `oc get configmap/cpd-zen-aux-ckpt-cm -o yaml | grep registry.redhat.io`.
+        - If any of the image instances are `ose-cli:latest`, then the issue needs to be resolved.
+        - To fix:
+            - Manually push the missing container image to the Artifactory (customer registry) with the following command. Example: `skopeo copy --all docker://registry.redhat.io/openshift4/ose-cli:latest docker://hptv-docker-icp4d-np.oneartifactoryci.verizon.com/openshift4/ose-cli:latest`
+            - Update the ConfigMap for the CP4D backup: `oc edit cm cpd-zen-aux-ckpt-cm`
+            - Change all occurrences of `registry.redhat.io/openshift/ose-cli:latest` with `<customer-registry>/openshift4/ose-cli:latest` (there are 4 occurrences).
+        - Example of the instances that need to be changed:
+        ```
+        $ oc get configmap/cpd-zen-aux-ckpt-cm -o yaml | grep registry.redhat.io
+            \     containers: \n        - name: zen-checkpoint-backup\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
+            \n        - name: zen-ckpt-mark-exclusion\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
+            \n        - name: zen-ckpt-mark-exclusion\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
+            \n        - name: zen-ckpt-restore\n          image:   registry.redhat.io/openshift4/ose-cli:latest\n
+        ```
+          
    - [Validate all installed services support online backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-services-that-support-backup-restore)
    ```
    cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INSTANCE}
