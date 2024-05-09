@@ -7,10 +7,10 @@
    cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INSTANCE} --all
    ```
    - Is Fusion Hot Fix deployed on Stage? `https://www.ibm.com/support/pages/node/7060466`
-   - Increase resource
-      - Increase memory for data mover pods
-      - Increase ODF ceph mds memory
-      - Use local recipe, if it exists, for restore (for restore retry logic)
+   - ~~Increase resource~~
+      - ~~Increase memory for data mover pods~~
+      - ~~Increase ODF ceph mds memory~~
+      - ~~Use local recipe, if it exists, for restore (for restore retry logic)~~
    - Backup all configmaps
    - Check for duplicate BR configmaps (if duplicates exist, repair duplicates)
    ```
