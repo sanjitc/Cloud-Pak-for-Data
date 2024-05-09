@@ -68,12 +68,20 @@
       oc get policyassignments.data-protection.isf.ibm.com -n ${PROJECT_FUSION}
       ```
    - Backed up data is available in the backup object storage location.
-   - Retrieve the spp-connection secret to find the IBM Spectrum Protect Plus URL and user interface credentials
-   ```
-   oc extract secret/spp-connection --to=- -n ${PROJECT_FUSION}
-   ```
+   - In IBM Spectrum Protect Plus, create a daily backup policy for the IBM Spectrum Protect Plus catalog and then back up the catalog.
+      - Retrieve the spp-connection secret to find the IBM Spectrum Protect Plus URL and user interface credentials
+      ```
+      oc extract secret/spp-connection --to=- -n ${PROJECT_FUSION}
+      ```
+      - Log in to IBM Spectrum Protect Plus.
+      - Select **Manage Protection > Policy Overview > Add SLA Policy**.
+      - Select the category **IBM Spectrum Protect Plus catalog**, and then select **Catalog to Object Storage**.
+      - Set **Start Time** to 30 minutes after the IBM Storage Fusion control plane policy.
+      - Go to **Manage Protection > IBM Spectrum Protect Plus > Backup**.
+      - To assign the policy to the catalog backup, under **SLA Policy**, select the policy that you created and click **Save**.
+      - In the SLA Status Policy page, click the **Actions** menu and then click **Start** to start the backup.
 
-3. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
+4. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
    - Delete the Cloud Pak for Data instance project
    ```
    oc delete namespace ${PROJECT_CPD_INSTANCE}
@@ -89,7 +97,7 @@
       - There is a known issue where a restore (or backup) will fail in Fusion during recipe workflow due to a lost connection.
       - When this occurs, the only thing to do is to cleanup and retry the restore.
   
-4. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
+5. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
    - Watson Knowledge Catalog metadata enrichment jobs
    - Watson Knowledge Catalog lineage data import jobs
    - After restore is complete, perform the disable selinux relabeling patch: `https://www.ibm.com/support/pages/node/7105604`
