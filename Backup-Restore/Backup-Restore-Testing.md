@@ -81,12 +81,13 @@
       - To assign the policy to the catalog backup, under **SLA Policy**, select the policy that you created and click **Save**.
       - In the SLA Status Policy page, click the **Actions** menu and then click **Start** to start the backup.
 
-4. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
+3. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
    - Delete the Cloud Pak for Data instance project
    ```
-   oc delete namespace ${PROJECT_CPD_INSTANCE}
+   oc delete namespace ${PROJECT_CPD_INSTANCE} and ibm-common-services
    ```
-   - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. 
+   - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`.
+     [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup)
    - During restore approve any install plans as the operators are restored.
    - Restore of Db2 might fail if `/mnt/blumeta0` is restored with permissions 755 instead of 777.
       - Workaround is to manually change the permissions of `/mnt/blumeta0` to 777.
@@ -97,7 +98,7 @@
       - There is a known issue where a restore (or backup) will fail in Fusion during recipe workflow due to a lost connection.
       - When this occurs, the only thing to do is to cleanup and retry the restore.
   
-5. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
+4. [Post-restore tasks after restoring a Cloud Pak for Data online backup](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/fusion_post_restore_same_clustr.html)
    - Watson Knowledge Catalog metadata enrichment jobs
    - Watson Knowledge Catalog lineage data import jobs
    - After restore is complete, perform the disable selinux relabeling patch: `https://www.ibm.com/support/pages/node/7105604`
