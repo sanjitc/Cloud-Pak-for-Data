@@ -88,6 +88,7 @@
    ```
    - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. Start restoring with "ibm-common-services", next "Cloud Pak for Data instance".
      [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup)
+     ![Restoring ibm-common-service namespace from SPP console](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/restore-ibm-common-service.png)
    - During restore approve any install plans as the operators are restored.
    - Restore of Db2 might fail if `/mnt/blumeta0` is restored with permissions 755 instead of 777.
       - Workaround is to manually change the permissions of `/mnt/blumeta0` to 777.
