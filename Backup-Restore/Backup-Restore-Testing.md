@@ -86,6 +86,7 @@
    ```
    oc delete namespace ${PROJECT_CPD_INSTANCE} and ibm-common-services
    ```
+   **Don't** delete the IBM Storage Fusion project 
    - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. Start restoring with "ibm-common-services", next "Cloud Pak for Data instance".
      [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup)
      ![Restoring ibm-common-service namespace from SPP console](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/restore-ibm-common-service.png)
