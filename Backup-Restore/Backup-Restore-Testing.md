@@ -63,7 +63,7 @@
       - Cloud Pak for Data operators project
       - Cloud Pak for Data instance
       - IBM Storage Fusion project
-      - IBM Spectrum® Protect Plus catalog
+      - ~~IBM Spectrum® Protect Plus catalog~~
       ```
       oc get policyassignments.data-protection.isf.ibm.com -n ${PROJECT_FUSION}
       ```
@@ -86,7 +86,7 @@
    ```
    oc delete namespace ${PROJECT_CPD_INSTANCE} and ibm-common-services
    ```
-   - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`.
+   - In IBM Storage Fusion, go to **Applications** and check application name. Application name should not ends with `:resources`. Start restoring with "ibm-common-services", next "Cloud Pak for Data instance".
      [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=data-restoring-backup)
    - During restore approve any install plans as the operators are restored.
    - Restore of Db2 might fail if `/mnt/blumeta0` is restored with permissions 755 instead of 777.
