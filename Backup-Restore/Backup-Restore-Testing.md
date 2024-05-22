@@ -119,6 +119,12 @@
 ```
 for node in $(oc get nodes -l node-role.kubernetes.io/worker= --no-headers |awk '{print $1}');do echo -- $node --;oc describe node $node |sed -n '/Capacity:/,/Allocatable:/p'|grep -vE "Allocatable|hugepage|kubevirt";oc describe node $node |sed -n '/Allocated resources:/,/Events:/p' |grep -vE "Events|hugepage|kubevirt";done
 ```
+> Before restart a failed restore, you need to use a local recipe. Update spp-agent cluster for use local recipe. Ref. https://www.ibm.com/support/pages/node/7060466.
+```
+$ oc edit clusterrole baas-spp-agent
+  "useLocalRecipe": True
+```
+> 
 > Need to cordon the node, delete some other pods and uncordon the node.
 > Manually restart posthooks - `/cpdbr-scripts/cpdbr/checkpoint_restore_posthooks.sh --scale-wait-timeout=30m --include-namespaces=<CPD ns>`
 
