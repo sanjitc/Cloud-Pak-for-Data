@@ -139,3 +139,34 @@ $ oc edit clusterrole baas-spp-agent
                     job-key: es-restore-job
                     timeout: 9000s <--- increase from 900s to 9000s
 ```
+
+3. Zenservice failing dueing reconciliation.
+```
+message: |-
+      The task includes an option with an undefined variable. The error was: 'draft_extension_result' is undefined
+
+      The error appears to be in '/opt/ansible/roles/zenextension/tasks/main.yml': line 292, column 7, but may
+      be elsewhere in the file depending on the exact syntax problem.
+
+      The offending line appears to be:
+
+
+          - name: "fail playbook if draft extension failed | {{ cr_namespace}}-{{ cr_name }}"
+            ^ here
+      We could be wrong, but this one looks like it might be an issue with
+      missing quotes. Always quote template expression brackets when they
+      start a value. For instance:
+
+          with_items:
+            - {{ foo }}
+
+      Should be written as:
+
+          with_items:
+            - "{{ foo }}"
+
+      Status code was -1 and not [200, 404]: Request failed: <urlopen error timed out>
+```
+> ?? [Known Issue - Cannot create RSI patches when you use a proxy server](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=overview-limitations-known-issues#known-issues__rsi-patch__title__1)
+   
+
