@@ -113,3 +113,18 @@
          Change line:    if [ "$http_code" != "409" ] && [ "$http_code" != "200" ]; then`
       ```
 
+### Problem encountered
+1. Restore failed to schedule db2-iis pod during posthooks phase.
+> Db2 pod scheduled on a node that don't have enough resource. Need to cordon the node, delete some other pods and uncordon the node.
+> Manually restart posthooks - `/cpdbr-scripts/cpdbr/checkpoint_restore_posthooks.sh --scale-wait-timeout=30m --include-namespaces=<CPD ns>`
+
+2. The posthooks phase failing on elasticsearch restore job timeout.
+> Edit the `elasticsearch-master-aux-ckpt-cm` configmap and increase timeout from 900 seconds to 9000 seconds.
+```
+          $ oc edit cm elasticsearch-master-aux-ckpt-cm
+              restore-meta: |
+                post-hooks:
+                  exec-job:
+                    job-key: es-restore-job
+                    timeout: 9000s <--- increase from 900s to 9000s
+```
