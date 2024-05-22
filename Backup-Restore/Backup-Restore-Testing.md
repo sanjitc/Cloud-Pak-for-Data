@@ -115,7 +115,11 @@
 
 ### Problem encountered
 1. Restore failed to schedule db2-iis pod during posthooks phase.
-> Db2 pod scheduled on a node that don't have enough resource. Need to cordon the node, delete some other pods and uncordon the node.
+> Db2 pod scheduled on a node that don't have enough resource. Identify the node with lack of resouce.
+```
+for node in $(oc get nodes -l node-role.kubernetes.io/worker= --no-headers |awk '{print $1}');do echo -- $node --;oc describe node $node |sed -n '/Capacity:/,/Allocatable:/p'|grep -vE "Allocatable|hugepage|kubevirt";oc describe node $node |sed -n '/Allocated resources:/,/Events:/p' |grep -vE "Events|hugepage|kubevirt";done
+```
+> Need to cordon the node, delete some other pods and uncordon the node.
 > Manually restart posthooks - `/cpdbr-scripts/cpdbr/checkpoint_restore_posthooks.sh --scale-wait-timeout=30m --include-namespaces=<CPD ns>`
 
 2. The posthooks phase failing on elasticsearch restore job timeout.
