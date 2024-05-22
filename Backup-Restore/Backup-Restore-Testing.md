@@ -82,6 +82,7 @@
       - In the SLA Status Policy page, click the **Actions** menu and then click **Start** to start the backup.
 
 3. [Restoring a Cloud Pak for Data online backup to the same cluster with IBM Storage Fusion](https://www.ibm.com/docs/en/SSQNUZ_4.6.x/cpd/admin/restore_same_cluster_fusion_spp.html)
+   - Make sure no custom resource is in maintenance mode.
    - Delete the Cloud Pak for Data instance project
    ```
    oc delete namespace ${PROJECT_CPD_INSTANCE} and ibm-common-services
