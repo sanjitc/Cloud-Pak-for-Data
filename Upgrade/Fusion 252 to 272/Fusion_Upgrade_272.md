@@ -66,7 +66,8 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
 12. [Apply hot fix for 2.7.2](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E)
 13. Run an online backup using the new Backup and Restore
 14. The Backup and Restore Legacy (SPP) service is still running but can only be used for restores.
-15. [Create and schedule online backups of a Cloud Pak for Data deployment with IBM Storage Fusion.](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=fusion-creating-scheduling-online-backups) - Follow the "**Before you begin**" and the "**Procedure**" sections. You may need to delete old restic operators. 
+15. [Create and schedule online backups of a Cloud Pak for Data deployment with IBM Storage Fusion.](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=fusion-creating-scheduling-online-backups) - Follow the "**Before you begin**" and the "**Procedure**" sections. You may need to delete old restic operators.
+16. [Uninstalling Backup & Restore (Legacy)](https://www.ibm.com/docs/en/storage-fusion-software/2.7.x?topic=services-uninstalling-backup-restore-legacy)
 
 ### Problem encountered
 1. While mirroring "Data Foundation images" noticed oc-mirror OpenShift CLI plug-in missing on the basion node.
