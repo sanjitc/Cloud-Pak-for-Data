@@ -3,7 +3,7 @@ The following table provides reference information on the pods making up CPD and
 
 |Pod name|Service|Scope*|Description*|Connected pods*|Impact of being down*|Impact of restart*|
 |---|---|---|---|---|---|---|
-|audit-trail-service|WKC|AD, QS|Used for storing AD, and QS job history and details. Removed in CPD V4.0.|c-db2oltp-iis-db2u-0/iis-xmetarepo||Do not restart while discovery runs|
+|audit-trail-service|WKC|AD, QS|Used for storing AD, and QS job history and details. Removed in CPD V4.0.|c-db2oltp-iis-db2u-0, iis-xmetarepo||Do not restart while discovery runs|
 |c-db2oltp-iis-db2u-0|WKC|AD, DQ, IAS, MI|XMeta metadata repository storing IAS, MI, and AD metadata (all legacy IGC metadata). Replaces iis-xmetarepo pod starting from CPD V4.0|iis-services, ia-analysis|AD, QS, and DQ jobs won't run. The IAS, MI, and DQ UIs won't be available.|Requires subsequent restart of iis-services pod.|
 |c-db2oltp-wkc-db2u-0|WKC|general|Repository for DPS, wkc-glossary, wkc-workflow, lineage. Replaces wdp-db2-0 starting from CPD V4.0.|wkc-glossary-service, wkc-workflow-service, wdp-policy-service|Glossary, lieage, DPS and workflow will all be down.|Restarting will take 5-15 minutes to start the pod, while starting some of the services will be down.|
 |c-db2u-dv-db2u-[1-*]|DV|DV|BigSQL Worker Nodes||||
