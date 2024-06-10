@@ -83,5 +83,11 @@ The following table provides reference information on the pods making up CPD and
 |wkc-workflow-service|WKC|WF|Backend for wkc governance artifacts workflow capabilities|c-db2oltp-wkc-db2u-0/wdp-db2, wkc-glossary-service|||
 |zen-core|Zen|CPD|homepage, navigation, banner||||
 |zookeeper|WKC|UG|Maintaining configuration information for Kafka and Solr. Used by AD/QS.|is-en-conductor-0, zookeeper-0, iis-services, odf-fastanalyzer, omag||Requires subsequent restart of kafka pod.|
+|manta-admin-gui|WKC|Manta|||||
+|manta-admin|WKC|Manta|||||
+|manta-configuration-service|WKC|Manta|||||
+|manta-dataflow|WKC|Manta|||||
+|manta-flow-agent|WKC|Manta|||||
+|manta-open-manta-designer|WKC|Manta|||||
 
 (\*) *AD: Automated discovery, QS: Quick scan, IAS: Information assets, MI: Metadata import, DS: DataStage, UG: Unified governance, WKC: Watson Knowledge Catalog, ODF: Open discovery framework, PRF: Profiling, DPS: Data protection service, GS: Global search, WF: workflow*
