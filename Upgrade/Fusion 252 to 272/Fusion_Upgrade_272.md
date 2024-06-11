@@ -30,16 +30,26 @@ Current version(2.5.2) > 2.6.0 > 2.6.1 > 2.7.0 > 2.7.1 > 2.7.2
    - [ ] ~~Mirror Data Cataloging images~~ ??
    - [ ] [Mirror Hot fix SDS images](https://www.ibm.com/support/pages/node/7148289?myns=swgother&mynp=OCSSFETU&mync=E&cm_sp=swgother-_-OCSSFETU-_-E) --
       Mirror instructions for applying 2.7.2 Backup & Restore hot fixes
+
+~~skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505 docker://$TARGET_PATH/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505~~
+
+~~skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb docker://$TARGET_PATH/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb~~
+
+~~skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178~~
+
+~~skopeo copy --all docker://cp.icr.io/cp/isf-sds/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650 docker://$TARGET_PATH/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650~~
+
+~~skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9 docker://$TARGET_PATH/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9~~
 ```
 skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505 docker://$TARGET_PATH/guardian-backup-service@sha256:54820def941c9ebfde1acca54368b9bc7cd34fedfa94151deb8a6766aeedc505
 
+skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-backup-location@sha256:7abd42c19eea0e23618fd84d3e1335b51b959d232f88ea1db2a0c2391bc241c3 docker://$TARGET_PATH/guardian-backup-location@sha256:7abd42c19eea0e23618fd84d3e1335b51b959d232f88ea1db2a0c2391bc241c3
+
 skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb docker://$TARGET_PATH/guardian-transaction-manager@sha256:f7e325d1a051dfacfe18139e46a668359a9c11129870a4b2c4b3c2fdaec615eb
 
-skopeo copy --insecure-policy --all docker://cp.icr.io/cp/fbr/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178 docker://$TARGET_PATH/guardian-datamover@sha256:fda1faf48cadef717de9926d37c05305103ed86e0821359423fcc8e60f250178
+skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-datamover@sha256:2a6f1c3f07afc4cdf1cf988ec2d168302b96cd463992e719a3367bca697ee05a docker://$TARGET_PATH/guardian-datamover@sha256:2a6f1c3f07afc4cdf1cf988ec2d168302b96cd463992e719a3367bca697ee05a
 
-skopeo copy --all docker://cp.icr.io/cp/isf-sds/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650 docker://$TARGET_PATH/isf-application-operator@sha256:845b8b7cd012363027fdcc537ac478773754ea0c0cead5e6ac4cb8e42f44b650
-
-skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9 docker://$TARGET_PATH/guardian-dm-operator@sha256:63b136b38a07c0afdd5082bc594e0d4d6bf5a2b2cbb1297f371d7852279121c9
+skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@sha256:36df2a2cacd66f5cf8c01297728cb59dabc013d3c8d0b4eae3d8e1770f3839ec docker://$TARGET_PATH/guardian-dm-operator@sha256:36df2a2cacd66f5cf8c01297728cb59dabc013d3c8d0b4eae3d8e1770f3839ec
 ```
 
 ### Upgrade process
@@ -84,4 +94,7 @@ skopeo copy --insecure-policy --all docker://icr.io/cpopen/guardian-dm-operator@
    
 5. In OpenShift operator index pod failed with CrashLoop. Error: "cache requires rebuild: cache reports digest as xxx, but computed digest is yyy".
    > It's a [problem related to oc-mirror](https://access.redhat.com/solutions/7041232). Need to download latest oc-mirror binary, then mirrored images using the new binary.
+
+6. While collecting logs before upgrade it was noticed that log collection takes very long time because logcollector pods were OOM killed and restarted multiple times.
+   > Edit the logcollector deployment(ibm-spectrum-fusion-ns project) and increase the memory limit of the logcollector pod.
 
