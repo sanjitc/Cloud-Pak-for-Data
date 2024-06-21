@@ -12,7 +12,7 @@ elasticsea-*-es-server-esnode*
 ## Check health
 For health check from the elasticsearch cluster pods
 ```
-curl -X GET https://localhost:19200/\_cluster/health?filter_path=status,*_shards\&pretty=true
+curl -X GET https://localhost:19200/_cluster/health?filter_path=status,*_shards\&pretty=true
 curl -X GET  https://localhost:19200/_cluster/health
 ```
 
