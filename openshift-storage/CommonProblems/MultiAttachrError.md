@@ -85,6 +85,12 @@ $ oc get volumeattachment csi-da4b996864b6bfe6e609e23637bff55c869290af7e795c70b1
 NAME                                                                   ATTACHER                             PV                                         NODE                            ATTACHED   AGE
 csi-da4b996864b6bfe6e609e23637bff55c869290af7e795c70b19e7e7396b9cc39   openshift-storage.rbd.csi.ceph.com   pvc-01c8f7fc-a12f-44ce-8440-27eb395139c0   worker6.vz265.cp.fyre.ibm.com   true       8d
 ```
+In this example the pod is trying to scheduled on worker5, but the volumeattachment is on worker6.
+Remove the volumeattachment that running on worker6.
+```
+$ oc delete volumeattachment csi-da4b996864b6bfe6e609e23637bff55c869290af7e795c70b19e7e7396b9cc39
+```
+After remove the old volumeattachment restart failed pods. 
 
 
 
