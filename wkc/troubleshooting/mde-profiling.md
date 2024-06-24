@@ -18,6 +18,7 @@ asset-files* pods
 spark-hb-nginx-*
 spark-hb-control-plane-*
 spark-hb-deployer-agent-*
+spark-hb-*dataplane*
 spark-master-* (if mde job stalled)
 spark-worker-* (if mde job stalled)
 
