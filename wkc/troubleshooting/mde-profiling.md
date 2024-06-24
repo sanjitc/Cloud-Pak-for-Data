@@ -15,6 +15,7 @@ wkc-term-assignment-5698b87dbc-f5skx                         1/1     Running    
 Also "finley-public*" pods
 jobs-api* pods
 asset-files* pods
+spark-*
 ```
 
 ## Logs
