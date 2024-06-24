@@ -15,7 +15,17 @@ wkc-term-assignment-5698b87dbc-f5skx                         1/1     Running    
 Also "finley-public*" pods
 jobs-api* pods
 asset-files* pods
-spark-*
+spark-hb-nginx-*
+spark-hb-control-plane-*
+spark-hb-deployer-agent-*
+spark-master-* (if mde job stalled)
+spark-worker-* (if mde job stalled)
+
+
+
+
+
+
 ```
 
 ## Logs
