@@ -49,7 +49,7 @@ The following table provides reference information on the pods making up CPD and
 |portal-dashboards|WKC|general|||||
 |portal-job-manager|WKC||||||
 |portal-main|WKC|general|UI for analytics projects.|catalog-api|Projects are not displayed.|Projects are temporarily not displayed.|
-|portal-notifications|WKC||||||
+|portal-notifications|CCS|CPD,WKC|||||
 |portal-projects|WKC|CPD UI|UI Project Functionality|||...|
 |rabbitmq-ha|WKC|general|Used for internal messaging, a bit like Kafka in the UG stack|||No impact if restart one pod at a time since this service is HA|
 |rabbitmq-ha-secret-job|WKC|general|One time job at install or upgrade time used to create secrets and certificates used by rabbitmq||Install of wkc-base-prereqs will fail if this job fails|n. a.|
