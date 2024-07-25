@@ -15,6 +15,12 @@ For health check from the elasticsearch cluster pods
 curl -X GET https://localhost:19200/_cluster/health?filter_path=status,*_shards\&pretty=true
 curl -X GET  https://localhost:19200/_cluster/health
 ```
+## Other Troubleshooting command
+```
+curl -X GET https://localhost:19200/_cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason&s=state
+curl --request GET --url http://localhost:19200/_cat/indices?v=true  --header 'content-type: application/json'
+curl --request GET --url 'http://localhost:19200/_cat/recovery?detailed=true&active_only=true&v=true'  --header 'content-type: application/json'
+```
 ## Check incoming request from an user
 ```
 oc logs catalog-api... -f --tail=10 | grep <userid of the use i.e., svc_maria_prod_dgi>
