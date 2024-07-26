@@ -10,7 +10,7 @@ v.4.8.x
 elasticsea-*-es-server-esnode*
 ```
 ## Check health
-For health check from the elasticsearch cluster pods (all curl commands need to run from inside a elasticsearch pod)
+For health check from the elasticsearch cluster pods (all curl commands need to run from inside a elasticsearch pod; oc exec elasticsearch-master-0 -c elasticsearch -- curl command)
 ```
 curl -X GET https://localhost:19200/_cluster/health?filter_path=status,*_shards\&pretty=true
 curl -X GET  https://localhost:19200/_cluster/health
@@ -20,6 +20,8 @@ curl -X GET  https://localhost:19200/_cluster/health
 curl -X GET https://localhost:19200/_cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason&s=state
 curl --request GET --url http://localhost:19200/_cat/indices?v=true  --header 'content-type: application/json'
 curl --request GET --url 'http://localhost:19200/_cat/recovery?detailed=true&active_only=true&v=true'  --header 'content-type: application/json'
+curl --request GET --url 'http://localhost:19200/_snapshot' --header 'content-type: application/json'
+
 ```
 ## Check incoming request from an user
 ```
