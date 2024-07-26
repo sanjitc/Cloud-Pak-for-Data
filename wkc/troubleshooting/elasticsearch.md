@@ -21,6 +21,7 @@ curl -X GET https://localhost:19200/_cat/shards?v=true&h=index,shard,prirep,stat
 curl --request GET --url http://localhost:19200/_cat/indices?v=true  --header 'content-type: application/json'
 curl --request GET --url 'http://localhost:19200/_cat/recovery?detailed=true&active_only=true&v=true'  --header 'content-type: application/json'
 curl --request GET --url 'http://localhost:19200/_snapshot' --header 'content-type: application/json'
+curl --request GET --url 'http://localhost:19200/_cat/shards?v=true&h=index%2Cshard%2Cprirep%2Cstate%2Cnode%2Cunassigned.reason&s=state' --header 'content-type: application/json'
 
 ```
 ## Check incoming request from an user
