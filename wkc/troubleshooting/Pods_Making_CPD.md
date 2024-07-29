@@ -26,6 +26,7 @@ The following table provides reference information on the pods making up CPD and
 |gov-app-config-service|WKC|UG|Backend of gov-admin-ui||||
 |gov-catalog-search|WKC|UG|Indexer which updates SOLR index upon receiving Kafka events|solr-0||tbd.|
 |gov-enterprise-search|WKC|UG|UI serving the GraphExplorer visualization of enterprise Search graph data|shop4info-rest-0 and other shop4info services|||
+|wkc-data-rules|WKC|DQ|||Data quality information couldn't be loaded||
 |gov-quality-ui|WKC|AD, DQ|Data quality UI. Reads and writes to legacy Information Analyzer APIs.|iis-services||Affects UIs until pod is back.|
 |gov-ui-commons|WKC|UG|Common bundle for UG UIs with resources such as fonts, icons etc., no functionality as such||||
 |gov-user-prefs-service|WKC|UG|Microservice storing user specific configuration settings in key-value form, used by the UG UIs to save some personalized settings. Removed in CPD V4.0.||||
