@@ -13,7 +13,7 @@ The following table provides reference information on the pods making up CPD and
 |c-db2u-dv-dvutils-0|DV|DV|HDFS||||
 |c-db2u-dv-hurricane-dv|DV|DV|BigSQL Scheduler and Metastore||||
 |cassandra-0|WKC|IAS|Repository for relationship graph data|||Minor impact|
-|catalog-api|WKC|general|Back-end catalog and asset service, used to store metadata for catalog, project, etc.|wdp-couchdb, rabbitmq-ha, redis-ha-server, redis-ha-haproxy|Catalog assets won't be displayed.|Catalog assets temporarily won't be displayed.|
+|catalog-api|WKC|general|Back-end catalog and asset service, used to store metadata for catalog, project, publishing operation etc.|wdp-couchdb, rabbitmq-ha, redis-ha-server, redis-ha-haproxy|Catalog assets won't be displayed.|Catalog assets temporarily won't be displayed.|
 |couchdb|CPD|lite|Used to users and other metadata, not needed starting from V3.5||||
 |dataconn-engine-opdiscovery|WKC|PRF, DPS|||||
 |dataconn-engine-service|WKC|PRF, DPS|Manages dataconn-engine-spark-cluster instances|rabbitmq-ha, redis-ha-server, dataconn-engine-spark-cluster|Data flows will not be run.|There could be some missing logs for data flows which are updating at the time the pod is brought down.|
