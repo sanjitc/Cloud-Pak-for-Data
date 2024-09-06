@@ -305,7 +305,7 @@ The c-db2oltp-wkc-data PVC points to new PV created earlier by the c-db2oltp-wkc
 Get the volume name created by the c-db2oltp-wkc-data-new PVC.
 
 ```
-export PV_NAME_WDP_COUCHDB_0=$(oc get pvc c-db2oltp-wkc-data-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+export C_DB2OLTP_WKC_DATA=$(oc get pvc c-db2oltp-wkc-data-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
 ```
 
 Create the yaml file of the new c-db2oltp-wkc-data PVC.
@@ -323,7 +323,7 @@ jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-da
 Refer to the new PV.
 
 ```
-jq --arg PV_NAME_WDP_COUCHDB_0 "$PV_NAME_WDP_COUCHDB_0" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_0' pvc-c-db2oltp-wkc-data-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-recreate.json
+jq --arg C_DB2OLTP_WKC_DATA "$C_DB2OLTP_WKC_DATA" '.spec.volumeName = $C_DB2OLTP_WKC_DATA' pvc-c-db2oltp-wkc-data-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-recreate.json
 ```
 
 Remove the old and new PVCs for c-db2oltp-wkc-data
@@ -335,7 +335,7 @@ oc delete pvc c-db2oltp-wkc-data -n ${PROJECT_CPD_INST_OPERANDS}
 
 Remove the `claimRef` section from the new PV.
 ```
-oc patch pv $PV_NAME_WDP_COUCHDB_0 -p '{"spec":{"claimRef": null}}'
+oc patch pv $C_DB2OLTP_WKC_DATA -p '{"spec":{"claimRef": null}}'
 ```
 
 Recreate the c-db2oltp-wkc-data PVC.
