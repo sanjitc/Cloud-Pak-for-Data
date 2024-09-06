@@ -161,40 +161,39 @@ pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            Retain     
 pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-meta                                            ocs-storagecluster-cephfs              385d
 ```
 
-### 2.3.Migrate for ElasticSearch
-Reference: https://github.ibm.com/wdp-gov/global-search-wiki/wiki/Migrate-ES-between-storage-types 
-
 ### 2.4 Migration for CouchDB
 #### 2.4.1 Preparation
 - Get old PVC name and volume name.
 
 ```
-
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep -i wdp-couchdb
-
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups"
 ```
 
 Sample output looks like this:
 
 ```
-NAME                                               STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS     AGE
-database-storage-wdp-couchdb-0                     Bound    pvc-e8eed9f7-7bb6-4b5d-ab8d-21d49c4ecf35   30Gi       RWO            ocs-storagecluster-cephfs   89d
-database-storage-wdp-couchdb-1                     Bound    pvc-14d811c3-b4d8-42c5-b6d9-1c3a44c25534   30Gi       RWO            ocs-storagecluster-cephfs   89d
-database-storage-wdp-couchdb-2                     Bound    pvc-fb73ce1c-36b0-4358-a66d-9142bf0ce7b7   30Gi       RWO            ocs-storagecluster-cephfs   89d
+NAME                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS                  AGE
+c-db2oltp-wkc-data     Bound    pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            ocs-storagecluster-cephfs     385d
+c-db2oltp-wkc-meta     Bound    pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            ocs-storagecluster-cephfs     385d
+wkc-db2u-backups       Bound    pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            ocs-storagecluster-cephfs     385d
 ```
 
-- Note the mount path of the data volume `/opt/couchdb/data` by checking the volumeMounts definition in wdp-couchdb sts yaml file. 
+- Note the mount path of the meta, data and backup volumes are `/mnt/blumeta0` and `/mnt/backup` by checking the volumeMounts definition in c-db2oltp-wkc-db2u sts yaml file. 
 
 ```
-          volumeMounts:
-            - name: database-storage
-              mountPath: /opt/couchdb/data
+        volumeMounts:
+        - mountPath: /mnt/blumeta0
+          name: meta
+        - mountPath: /mnt/bludata0
+          name: data
+        - mountPath: /mnt/backup
+          name: backup
 ```
 
-- Make sure that the replicas of wdp-couchdb sts has been scaled down to zero.
+- Make sure that the replicas of c-db2oltp-wkc-db2u sts has been scaled down to zero.
 
 ```
-oc scale sts wdp-couchdb -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
+oc scale sts c-db2oltp-wkc-db2u -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
 ```
 
 ```
