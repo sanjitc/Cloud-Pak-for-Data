@@ -135,7 +135,7 @@ This migration work requires down time. It's recommended sending a heads-up to a
 
 ## 2 Migration 
 **Note** This migration steps need to be validated carefully in a testing cluster. Down time is expected during this migration.
-### 2.1.Put WKC into maintenance mode
+### 2.1 Put WKC into maintenance mode
 Put WKC into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
 ```
 oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
@@ -145,7 +145,7 @@ Make sure the WKC put into the maintenance mode successfully.
 oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 2.2.Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
+### 2.2 Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
 1.Patch the c-db2oltp-wkc-db2u PVs.
 ```
@@ -161,7 +161,7 @@ pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            Retain     
 pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-meta                                            ocs-storagecluster-cephfs              385d
 ```
 
-### 2.4 Migration for CouchDB
+### 2.4 Migration for DB2OLTP
 #### 2.4.1 Preparation
 - Get old PVC name and volume name.
 
@@ -197,7 +197,7 @@ oc scale sts c-db2oltp-wkc-db2u -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
 ```
 
 ```
-oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i wdp-couchdb
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i c-db2oltp-wkc-db2u
 ```
 #### 2.4.2 Start a new temporary deployment using the rhel-tools image
 ```
