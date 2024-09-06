@@ -601,7 +601,7 @@ Refer to the new PV.
 jq --arg PV_NAME_WKC_DB2_BACKUPS "$PV_NAME_WKC_DB2_BACKUPS" '.spec.volumeName = $PV_NAME_WKC_DB2_BACKUPS' pvc-wkc-db2u-backups-recreate.json > "$tmp" && mv -f "$tmp" pvc-wkc-db2u-backups-recreate.json
 ```
 
-Remove the old and new PVCs for wdp-couchdb-2
+Remove the old and new PVCs for wkc-db2u-backups
 ```
 oc delete pvc wkc-db2u-backups-new -n ${PROJECT_CPD_INST_OPERANDS}
 
