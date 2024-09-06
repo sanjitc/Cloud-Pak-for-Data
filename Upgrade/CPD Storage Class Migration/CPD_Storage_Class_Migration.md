@@ -13,23 +13,10 @@ ODF: 4.12
 
 ### PVs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
 ```
-###Critical ones
+###Db2u related to IKC
 database-storage-wdp-couchdb-0                    Bound   pvc-e80583ab-5616-4fab-b68a-bef3dd9efd29  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
 database-storage-wdp-couchdb-1                    Bound   pvc-f869e03c-143a-46d1-b17a-9f6ae23a25da  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
 database-storage-wdp-couchdb-2                    Bound   pvc-eaa3bb34-6eb8-40f7-b34d-6869b0967ca6  30Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-0  Bound   pvc-7dd26fff-20d2-42ae-9343-86444703bb16  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-1  Bound   pvc-c67ef48e-df38-45d5-b471-28ea5bae0bbb  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-2  Bound   pvc-c9f51fcb-c3ba-426f-a9b3-5bc3da7d8069  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-
-
-###Important ones
-data-rabbitmq-ha-0                                Bound   pvc-90c2d3ee-14bf-41c9-9b93-2be66611be19  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-1                                Bound   pvc-1702ddbc-a0b0-4485-9ac1-742842290e15  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-2                                Bound   pvc-688398c4-e3e4-4b05-9631-db4b63f494ba  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-3                                Bound   pvc-981095ef-820b-481d-a46b-3e2b2e8b6109  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-0                            Bound   pvc-995cc4e1-4ee2-4faa-b56d-6c592fb1b6ae  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-1                            Bound   pvc-5a698024-e4d4-4ca2-8a6d-965e89d1feb9  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-2                            Bound   pvc-958ff62b-5ad1-464e-8f85-d416b73f32c5  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
 ```
 
 ## 1 Pre-migration tasks
@@ -44,12 +31,12 @@ mkdir -p /opt/ibm/cpd_pv_migration
 export CPD_PV_MIGRATION_DIR=/opt/ibm/cpd_pv_migration
 ```
 
-2.Bakup for the CCS CR.
+2.Bakup for the WKC CR.
 ```
-oc get ccs -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/ccs-cr.yaml
+oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc-cr.yaml
 ```
 
-2.Bakup for ElasticSearch.
+3.Bakup for c-db2oltp-wkc-db2u.
 ```
 oc get elasticsearchcluster elasticsearch-master -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-elasticsearchcluster.yaml
 
@@ -60,36 +47,9 @@ for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes |
 for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
 ```
 
-3.Bakup for CouchDB.
-```
-oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep couch | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-wdp-couchdb-bak.yaml
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
-```
-
-4.Bakup for Redis.
-```
-oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-redis-ha-server-bak.yaml
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
-```
-
-5.Bakup for Rabbitmq.
-```
-oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-rabbitmq-ha-bak.yaml
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
-
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
-```
 ### 1.3 Mirror images
 
-#### 1.3.1 Mirror the rhel-tools image
-
+#### 1.3.1 Mirror the rhel-tools image 
 - 1.Save the image in an internet connected machine.
 
 ```
