@@ -305,7 +305,7 @@ The c-db2oltp-wkc-data PVC points to new PV created earlier by the c-db2oltp-wkc
 Get the volume name created by the c-db2oltp-wkc-data-new PVC.
 
 ```
-export C_DB2OLTP_WKC_DATA=$(oc get pvc c-db2oltp-wkc-data-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+export PV_NAME_C_DB2OLTP_WKC_DATA=$(oc get pvc c-db2oltp-wkc-data-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
 ```
 
 Create the yaml file of the new c-db2oltp-wkc-data PVC.
@@ -323,7 +323,7 @@ jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-da
 Refer to the new PV.
 
 ```
-jq --arg C_DB2OLTP_WKC_DATA "$C_DB2OLTP_WKC_DATA" '.spec.volumeName = $C_DB2OLTP_WKC_DATA' pvc-c-db2oltp-wkc-data-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-recreate.json
+jq --arg PV_NAME_C_DB2OLTP_WKC_DATA "$PV_NAME_C_DB2OLTP_WKC_DATA" '.spec.volumeName = $PV_NAME_C_DB2OLTP_WKC_DATA' pvc-c-db2oltp-wkc-data-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-recreate.json
 ```
 
 Remove the old and new PVCs for c-db2oltp-wkc-data
@@ -335,7 +335,7 @@ oc delete pvc c-db2oltp-wkc-data -n ${PROJECT_CPD_INST_OPERANDS}
 
 Remove the `claimRef` section from the new PV.
 ```
-oc patch pv $C_DB2OLTP_WKC_DATA -p '{"spec":{"claimRef": null}}'
+oc patch pv $PV_NAME_C_DB2OLTP_WKC_DATA -p '{"spec":{"claimRef": null}}'
 ```
 
 Recreate the c-db2oltp-wkc-data PVC.
@@ -441,7 +441,7 @@ The c-db2oltp-wkc-meta PVC points to new PV created earlier by the c-db2oltp-wkc
 Get the volume name created by the c-db2oltp-wkc-meta-new PVC.
 
 ```
-export C_DB2OLTP_WKC_META=$(oc get pvc c-db2oltp-wkc-meta-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+export PV_NAME_C_DB2OLTP_WKC_META=$(oc get pvc c-db2oltp-wkc-meta-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
 ```
 
 Create the yaml file of the new c-db2oltp-wkc-meta PVC.
@@ -459,7 +459,7 @@ jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-me
 Refer to the new PV.
 
 ```
-jq --arg C_DB2OLTP_WKC_META "$C_DB2OLTP_WKC_META" '.spec.volumeName = $C_DB2OLTP_WKC_META' pvc-c-db2oltp-wkc-meta-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-recreate.json
+jq --arg PV_NAME_C_DB2OLTP_WKC_META "$PV_NAME_C_DB2OLTP_WKC_META" '.spec.volumeName = $PV_NAME_C_DB2OLTP_WKC_META' pvc-c-db2oltp-wkc-meta-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-recreate.json
 ```
 
 Remove the old and new PVCs for c-db2oltp-wkc-meta
@@ -471,7 +471,7 @@ oc delete pvc c-db2oltp-wkc-meta -n ${PROJECT_CPD_INST_OPERANDS}
 
 Remove the `claimRef` section from the new PV.
 ```
-oc patch pv $C_DB2OLTP_WKC_META -p '{"spec":{"claimRef": null}}'
+oc patch pv $PV_NAME_C_DB2OLTP_WKC_META -p '{"spec":{"claimRef": null}}'
 ```
 
 Recreate the c-db2oltp-wkc-meta PVC.
@@ -578,7 +578,7 @@ The wkc-db2u-backups PVC points to new PV created earlier by the wkc-db2u-backup
 Get the volume name created by the wkc-db2u-backups-new PVC.
 
 ```
-export PV_NAME_WKC_DB2_BACKUPS=$(oc get pvc wkc-db2u-backups-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+export PV_NAME_WKC_DB2U_BACKUPS=$(oc get pvc wkc-db2u-backups-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
 ```
 
 Create the yaml file of the new wkc-db2u-backups PVC.
@@ -598,7 +598,7 @@ jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-wkc-db2u-backups
 Refer to the new PV.
 
 ```
-jq --arg PV_NAME_WKC_DB2_BACKUPS "$PV_NAME_WKC_DB2_BACKUPS" '.spec.volumeName = $PV_NAME_WKC_DB2_BACKUPS' pvc-wkc-db2u-backups-recreate.json > "$tmp" && mv -f "$tmp" pvc-wkc-db2u-backups-recreate.json
+jq --arg PV_NAME_WKC_DB2U_BACKUPS "$PV_NAME_WKC_DB2U_BACKUPS" '.spec.volumeName = $PV_NAME_WKC_DB2U_BACKUPS' pvc-wkc-db2u-backups-recreate.json > "$tmp" && mv -f "$tmp" pvc-wkc-db2u-backups-recreate.json
 ```
 
 Remove the old and new PVCs for wkc-db2u-backups
@@ -610,7 +610,7 @@ oc delete pvc wkc-db2u-backups -n ${PROJECT_CPD_INST_OPERANDS}
 
 Remove the `claimRef` section from the new PV.
 ```
-oc patch pv $PV_NAME_WKC_DB2_BACKUPS -p '{"spec":{"claimRef": null}}'
+oc patch pv $PV_NAME_WKC_DB2U_BACKUPS -p '{"spec":{"claimRef": null}}'
 ```
 
 Recreate the wkc-db2u-backups PVC.
@@ -625,9 +625,9 @@ Make sure the new PVC is created and bound successfully.
 oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wkc-db2u-backups
 ```
 
-#### 2.4.6 Scale the wdp-couchdb statefulset back
+#### 2.4.6 Scale the c-db2oltp-wkc-db2u statefulset back
 ```
-oc scale sts wdp-couchdb --replicas=3 -n ${PROJECT_CPD_INST_OPERANDS}
+oc scale sts c-db2oltp-wkc-db2u --replicas=1 -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ### 2.7.Change the ReclaimPolicy back to be "Delete" for the PVs
