@@ -1,0 +1,249 @@
+root@saclpjfxva028:/root # oc get db2ucluster db2oltp-wkc -oyaml
+apiVersion: db2u.databases.ibm.com/v1
+kind: Db2uCluster
+metadata:
+  annotations:
+    db2u/certs-api-cert: '[secure]'
+    db2u/certs-api-key: '[secure]'
+    db2u/certs-wv-rest: '[secure]'
+    db2u/license: '[secure]'
+    db2u/sshkeys-db2instusr: '[secure]'
+    db2u/sshkeys-db2uadm: '[secure]'
+    db2u/sshkeys-db2uhausr: '[secure]'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"db2u.databases.ibm.com/v1","kind":"Db2uCluster","metadata":{"annotations":{"db2u.databases.ibm.com/maintenance-pause-reconcile":"true","db2u/certs-api-cert":"[secure]","db2u/certs-api-key":"[secure]","db2u/certs-wv-rest":"[secure]","db2u/license":"[secure]","db2u/sshkeys-db2instusr":"[secure]","db2u/sshkeys-db2uadm":"[secure]","db2u/sshkeys-db2uhausr":"[secure]"},"labels":{"db2u/cpdbr":"db2u","migration.openshift.io/migrated-by-migmigration":"89c5f403-07e8-4069-9fdb-6855e7b7d321","migration.openshift.io/migrated-by-migplan":"300f1a84-ec3d-4b34-a837-646286611537","velero.io/backup-name":"migration-512d9-initial-tstzm","velero.io/restore-name":"migration-512d9-final-nm2k2"},"name":"db2oltp-wkc","namespace":"hptv-prodcloudpak"},"spec":{"account":{"imagePullSecrets":["db2u-dockercfg-nsbh7"],"privileged":false,"restricted":true},"addOns":{"graph":{},"qrep":{"license":{}},"rest":{}},"advOpts":{"db2SecurityPlugin":"cloud_gss_plugin"},"environment":{"database":{"dbConfig":{"DFT_EXTENT_SZ":"256","LOGARCHMETH1":"OFF"},"name":"LINEAGE","settings":{"dftPageSize":"32768"},"ssl":{"certLabel":"CN=zen-ca-cert","secretName":"[secure]"}},"dbType":"db2oltp","instance":{"dbmConfig":{"SRVCON_PW_PLUGIN":"IBMIAMauthpwfile","group_plugin":"IBMIAMauthgroup","srvcon_auth":"GSS_SERVER_ENCRYPT","srvcon_gssplugin_list":"IBMIAMauth"},"password":"[secure]","registry":{"DB2AUTH":"OSAUTHDB,ALLOW_LOCAL_FALLBACK,PLUGIN_AUTO_RELOAD","DB2_4K_DEVICE_SUPPORT":"ON","DB2_COMPATIBILITY_VECTOR":"08","DB2_FMP_RUN_AS_CONNECTED_USER":"NO","DB2_REDUCED_OPTIMIZATION":"EXT_ROWS_TEMP COST_FULL"}},"ldap":{"blueAdminPassword":"[secure]","enabled":false,"password":"[secure]"},"mln":{"total":1}},"license":{"accept":true,"value":"[secure]"},"podConfig":{"db2u":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"VIRTUAL_PROCESSOR_CORE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"db2u/cpdbr":"db2u","icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/podSelector":"db2u-log","icpdsupport/serviceInstanceId":"wkc"},"resource":{"db2u":{"limits":{"cpu":"8","memory":"32Gi"}}}},"etcd":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"db2u/cpdbr":"db2u","icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"graph":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"instdb":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"qrep":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"rest":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"restore-morph":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}},"tools":{"annotations":{"cloudpakId":"eb9998dcc5d24e3eb5b6fb488f750fe2","cloudpakInstanceId":"66873431-a366-4a8c-a87e-aa4e5190c234","cloudpakName":"IBM Cloud Pak for Data","productChargedContainers":"All","productCloudpakRatio":"1:1","productID":"eb9998dcc5d24e3eb5b6fb488f750fe2","productMetric":"FREE","productName":"IBM Watson Knowledge Catalog for IBM Cloud Pak for Data","productVersion":"4.0.4"},"labels":{"db2u/cpdbr":"db2u","icpdsupport/addOnId":"wkc","icpdsupport/app":"api","icpdsupport/serviceInstanceId":"wkc"}}},"size":1,"storage":[{"name":"meta","spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"20Gi"}},"storageClassName":"ocs-storagecluster-cephfs"},"type":"create"},{"name":"data","spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"40Gi"}},"storageClassName":"ocs-storagecluster-cephfs"},"type":"create"},{"claimName":"wkc-db2u-backups","name":"backup","spec":{"resources":{}},"type":"existing"}],"version":"11.5.8.0-cn2","volumeSources":[{"visibility":["db2u"],"volumeSource":{"secret":{"secretName":"zen-service-broker-secret"}}}]}}
+  creationTimestamp: "2023-08-19T12:42:17Z"
+  generation: 55
+  labels:
+    db2u/cpdbr: db2u
+    migration.openshift.io/migrated-by-migmigration: 89c5f403-07e8-4069-9fdb-6855e7b7d321
+    migration.openshift.io/migrated-by-migplan: 300f1a84-ec3d-4b34-a837-646286611537
+    velero.io/backup-name: migration-512d9-initial-tstzm
+    velero.io/restore-name: migration-512d9-final-nm2k2
+  name: db2oltp-wkc
+  namespace: hptv-prodcloudpak
+  resourceVersion: "974480804"
+  uid: ae14f36b-eaa4-4843-8054-79728ad6ac57
+spec:
+  account:
+    imagePullSecrets:
+    - db2u-dockercfg-nsbh7
+    privileged: false
+    restricted: true
+  addOns:
+    graph: {}
+    qrep:
+      license: {}
+    rest: {}
+  advOpts:
+    db2SecurityPlugin: cloud_gss_plugin
+  environment:
+    database:
+      dbConfig:
+        CATALOGCACHE_SZ: "567"
+        DFT_EXTENT_SZ: "256"
+        LOGARCHMETH1: "OFF"
+        LOGFILSIZ: "30000"
+        LOGPRIMARY: "40"
+        LOGSECOND: "60"
+      disableNodePortService: true
+      name: LINEAGE
+      settings:
+        dftPageSize: "32768"
+      ssl:
+        certLabel: CN=zen-ca-cert
+        secretName: '[secure]'
+    dbType: db2oltp
+    instance:
+      dbmConfig:
+        SRVCON_PW_PLUGIN: IBMIAMauthpwfile
+        group_plugin: IBMIAMauthgroup
+        srvcon_auth: GSS_SERVER_ENCRYPT
+        srvcon_gssplugin_list: IBMIAMauth
+      password: '[secure]'
+      registry:
+        DB2_4K_DEVICE_SUPPORT: "ON"
+        DB2_COMPATIBILITY_VECTOR: "08"
+        DB2_FMP_RUN_AS_CONNECTED_USER: "NO"
+        DB2_REDUCED_OPTIMIZATION: EXT_ROWS_TEMP COST_FULL
+        DB2AUTH: OSAUTHDB,ALLOW_LOCAL_FALLBACK,PLUGIN_AUTO_RELOAD
+    ldap:
+      blueAdminPassword: '[secure]'
+      enabled: false
+      password: '[secure]'
+    mln:
+      total: 1
+  license:
+    accept: true
+    value: '[secure]'
+  podConfig:
+    db2u:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: VIRTUAL_PROCESSOR_CORE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        db2u/cpdbr: db2u
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/podSelector: db2u-log
+        icpdsupport/serviceInstanceId: wkc
+      resource:
+        db2u:
+          limits:
+            cpu: "16"
+            memory: 64Gi
+    etcd:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        db2u/cpdbr: db2u
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    graph:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 4.0.4
+      labels:
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    instdb:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    qrep:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    rest:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    restore-morph:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+    tools:
+      annotations:
+        cloudpakId: eb9998dcc5d24e3eb5b6fb488f750fe2
+        cloudpakInstanceId: 66873431-a366-4a8c-a87e-aa4e5190c234
+        cloudpakName: IBM Cloud Pak for Data
+        productChargedContainers: All
+        productCloudpakRatio: "1:1"
+        productID: eb9998dcc5d24e3eb5b6fb488f750fe2
+        productMetric: FREE
+        productName: IBM Watson Knowledge Catalog for IBM Cloud Pak for Data
+        productVersion: 11.5.9.0
+      labels:
+        db2u/cpdbr: db2u
+        icpdsupport/addOnId: wkc
+        icpdsupport/app: api
+        icpdsupport/serviceInstanceId: wkc
+  size: 1
+  storage:
+  - name: meta
+    spec:
+      accessModes:
+      - ReadWriteMany
+      resources:
+        requests:
+          storage: 20Gi
+      storageClassName: ocs-storagecluster-cephfs
+    type: create
+  - name: data
+    spec:
+      accessModes:
+      - ReadWriteMany
+      resources:
+        requests:
+          storage: 40Gi
+      storageClassName: ocs-storagecluster-cephfs
+    type: create
+  - claimName: wkc-db2u-backups
+    name: backup
+    spec:
+      resources: {}
+    type: existing
+  version: 11.5.9.0
+  volumeSources:
+  - visibility:
+    - db2u
+    volumeSource:
+      secret:
+        secretName: zen-service-broker-secret
+status:
+  conditions:
+  - lastTransitionTime: "2024-08-01T13:56:58Z"
+    status: OK
+    type: FormationStatus
+  maintenanceState: None
+  state: Ready
+  version: 11.5.9.0
+root@saclpjfxva028:/root #
