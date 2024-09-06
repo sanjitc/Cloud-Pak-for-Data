@@ -350,39 +350,39 @@ Make sure the new PVC is created and bound successfully.
 oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-data
 ```
 
-#### 2.4.4 Migration for the database-storage-wdp-couchdb-1 pvc
-- Create a new PVC by referencing the database-storage-wdp-couchdb-1 pvc. 
+#### 2.4.4 Migration for the c-db2oltp-wkc-meta pvc
+- Create a new PVC by referencing the c-db2oltp-wkc-meta pvc. 
 ```
-oc get pvc database-storage-wdp-couchdb-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-1-new.json
+oc get pvc c-db2oltp-wkc-meta -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-c-db2oltp-wkc-meta-new.json
 ```
 
 Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
 
 ```
 tmp=$(mktemp)
-jq '.metadata.name = "database-storage-wdp-couchdb-1-new"' pvc-database-storage-wdp-couchdb-1-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-new.json
+jq '.metadata.name = "c-db2oltp-wkc-meta-new"' pvc-c-db2oltp-wkc-meta-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-new.json
 
-jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-1-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-new.json
-
-```
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-meta-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-new.json
 
 ```
-oc apply -f pvc-database-storage-wdp-couchdb-1-new.json
+
+```
+oc apply -f pvc-c-db2oltp-wkc-meta-new.json
 
 ```
 
 Make sure the new PVC is created successfully.
 ```
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-1-new
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-meta-new
 ```
 
-- Mount the old database-storage-wdp-couchdb-1 PVC to the sleep pod
+- Mount the old c-db2oltp-wkc-meta PVC to the sleep pod
 ```
-oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=database-storage-wdp-couchdb-1 --mount-path=/old-claim
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=c-db2oltp-wkc-meta --mount-path=/old-claim
 ```
-- Mount the new database-storage-wdp-couchdb-1-new PVC to the sleep pod
+- Mount the new c-db2oltp-wkc-meta-new PVC to the sleep pod
 ```
-oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=database-storage-wdp-couchdb-1-new --mount-path=/new-claim
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=c-db2oltp-wkc-meta-new --mount-path=/new-claim
 ```
 - Make sure the sleep pod is up and running
 ```
@@ -428,62 +428,62 @@ oc set volume deployment sleep --remove --name=old-claim
 oc set volume deployment sleep --remove --name=new-claim
 ```
 
-- Patch the PV of the database-storage-wdp-couchdb-1-new PVC for chaning the ReclaimPolicy to be "Retain" 
+- Patch the PV of the c-db2oltp-wkc-meta-new PVC for chaning the ReclaimPolicy to be "Retain" 
 ```
 oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-1-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
-- Recreate original database-storage-wdp-couchdb-1 PVC
+- Recreate original c-db2oltp-wkc-meta PVC
 <br>
-The database-storage-wdp-couchdb-1 PVC points to new PV created earlier by the database-storage-wdp-couchdb-1-new PVC we created and copied the data to.
+The c-db2oltp-wkc-meta PVC points to new PV created earlier by the c-db2oltp-wkc-meta-new PVC we created and copied the data to.
 <br>
 <br>
 
-Get the volume name created by the database-storage-wdp-couchdb-1-new PVC.
+Get the volume name created by the c-db2oltp-wkc-meta-new PVC.
 
 ```
-export PV_NAME_WDP_COUCHDB_1=$(oc get pvc database-storage-wdp-couchdb-1-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+export C_DB2OLTP_WKC_META=$(oc get pvc c-db2oltp-wkc-meta-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
 ```
 
-Create the yaml file of the new database-storage-wdp-couchdb-1 PVC.
+Create the yaml file of the new c-db2oltp-wkc-meta PVC.
 
 ```
-oc get pvc database-storage-wdp-couchdb-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-1-recreate.json
+oc get pvc c-db2oltp-wkc-meta -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-c-db2oltp-wkc-meta-recreate.json
 ```
 
 ```
 tmp=$(mktemp)
 
-jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-recreate.json
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-meta-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-recreate.json
 ```
 
 Refer to the new PV.
 
 ```
-jq --arg PV_NAME_WDP_COUCHDB_1 "$PV_NAME_WDP_COUCHDB_1" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_1' pvc-database-storage-wdp-couchdb-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-recreate.json
+jq --arg C_DB2OLTP_WKC_META "$C_DB2OLTP_WKC_META" '.spec.volumeName = $C_DB2OLTP_WKC_META' pvc-c-db2oltp-wkc-meta-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-meta-recreate.json
 ```
 
-Remove the old and new PVCs for wdp-couchdb-1
+Remove the old and new PVCs for c-db2oltp-wkc-meta
 ```
-oc delete pvc database-storage-wdp-couchdb-1-new -n ${PROJECT_CPD_INST_OPERANDS}
+oc delete pvc c-db2oltp-wkc-meta-new -n ${PROJECT_CPD_INST_OPERANDS}
 
-oc delete pvc database-storage-wdp-couchdb-1 -n ${PROJECT_CPD_INST_OPERANDS}
+oc delete pvc c-db2oltp-wkc-meta -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 Remove the `claimRef` section from the new PV.
 ```
-oc patch pv $PV_NAME_WDP_COUCHDB_1 -p '{"spec":{"claimRef": null}}'
+oc patch pv $C_DB2OLTP_WKC_META -p '{"spec":{"claimRef": null}}'
 ```
 
-Recreate the database-storage-wdp-couchdb-1 PVC.
+Recreate the c-db2oltp-wkc-meta PVC.
 
 ```
-oc apply -f pvc-database-storage-wdp-couchdb-1-recreate.json
+oc apply -f pvc-c-db2oltp-wkc-meta-recreate.json
 
 ```
 
 Make sure the new PVC is created and bound successfully.
 ```
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-1
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-meta
 ```
 
 #### 2.4.5 Migration for the database-storage-wdp-couchdb-2 pvc
