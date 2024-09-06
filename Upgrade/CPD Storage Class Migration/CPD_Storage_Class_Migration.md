@@ -38,7 +38,7 @@ oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc
 
 3.Bakup for c-db2oltp-wkc-db2u.
 ```
-oc get elasticsearchcluster elasticsearch-master -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-elasticsearchcluster.yaml
+oc get Db2uCluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-Db2uCluster.yaml
 
 oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-es-server-esnodes-bak.yaml
 
