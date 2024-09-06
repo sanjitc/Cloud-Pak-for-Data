@@ -1,0 +1,1860 @@
+# CPD storage class migration
+
+---
+
+## Migration context
+
+### Environment info
+From
+
+```
+OCP: 4.14
+CPD: 4.8.1
+ODF: 4.14
+Componenets: cpfs,cpd_platform,dv,wkc,analyticsengine,mantaflow
+```
+
+To
+
+```
+OCP: 4.14
+CPD: 4.8.1
+ODF: 4.14
+Componenets: cpfs,cpd_platform,dv,wkc,analyticsengine,mantaflow
+```
+
+### PVC list in customer environment
+```
+[x5660001@daznsl4u1ap02 install]$ oc get pvc
+NAME                                              STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS                 AGE
+bigsql-c-db2u-dv-db2u-0                           Bound   pvc-16f643fb-1dff-4498-89da-e15056ecea2c  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+bigsql-c-db2u-dv-db2u-1                           Bound   pvc-2d20dcd2-1719-4047-b323-2b68772009e2  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+bigsql-c-db2u-dv-db2u-2                           Bound   pvc-e397a4b9-13a5-4026-9270-cd0ebe5b22b8  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+c-db2oltp-wkc-meta                                Bound   pvc-456000a1-ec84-49e1-ad1e-7c0ecb9cfe00  20Gi      RWX           ocs-storagecluster-cephfs    6d23h
+c-db2u-dv-auditlogs                               Bound   pvc-b1b294fc-2717-457b-a337-4e4c8ca8352b  30Gi      RWX           ocs-storagecluster-cephfs    6d23h
+c-db2u-dv-dvcaching                               Bound   pvc-20066a94-5912-48e2-8a9f-c9bf8ce7605f  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+c-db2u-dv-hurricane                               Bound   pvc-b65e3fef-9a4d-4d5c-ac5d-b0725c6b1fa3  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+cc-home-pvc                                       Bound   pvc-270c9a63-e0b9-4bb4-b03a-c22e97c2c330  50Gi      RWX           ocs-storagecluster-cephfs    6d23h
+conn-home-pvc                                     Bound   pvc-8254c812-e590-44f8-94f3-d25b72eeb309  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
+data-c-db2oltp-wkc-db2u-0                         Bound   pvc-55ab9fb6-07e6-4db3-a8ac-f55b381f9e82  40Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-0  Bound   pvc-7dd26fff-20d2-42ae-9343-86444703bb16  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-1  Bound   pvc-c67ef48e-df38-45d5-b471-28ea5bae0bbb  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-2  Bound   pvc-c9f51fcb-c3ba-426f-a9b3-5bc3da7d8069  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+data-ibm-dmc-1708981338412262-rediscp-server-0    Bound   pvc-d2534036-16ba-4187-9210-05cca3816bcc  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-ibm-dmc-1708981338412262-rediscp-server-1    Bound   pvc-09822004-dab0-45a5-9aa9-3b3e07cb91a0  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-ibm-dmc-1708981338412262-rediscp-server-2    Bound   pvc-441d77ce-6bee-4f17-99c3-811d92a6be92  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-0                                Bound   pvc-90c2d3ee-14bf-41c9-9b93-2be66611be19  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-1                                Bound   pvc-1702ddbc-a0b0-4485-9ac1-742842290e15  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-2                                Bound   pvc-688398c4-e3e4-4b05-9631-db4b63f494ba  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-3                                Bound   pvc-981095ef-820b-481d-a46b-3e2b2e8b6109  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-0                            Bound   pvc-995cc4e1-4ee2-4faa-b56d-6c592fb1b6ae  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-1                            Bound   pvc-5a698024-e4d4-4ca2-8a6d-965e89d1feb9  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-2                            Bound   pvc-958ff62b-5ad1-464e-8f85-d416b73f32c5  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+database-storage-wdp-couchdb-0                    Bound   pvc-e80583ab-5616-4fab-b68a-bef3dd9efd29  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
+database-storage-wdp-couchdb-1                    Bound   pvc-f869e03c-143a-46d1-b17a-9f6ae23a25da  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
+database-storage-wdp-couchdb-2                    Bound   pvc-eaa3bb34-6eb8-40f7-b34d-6869b0967ca6  30Gi      RWO           ocs-storagecluster-cephfs    6d23h
+datastage-ibm-datastage-ds-migration-pvc          Bound   pvc-5a608296-5fd0-4684-b83a-a793043feb95  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
+datastage-ibm-datastage-ds-storage-pvc            Bound   pvc-35069f66-f730-4548-ae94-482e03202135  100Gi     RWX           ocs-storagecluster-cephfs    6d23h
+datastagetest001-ibm-datastage-px-storage-pvc     Bound   pvc-fcd8e839-e760-439c-ab7b-3463ead8c1fd  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
+diaglogs-c-db2u-dv-db2u-0                         Bound   pvc-5e22059e-f926-403a-84d4-a63e422b1cc3  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+diaglogs-c-db2u-dv-db2u-1                         Bound   pvc-aed2234d-8ec9-41a6-aaf2-722e44e5a185  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+diaglogs-c-db2u-dv-db2u-2                         Bound   pvc-ecbc4b82-64da-481f-9c09-70c6bc5e1b96  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+ds-px-default-ibm-datastage-px-storage-pvc        Bound   pvc-cc3cbba3-7bd4-4d9e-b279-938fdf641d75  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
+dvutils-c-db2u-dv-dvutils-0                       Bound   pvc-8a941202-4f68-4c15-ad4d-6ce9264e627b  100Gi     RWO           ocs-storagecluster-ceph-rbd  6d23h
+elasticsea-0ac3-ib-6fb9-es-server-snap            Bound   pvc-3e3cd4ac-e24c-4d66-a904-2f94278ee7ba  90Gi      RWX           ocs-storagecluster-cephfs    6d23h
+elasticsearch-master-backups                      Bound   pvc-c8bc7861-3afd-4fbd-9b1b-261255d5cb29  90Gi      RWX           ocs-storagecluster-cephfs    6d23h
+export-zen-minio-0                                Bound   pvc-46b40274-0bfe-46a1-a401-2e054441fc82  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+export-zen-minio-1                                Bound   pvc-02bef669-411a-40cf-87c5-20ea1de3ae9e  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+export-zen-minio-2                                Bound   pvc-9f3a7a6c-2123-4f58-90a5-8e61c4b6c954  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+file-api-claim                                    Bound   pvc-d5a8c41b-1737-485d-b7b5-d0201344a023  100Gi     RWX           ocs-storagecluster-cephfs    6d23h
+ibm-dmc-1708981338412262-data                     Bound   pvc-7e901273-9c5f-45fe-a42d-bca42af95a57  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
+ibm-zen-cs-mongo-backup                           Bound   pvc-4eb0ed59-bf60-4232-95da-d144f65a3cca  20Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+ibm-zen-objectstore-backup-pvc                    Bound   pvc-7fbcabf4-8f74-493d-b630-27513bb65acf  20Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-admin-dir-claim                             Bound   pvc-3292a09d-15c3-4b2a-a200-bae3e9ccfead  25Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-artemis-broker-claim                        Bound   pvc-34130afb-f156-40eb-80ec-373302cb0a74  40Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-cli-data-claim                              Bound   pvc-78b7f0ed-64bd-45d1-b415-2efc88bfbf7a  25Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-cli-lib-ext-claim                           Bound   pvc-8b4353fe-6d37-4561-b526-16185f9b4540  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-cli-platform-conf-claim                     Bound   pvc-ed3400b8-1ae3-43aa-bacf-7d6bf2ee8b45  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-cli-scenarios-conf-claim                    Bound   pvc-ae0460c8-defd-4451-b49c-92ef6a249af0  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-configuration-service-claim                 Bound   pvc-fa5e5b8e-46e3-4588-8196-4410c665540a  5Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-flow-agent-claim                            Bound   pvc-46e1834e-5aab-4eca-a302-6e23049849b5  2Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
+manta-server-dir-claim                            Bound   pvc-d10704d3-b368-442b-bc20-e9d47581d72c  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+mongodbdir-icp-mongodb-0                          Bound   pvc-10dd1050-c5ab-4d79-abbd-37289f88cc56  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
+mongodbdir-icp-mongodb-1                          Bound   pvc-1f2c6c71-5d03-483b-8f1b-7d0c2f2e75e2  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
+mongodbdir-icp-mongodb-2                          Bound   pvc-9a0786b4-4a9e-4f88-acf8-9a1b238a9dfc  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
+spark-hb-cloud-native-postgresql-4                Bound   pvc-e4f98ec5-b881-46b7-805b-8edc793946cb  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+spark-hb-cloud-native-postgresql-5                Bound   pvc-15669e49-d8db-45f7-a2bc-791d42998f75  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+volumes-iaewdpthirdpartylib-pvc                   Bound   pvc-48342546-78c9-45ff-af0d-b9319f445c2b  2Gi       RWX           ocs-storagecluster-cephfs    6d23h
+volumes-profstgintrnl-pvc                         Bound   pvc-3c14479f-b20b-4096-b2fb-c2c4913401b2  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
+wkc-db2u-backups                                  Bound   pvc-e7bd960b-670a-4512-8174-8398407a8413  40Gi      RWX           ocs-storagecluster-cephfs    6d23h
+wkc-foundationdb-cluster-fdb-backup-target-pvc    Bound   pvc-1bc49772-5c23-4e09-9c77-3bc7eb8d08a0  38Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+wkc-foundationdb-cluster-log-1-data               Bound   pvc-fee32b4b-f411-4f79-a3f1-89aa13ed8444  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+wkc-foundationdb-cluster-log-2-data               Bound   pvc-3e43fee0-276a-4576-9956-f2046fd49b20  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+wkc-foundationdb-cluster-storage-1-data           Bound   pvc-898cc39c-4dcb-4ff2-a495-2880d75b9882  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+wkc-foundationdb-cluster-storage-2-data           Bound   pvc-15c25066-811a-4e6d-9dbc-8fb8d864f9b3  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+wkc-foundationdb-cluster-storage-3-data           Bound   pvc-f5beb970-a444-420b-be40-1aefd98be1e1  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+zen-metastore-edb-1                               Bound   pvc-8b58ddba-adaf-4fe4-b1ac-f296dd2d2e58  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
+zen-metastore-edb-2                               Bound   pvc-03cde3bc-b90d-4928-a55b-0a22a41e9341  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
+[x5660001@daznsl4u1ap02 install]$
+```
+
+### PVs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
+```
+###Critical ones
+database-storage-wdp-couchdb-0                    Bound   pvc-e80583ab-5616-4fab-b68a-bef3dd9efd29  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
+database-storage-wdp-couchdb-1                    Bound   pvc-f869e03c-143a-46d1-b17a-9f6ae23a25da  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
+database-storage-wdp-couchdb-2                    Bound   pvc-eaa3bb34-6eb8-40f7-b34d-6869b0967ca6  30Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-0  Bound   pvc-7dd26fff-20d2-42ae-9343-86444703bb16  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-1  Bound   pvc-c67ef48e-df38-45d5-b471-28ea5bae0bbb  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-2  Bound   pvc-c9f51fcb-c3ba-426f-a9b3-5bc3da7d8069  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
+
+
+###Important ones
+data-rabbitmq-ha-0                                Bound   pvc-90c2d3ee-14bf-41c9-9b93-2be66611be19  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-1                                Bound   pvc-1702ddbc-a0b0-4485-9ac1-742842290e15  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-2                                Bound   pvc-688398c4-e3e4-4b05-9631-db4b63f494ba  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-rabbitmq-ha-3                                Bound   pvc-981095ef-820b-481d-a46b-3e2b2e8b6109  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-0                            Bound   pvc-995cc4e1-4ee2-4faa-b56d-6c592fb1b6ae  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-1                            Bound   pvc-5a698024-e4d4-4ca2-8a6d-965e89d1feb9  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+data-redis-ha-server-2                            Bound   pvc-958ff62b-5ad1-464e-8f85-d416b73f32c5  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
+```
+
+## 1 Pre-migration tasks
+### 1.1 Have a cluster level backup
+Backup your Cloud Pak for Data installation before you upgrade.
+For details, see Backing up and restoring Cloud Pak for Data (https://www.ibm.com/docs/en/SSQNUZ_4.8.x/cpd/admin/backup_restore.html).
+
+### 1.2 Have backup for the statefulsets relevant to the PV migration
+1.Create a backup dir.
+```
+mkdir -p /opt/ibm/cpd_pv_migration
+export CPD_PV_MIGRATION_DIR=/opt/ibm/cpd_pv_migration
+```
+
+2.Bakup for the CCS CR.
+```
+oc get ccs -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/ccs-cr.yaml
+```
+
+2.Bakup for ElasticSearch.
+```
+oc get elasticsearchcluster elasticsearch-master -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-elasticsearchcluster.yaml
+
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-es-server-esnodes-bak.yaml
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+```
+
+3.Bakup for CouchDB.
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep couch | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-wdp-couchdb-bak.yaml
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+```
+
+4.Bakup for Redis.
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-redis-ha-server-bak.yaml
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+```
+
+5.Bakup for Rabbitmq.
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-rabbitmq-ha-bak.yaml
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+```
+### 1.3 Mirror images
+
+#### 1.3.1 Mirror the rhel-tools image
+
+- 1.Save the image in an internet connected machine.
+
+```
+podman pull registry.access.redhat.com/rhel7/rhel-tools:latest
+podman save registry.access.redhat.com/rhel7/rhel-tools:latest -o rhel-tools.tar
+```
+- 2.Copy the rhel-tools.tar file to the bastion node
+
+- 3.Push the rhel-tools.tar file to the private image registry.
+
+```
+podman load -i rhel-tools.tar
+
+podman images | grep rhel-tools
+
+podman login -u <username> -p <password> <target_registry> --tls-verify=false
+
+podman tag 643870113757 <target_registry>/rhel7/rhel-tools:latest
+
+podman push <target_registry>/rhel7/rhel-tools:latest --tls-verify=false
+```
+
+
+### 1.4 The permissions required for the upgrade is ready
+
+It's recommended having the Openshift cluster administrator permissions ready for this migration.
+
+### 1.5 A health check is made to ensure the cluster's readiness for upgrade.
+
+The OpenShift cluster, persistent storage and Cloud Pak for Data platform and services are in healthy status.
+
+- 1.Check OCP status
+<br>
+Log into OCP and run below command.
+
+```
+oc get co
+```
+
+Make sure all the cluster operators in AVAILABLE status. And not in PROGRESSING or DEGRADED status.
+
+<br> <br>
+Run this command and make sure all nodes in Ready status.
+
+```
+oc get nodes
+```
+
+Run this command and make sure all the machine configure pool are in healthy status.
+```
+oc get mcp
+```
+
+- 2.Check Cloud Pak for Data status
+
+Log onto bastion node, run this command in terminal and make sure the Lite and all the services' status are in Ready status.
+
+```
+cpd-cli manage login-to-ocp \
+--username=${OCP_USERNAME} \
+--password=${OCP_PASSWORD} \
+--server=${OCP_URL}
+```
+
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+
+Run this command and make sure all pods healthy.
+```
+oc get po --no-headers --all-namespaces -o wide | grep -Ev '([[:digit:]])/\1.*R' | grep -v 'Completed'
+```
+
+- 3.Check ODF status
+<br>
+Make sure the ODF cluster status is healthy and also **with enough capaciy**. 
+
+```
+oc describe cephcluster ocs-storagecluster-cephcluster -n openshift-storage
+```
+
+- 4.Check the ElasticSearch snapshot repository
+<br>
+Makes sure that there already exists a snapshot repository that we can use to take a new snapshot. Normally it should be initialized when the cluster is first created, but it helps to verify:
+
+```
+oc exec  elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url http://localhost:19200/_cat/snapshots/cloudpak --header 'content-type: application/json'
+```
+
+### 1.6 Schedule a maintenance time window
+This migration work requires down time. It's recommended sending a heads-up to all end-users before starting this migration. 
+
+## 2 Migration 
+**Note** This migration steps need to be validated carefully in a testing cluster. Down time is expected during this migration.
+### 2.1.Put CCS into maintenance mode
+Put CCS into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
+```
+oc patch ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+Make sure the CCS put into the maintenance mode successfully.
+```
+oc get ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 2.2.Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
+
+1.Patch the CouchDB PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+Make sure the ReclaimPolicy of the CouchDB PVs are changed to be "Retain".
+
+```
+oc get pv | grep -i couchdb
+pvc-05493166-c0e2-4b67-b683-277ee23f51d6   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-2                     ocs-storagecluster-cephfs              17h
+pvc-2fb1d306-1d39-4860-acb4-f04bcbd48dea   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-0                     ocs-storagecluster-cephfs              17h
+pvc-6cc51d6e-d882-4abd-b50d-9c8d4dbf6276   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-1                     ocs-storagecluster-cephfs              17h
+```
+
+2.Patch the Redis PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+Make sure the ReclaimPolicy of the Redis PVs are changed to be "Retain".
+```
+oc get pv | grep -i redis
+pvc-968033b4-0c99-4bc6-a91f-4b80948dcccf   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-1                             ocs-storagecluster-cephfs              17h
+pvc-d5869572-5dc5-4e1a-bc28-d94202ba7644   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-2                             ocs-storagecluster-cephfs              17h
+pvc-d6388a4a-6380-4be3-a94a-c111e0533d66   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-0                             ocs-storagecluster-cephfs              17h
+```
+
+3.Patch the Rabbitmq PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+Make sure the ReclaimPolicy of the Rabbitmq PVs are changed to be "Retain".
+```
+oc get pv | grep -i rabbitmq
+pvc-02f9546c-d6b5-49a2-8530-890f0ab8908a   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-0                                 ocs-storagecluster-cephfs              17h
+pvc-58eac11a-0da2-4ca8-a0b3-841cacc0a6ad   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-1                                 ocs-storagecluster-cephfs              17h
+pvc-d56efba2-e8b3-4f84-a10d-24b752ab1dea   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-2                                 ocs-storagecluster-cephfs              17h
+```
+
+### 2.3.Migrate for ElasticSearch
+Reference: https://github.ibm.com/wdp-gov/global-search-wiki/wiki/Migrate-ES-between-storage-types 
+
+### 2.4 Migration for CouchDB
+#### 2.4.1 Preparation
+- Get old PVC name and volume name.
+
+```
+
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep -i wdp-couchdb
+
+```
+
+Sample output looks like this:
+
+```
+NAME                                               STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS     AGE
+database-storage-wdp-couchdb-0                     Bound    pvc-e8eed9f7-7bb6-4b5d-ab8d-21d49c4ecf35   30Gi       RWO            ocs-storagecluster-cephfs   89d
+database-storage-wdp-couchdb-1                     Bound    pvc-14d811c3-b4d8-42c5-b6d9-1c3a44c25534   30Gi       RWO            ocs-storagecluster-cephfs   89d
+database-storage-wdp-couchdb-2                     Bound    pvc-fb73ce1c-36b0-4358-a66d-9142bf0ce7b7   30Gi       RWO            ocs-storagecluster-cephfs   89d
+```
+
+- Note the mount path of the data volume `/opt/couchdb/data` by checking the volumeMounts definition in wdp-couchdb sts yaml file. 
+
+```
+          volumeMounts:
+            - name: database-storage
+              mountPath: /opt/couchdb/data
+```
+
+- Make sure that the replicas of wdp-couchdb sts has been scaled down to zero.
+
+```
+oc scale sts wdp-couchdb -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
+```
+
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i wdp-couchdb
+```
+#### 2.4.2 Start a new temporary deployment using the rhel-tools image
+```
+oc -n ${PROJECT_CPD_INST_OPERANDS} create deployment sleep --image=registry.access.redhat.com/rhel7/rhel-tools -- tail -f /dev/null
+```
+#### 2.4.3 Migration for the database-storage-wdp-couchdb-0 pvc
+- Create a new PVC by referencing the database-storage-wdp-couchdb-0 pvc. 
+```
+oc get pvc database-storage-wdp-couchdb-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-0-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "database-storage-wdp-couchdb-0-new"' pvc-database-storage-wdp-couchdb-0-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-0-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-new.json
+
+```
+Create the new PVC.
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-0-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-0-new
+```
+
+- Mount the old database-storage-wdp-couchdb-0 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=database-storage-wdp-couchdb-0 --mount-path=/old-claim
+```
+- Mount the new database-storage-wdp-couchdb-0-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=database-storage-wdp-couchdb-0-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ du -sh old-claim/
+38M	old-claim/
+sh-4.2$ du -sh new-claim/
+25M	new-claim/
+
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the database-storage-wdp-couchdb-0-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-0-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Make sure the ReclaimPolicy was change to be "Retain" successfully.
+
+```
+oc get pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-0-new | awk '{print $3}')
+```
+
+- Recreate original database-storage-wdp-couchdb-0 PVC
+<br>
+The database-storage-wdp-couchdb-0 PVC points to new PV created earlier by the database-storage-wdp-couchdb-0-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the database-storage-wdp-couchdb-0-new PVC.
+
+```
+export PV_NAME_WDP_COUCHDB_0=$(oc get pvc database-storage-wdp-couchdb-0-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new database-storage-wdp-couchdb-0 PVC.
+
+```
+oc get pvc database-storage-wdp-couchdb-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-0-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_WDP_COUCHDB_0 "$PV_NAME_WDP_COUCHDB_0" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_0' pvc-database-storage-wdp-couchdb-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-recreate.json
+```
+
+Remove the old and new PVCs for wdp-couchdb-0
+```
+oc delete pvc database-storage-wdp-couchdb-0-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc database-storage-wdp-couchdb-0 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_WDP_COUCHDB_0 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the database-storage-wdp-couchdb-0 PVC.
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-0-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-0
+```
+
+#### 2.4.4 Migration for the database-storage-wdp-couchdb-1 pvc
+- Create a new PVC by referencing the database-storage-wdp-couchdb-1 pvc. 
+```
+oc get pvc database-storage-wdp-couchdb-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-1-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "database-storage-wdp-couchdb-1-new"' pvc-database-storage-wdp-couchdb-1-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-1-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-new.json
+
+```
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-1-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-1-new
+```
+
+- Mount the old database-storage-wdp-couchdb-1 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=database-storage-wdp-couchdb-1 --mount-path=/old-claim
+```
+- Mount the new database-storage-wdp-couchdb-1-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=database-storage-wdp-couchdb-1-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the database-storage-wdp-couchdb-1-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-1-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original database-storage-wdp-couchdb-1 PVC
+<br>
+The database-storage-wdp-couchdb-1 PVC points to new PV created earlier by the database-storage-wdp-couchdb-1-new PVC we created and copied the data to.
+<br>
+<br>
+
+Get the volume name created by the database-storage-wdp-couchdb-1-new PVC.
+
+```
+export PV_NAME_WDP_COUCHDB_1=$(oc get pvc database-storage-wdp-couchdb-1-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new database-storage-wdp-couchdb-1 PVC.
+
+```
+oc get pvc database-storage-wdp-couchdb-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-1-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_WDP_COUCHDB_1 "$PV_NAME_WDP_COUCHDB_1" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_1' pvc-database-storage-wdp-couchdb-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-1-recreate.json
+```
+
+Remove the old and new PVCs for wdp-couchdb-1
+```
+oc delete pvc database-storage-wdp-couchdb-1-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc database-storage-wdp-couchdb-1 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_WDP_COUCHDB_1 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the database-storage-wdp-couchdb-1 PVC.
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-1-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-1
+```
+
+#### 2.4.5 Migration for the database-storage-wdp-couchdb-2 pvc
+- Create a new PVC by referencing the database-storage-wdp-couchdb-2 pvc. 
+```
+oc get pvc database-storage-wdp-couchdb-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-2-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "database-storage-wdp-couchdb-2-new"' pvc-database-storage-wdp-couchdb-2-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-2-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-2-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-2-new.json
+
+```
+
+Create the wdp-couchdb-2-new pvc. 
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-2-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-2-new
+```
+
+- Mount the old database-storage-wdp-couchdb-2 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=database-storage-wdp-couchdb-2 --mount-path=/old-claim
+```
+- Mount the new database-storage-wdp-couchdb-2-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=database-storage-wdp-couchdb-2-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+_dbs.couch                : 1
+_nodes.couch              : 1
+search_indexes            : 1749
+shards                    : 297
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the database-storage-wdp-couchdb-2-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-2-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original database-storage-wdp-couchdb-2 PVC
+<br>
+The database-storage-wdp-couchdb-2 PVC points to new PV created earlier by the database-storage-wdp-couchdb-2-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the database-storage-wdp-couchdb-2-new PVC.
+
+```
+export PV_NAME_WDP_COUCHDB_2=$(oc get pvc database-storage-wdp-couchdb-2-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new database-storage-wdp-couchdb-2 PVC.
+
+```
+oc get pvc database-storage-wdp-couchdb-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-2-recreate.json
+```
+
+Change the storage class to be `ocs-storagecluster-ceph-rbd`.
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-2-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_WDP_COUCHDB_2 "$PV_NAME_WDP_COUCHDB_2" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_2' pvc-database-storage-wdp-couchdb-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-2-recreate.json
+```
+
+Remove the old and new PVCs for wdp-couchdb-2
+```
+oc delete pvc database-storage-wdp-couchdb-2-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc database-storage-wdp-couchdb-2 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_WDP_COUCHDB_2 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the database-storage-wdp-couchdb-2 PVC.
+
+```
+oc apply -f pvc-database-storage-wdp-couchdb-2-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-2
+```
+
+#### 2.4.6 Scale the wdp-couchdb statefulset back
+```
+oc scale sts wdp-couchdb --replicas=3 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 2.5 Migration for Redis
+#### 2.5.1 Preparation
+- Get old PVC name and volume name.
+
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep -i redis-ha-server
+```
+
+Sample output looks like this:
+
+```
+NAME                                               STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS     AGE
+data-redis-ha-server-0                             Bound    pvc-227f0fe0-7c81-47c8-aa6c-1ee2258351f6   10Gi       RWO            ocs-storagecluster-cephfs   90d
+data-redis-ha-server-1                             Bound    pvc-5357a48c-0b3e-40b5-9c80-c8fe6492a5f0   10Gi       RWO            ocs-storagecluster-cephfs   90d
+data-redis-ha-server-2                             Bound    pvc-08d70302-c02d-4d6c-8685-c8e2db36f160   10Gi       RWO            ocs-storagecluster-cephfs   90d
+```
+
+- Note the mount path of the data volume `/data` by checking the volumeMounts definition in redis-ha-server sts yaml file. 
+
+```
+      volumeMounts:
+        - mountPath: /data
+          name: data
+```
+
+- Make sure that the replicas of redis-ha-server stst has been scaled down to zero.
+```
+oc scale sts redis-ha-server -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
+```
+
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i redis-ha-server
+```
+#### 2.5.2 Migration for the data-redis-ha-server-0 pvc
+- Create a new PVC by referencing the data-redis-ha-server-0 pvc. 
+```
+oc get pvc data-redis-ha-server-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-0-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-redis-ha-server-0-new"' pvc-data-redis-ha-server-0-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-0-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-0-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-0-new.json
+
+```
+
+```
+oc apply -f pvc-data-redis-ha-server-0-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-0-new
+```
+
+- Mount the old data-redis-ha-server-0 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-redis-ha-server-0 --mount-path=/old-claim
+```
+- Mount the new data-redis-ha-server-0-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-redis-ha-server-0-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+lost+found                : 1
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-redis-ha-server-0-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server-0-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-redis-ha-server-0 PVC
+<br>
+The data-redis-ha-server-0 PVC points to new PV created earlier by the data-redis-ha-server-0-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-redis-ha-server-0-new PVC.
+
+```
+export PV_NAME_REDIS_0=$(oc get pvc data-redis-ha-server-0-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-redis-ha-server-0 PVC.
+
+```
+oc get pvc data-redis-ha-server-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-0-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-0-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_REDIS_0 "$PV_NAME_REDIS_0" '.spec.volumeName = $PV_NAME_REDIS_0' pvc-data-redis-ha-server-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-0-recreate.json
+```
+
+Remove the old and new PVCs for redis-ha-server-0
+```
+oc delete pvc data-redis-ha-server-0-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-redis-ha-server-0 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_REDIS_0 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-redis-ha-server-0 PVC.
+
+```
+oc apply -f pvc-data-redis-ha-server-0-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-0
+```
+
+#### 2.5.3 Migration for the data-redis-ha-server-1 pvc
+- Create a new PVC by referencing the data-redis-ha-server-1 pvc. 
+```
+oc get pvc data-redis-ha-server-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-1-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-redis-ha-server-1-new"' pvc-data-redis-ha-server-1-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-1-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-1-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-1-new.json
+
+```
+
+```
+oc apply -f pvc-data-redis-ha-server-1-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-1-new
+```
+
+- Mount the old data-redis-ha-server-1 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-redis-ha-server-1 --mount-path=/old-claim
+```
+- Mount the new data-redis-ha-server-1-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-redis-ha-server-1-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+lost+found                : 1
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-redis-ha-server-1-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server-1-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-redis-ha-server-1 PVC
+<br>
+The data-redis-ha-server-1 PVC points to new PV created earlier by the data-redis-ha-server-1-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-redis-ha-server-1-new PVC.
+
+```
+export PV_NAME_REDIS_1=$(oc get pvc data-redis-ha-server-1-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-redis-ha-server-1 PVC.
+
+```
+oc get pvc data-redis-ha-server-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-1-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-1-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_REDIS_1 "$PV_NAME_REDIS_1" '.spec.volumeName = $PV_NAME_REDIS_1' pvc-data-redis-ha-server-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-1-recreate.json
+```
+
+Remove the old and new PVCs for redis-ha-server-1
+```
+oc delete pvc data-redis-ha-server-1-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-redis-ha-server-1 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_REDIS_1 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-redis-ha-server-1 PVC.
+
+```
+oc apply -f pvc-data-redis-ha-server-1-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-1
+```
+
+#### 2.5.4 Migration for the data-redis-ha-server-2 pvc
+- Create a new PVC by referencing the database-storage-wdp-couchdb-2 pvc. 
+```
+oc get pvc data-redis-ha-server-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-2-new.json
+```
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-redis-ha-server-2-new"' pvc-data-redis-ha-server-2-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-2-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-2-new.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-2-new.json
+
+```
+
+```
+oc apply -f pvc-data-redis-ha-server-2-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-2-new
+```
+
+- Mount the old data-redis-ha-server-2 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-redis-ha-server-2 --mount-path=/old-claim
+```
+- Mount the new data-redis-ha-server-2-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-redis-ha-server-2-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$ cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+conf                      : 3
+dump.rdb                  : 1
+lost+found                : 1
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-redis-ha-server-2-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server-2-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-redis-ha-server-2 PVC
+<br>
+The data-redis-ha-server-2 PVC points to new PV created earlier by the data-redis-ha-server-2-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-redis-ha-server-2-new PVC.
+
+```
+export PV_NAME_REDIS_2=$(oc get pvc data-redis-ha-server-2-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-redis-ha-server-2 PVC.
+
+```
+oc get pvc data-redis-ha-server-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-redis-ha-server-2-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-redis-ha-server-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-2-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_REDIS_2 "$PV_NAME_REDIS_2" '.spec.volumeName = $PV_NAME_REDIS_2' pvc-data-redis-ha-server-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-redis-ha-server-2-recreate.json
+```
+
+Remove the old and new PVCs for redis-ha-server-2
+```
+oc delete pvc data-redis-ha-server-2-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-redis-ha-server-2 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_REDIS_2 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-redis-ha-server-2 PVC.
+
+```
+oc apply -f pvc-data-redis-ha-server-2-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-redis-ha-server-2
+```
+
+#### 2.5.5 Scale the redis-ha-server statefulset back
+```
+oc scale sts redis-ha-server --replicas=3 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 2.6 Migration for Rabbitmq
+#### 2.6.1 Preparation
+- Get old PVC name and volume name.
+
+```
+
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep -i rabbitmq-ha
+
+```
+
+Sample output looks like this:
+
+```
+NAME                                               STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS     AGE
+data-rabbitmq-ha-0                                 Bound    pvc-f1c63139-b65e-4474-b2b5-25c2a53955fb   10Gi       RWO            ocs-storagecluster-cephfs   89d
+data-rabbitmq-ha-1                                 Bound    pvc-4bd167e4-7df0-418c-a0bb-ce99eb04dc61   10Gi       RWO            ocs-storagecluster-cephfs   89d
+data-rabbitmq-ha-2                                 Bound    pvc-85868288-5963-4703-840b-f78f033f34ce   10Gi       RWO            ocs-storagecluster-cephfs   89d
+```
+
+- Note the mount path of the data volume `/var/lib/rabbitmq` by checking the volumeMounts definition in rabbitmq-ha sts yaml file. 
+
+```
+        volumeMounts:
+        - mountPath: /var/lib/rabbitmq
+          name: data
+```
+
+- Make sure that the replicas of rabbitmq-ha stst has been scaled down to zero.
+
+```
+oc scale sts rabbitmq-ha --replicas=0 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+```
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i rabbitmq-ha
+```
+#### 2.6.2 Migration for the data-rabbitmq-ha-0 pvc
+- Create a new PVC by referencing the data-rabbitmq-ha-0 pvc. 
+```
+oc get pvc data-rabbitmq-ha-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-0-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-rabbitmq-ha-0-new"' pvc-data-rabbitmq-ha-0-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-0-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-0-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-0-new.json
+
+```
+
+```
+oc apply -f pvc-data-rabbitmq-ha-0-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-0-new
+```
+
+- Mount the old data-rabbitmq-ha-0 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-rabbitmq-ha-0 --mount-path=/old-claim
+```
+- Mount the new data-rabbitmq-ha-0-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-rabbitmq-ha-0-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$  cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+mnesia                    : 64
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+lost+found                : 1
+mnesia                    : 64
+```
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-rabbitmq-ha-0-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha-0-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-rabbitmq-ha-0 PVC
+<br>
+The data-rabbitmq-ha-0 PVC points to new PV created earlier by the data-rabbitmq-ha-0-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-rabbitmq-ha-0-new PVC.
+
+```
+export PV_NAME_RABBITMQ_0=$(oc get pvc data-rabbitmq-ha-0-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-rabbitmq-ha-0 PVC.
+
+```
+oc get pvc data-rabbitmq-ha-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-0-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-0-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_RABBITMQ_0 "$PV_NAME_RABBITMQ_0" '.spec.volumeName = $PV_NAME_RABBITMQ_0' pvc-data-rabbitmq-ha-0-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-0-recreate.json
+```
+
+Remove the old and new PVCs for rabbitmq-ha-0
+```
+oc delete pvc data-rabbitmq-ha-0-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-rabbitmq-ha-0 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_RABBITMQ_0 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-rabbitmq-ha-0 PVC.
+
+```
+oc apply -f pvc-data-rabbitmq-ha-0-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-0
+```
+
+#### 2.6.3 Migration for the data-rabbitmq-ha-1 pvc
+- Create a new PVC by referencing the data-rabbitmq-ha-1 pvc. 
+```
+oc get pvc data-rabbitmq-ha-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-1-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-rabbitmq-ha-1-new"' pvc-data-rabbitmq-ha-1-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-1-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-1-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-1-new.json
+
+```
+
+```
+oc apply -f pvc-data-rabbitmq-ha-1-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-1-new
+```
+
+- Mount the old data-rabbitmq-ha-1 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-rabbitmq-ha-1 --mount-path=/old-claim
+```
+- Mount the new data-rabbitmq-ha-1-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-rabbitmq-ha-1-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+Ensure the number of files between the old-claim and the new-claim folder is same. 
+For example:<br>
+
+```
+sh-4.2$  cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+mnesia                    : 64
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+lost+found                : 1
+mnesia                    : 64
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-rabbitmq-ha-1-new PVC for chaning the ReclaimPolicy to be "Retain" 
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha-1-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-rabbitmq-ha-1 PVC
+<br>
+The data-rabbitmq-ha-1 PVC points to new PV created earlier by the data-rabbitmq-ha-1-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-rabbitmq-ha-1-new PVC.
+
+```
+export PV_NAME_RABBITMQ_1=$(oc get pvc data-rabbitmq-ha-1-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-rabbitmq-ha-1 PVC.
+
+```
+oc get pvc data-rabbitmq-ha-1 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-1-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-1-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_RABBITMQ_1 "$PV_NAME_RABBITMQ_1" '.spec.volumeName = $PV_NAME_RABBITMQ_1' pvc-data-rabbitmq-ha-1-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-1-recreate.json
+```
+
+Remove the old and new PVCs for rabbitmq-ha-1
+```
+oc delete pvc data-rabbitmq-ha-1-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-rabbitmq-ha-1 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_RABBITMQ_1 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-rabbitmq-ha-1 PVC.
+
+```
+oc apply -f pvc-data-rabbitmq-ha-1-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-1
+```
+
+#### 2.6.4 Migration for the data-rabbitmq-ha-2 pvc
+- Create a new PVC by referencing the data-rabbitmq-ha-2 pvc. 
+```
+oc get pvc data-rabbitmq-ha-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-2-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-rabbitmq-ha-2-new"' pvc-data-rabbitmq-ha-2-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-2-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-2-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-2-new.json
+
+```
+
+```
+oc apply -f pvc-data-rabbitmq-ha-2-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-2-new
+```
+
+- Mount the old data-rabbitmq-ha-2 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-rabbitmq-ha-2 --mount-path=/old-claim
+```
+- Mount the new data-rabbitmq-ha-2-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-rabbitmq-ha-2-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+For example:
+
+```
+sh-4.2$  cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+mnesia                    : 69
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+lost+found                : 1
+mnesia                    : 69
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-rabbitmq-ha-2-new PVC for chaning the ReclaimPolicy to be `Retain` 
+
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-2-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-rabbitmq-ha-2 PVC
+<br>
+The data-rabbitmq-ha-2 PVC points to new PV created earlier by the data-rabbitmq-ha-2-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-rabbitmq-ha-2-new PVC.
+
+```
+export PV_NAME_RABBITMQ_2=$(oc get pvc data-rabbitmq-ha-2-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-rabbitmq-ha-2 PVC.
+
+```
+oc get pvc data-rabbitmq-ha-2 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-2-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-2-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_RABBITMQ_2 "$PV_NAME_RABBITMQ_2" '.spec.volumeName = $PV_NAME_RABBITMQ_2' pvc-data-rabbitmq-ha-2-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-2-recreate.json
+```
+
+Remove the old and new PVCs for rabbitmq-ha-2
+```
+oc delete pvc data-rabbitmq-ha-2-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-rabbitmq-ha-2 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_RABBITMQ_2 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-rabbitmq-ha-2 PVC.
+
+```
+oc apply -f pvc-data-rabbitmq-ha-2-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-2
+```
+
+#### 2.6.5 Migration for the data-rabbitmq-ha-3 pvc
+- Create a new PVC by referencing the data-rabbitmq-ha-3 pvc. 
+```
+oc get pvc data-rabbitmq-ha-3 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-3-new.json
+```
+
+Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC.
+
+```
+tmp=$(mktemp)
+jq '.metadata.name = "data-rabbitmq-ha-3-new"' pvc-data-rabbitmq-ha-3-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-3-new.json
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-3-new.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-3-new.json
+
+```
+
+```
+oc apply -f pvc-data-rabbitmq-ha-3-new.json
+
+```
+
+Make sure the new PVC is created successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-3-new
+```
+
+- Mount the old data-rabbitmq-ha-3 PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=data-rabbitmq-ha-3 --mount-path=/old-claim
+```
+- Mount the new data-rabbitmq-ha-3-new PVC to the sleep pod
+```
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=data-rabbitmq-ha-3-new --mount-path=/new-claim
+```
+- Make sure the sleep pod is up and running
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+oc get pod | grep sleep
+```
+- rsh into the sleep pod
+```
+oc rsh $(oc get pod | grep sleep | awk '{print $1}')
+```
+
+- Migrate data to the new storage:
+```
+rsync -avxHAX --progress /old-claim/* /new-claim
+```
+
+**Note:** Make sure the termial session will not be closed or expired during this step.
+
+- Validate the migration
+<br>
+For example:
+
+```
+sh-4.2$  cd old-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+mnesia                    : 69
+sh-4.2$ cd ../new-claim/
+sh-4.2$ ls | while read dir; do printf "%-25.45s : " "$dir"; ls -R "$dir" | sed '/^[[:space:]]*$/d' | wc -l; done
+lost+found                : 1
+mnesia                    : 69
+```
+
+- Remove the volume mounts from the sleep deployment
+```
+oc set volume deployment sleep --remove --name=old-claim
+oc set volume deployment sleep --remove --name=new-claim
+```
+
+- Patch the PV of the data-rabbitmq-ha-3-new PVC for chaning the ReclaimPolicy to be `Retain` 
+
+```
+oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-3-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+- Recreate original data-rabbitmq-ha-3 PVC
+<br>
+The data-rabbitmq-ha-3 PVC points to new PV created earlier by the data-rabbitmq-ha-3-new PVC we created and copied the data to.
+<br>
+<br>
+Get the volume name created by the data-rabbitmq-ha-3-new PVC.
+
+```
+export PV_NAME_RABBITMQ_3=$(oc get pvc data-rabbitmq-ha-3-new --output jsonpath={.spec.volumeName} -n ${PROJECT_CPD_INST_OPERANDS})
+```
+
+Create the yaml file of the new data-rabbitmq-ha-3 PVC.
+
+```
+oc get pvc data-rabbitmq-ha-3 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-data-rabbitmq-ha-3-recreate.json
+```
+
+```
+tmp=$(mktemp)
+
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-data-rabbitmq-ha-3-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-3-recreate.json
+```
+
+Refer to the new PV.
+
+```
+jq --arg PV_NAME_RABBITMQ_3 "$PV_NAME_RABBITMQ_3" '.spec.volumeName = $PV_NAME_RABBITMQ_3' pvc-data-rabbitmq-ha-3-recreate.json > "$tmp" && mv -f "$tmp" pvc-data-rabbitmq-ha-3-recreate.json
+```
+
+Remove the old and new PVCs for rabbitmq-ha-3
+```
+oc delete pvc data-rabbitmq-ha-3-new -n ${PROJECT_CPD_INST_OPERANDS}
+
+oc delete pvc data-rabbitmq-ha-3 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Remove the `claimRef` section from the new PV.
+```
+oc patch pv $PV_NAME_RABBITMQ_3 -p '{"spec":{"claimRef": null}}'
+```
+
+Recreate the data-rabbitmq-ha-3 PVC.
+
+```
+oc apply -f pvc-data-rabbitmq-ha-3-recreate.json
+
+```
+
+Make sure the new PVC is created and bound successfully.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep data-rabbitmq-ha-3
+```
+
+#### 2.6.6 Scale the rabbitmq-ha statefulset back
+```
+oc scale sts rabbitmq-ha --replicas=4 -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 2.7.Change the ReclaimPolicy back to be "Delete" for the PVs
+
+1.Patch the CouchDB PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+2.Patch the Redis PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+3.Patch the Rabbitmq PVs.
+```
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+```
+
+### 2.8.Make sure the correct storage type is specified in CCS cr and OpenSearch cr
+```
+oc patch ccs ccs-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+```
+oc get ccs ccs-cr -oyaml
+oc get elasticsearchcluster elasticsearch-master -oyaml
+``` 
+
+### 2.9.Make changes to the k8s resources if needed (optional)
+
+### 2.10.Get the CCS cr out of the maintenance mode
+
+Get the CCS cr out of the maintenance mode to trigger the operator reconcilation.
+
+```
+oc patch ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 2.11 Validation
+- Make sure the CCS custom resource is in 'Completed' status and also with the right storage classes.
+```
+oc get CCS cr -n ${PROJECT_CPD_INST_OPERANDS}
+```
+
+- Make sure all the services are in 'Completed' status.
+<br>
+Run the cpd-cli manage login-to-ocp command to log in to the cluster.
+
+```
+cpd-cli manage login-to-ocp \
+--username=${OCP_USERNAME} \
+--password=${OCP_PASSWORD} \
+--server=${OCP_URL}
+```
+
+Get all services' status.
+
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+
+- Make sure the migration relevant pods are up and running.
+```
+oc get pods -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "es-server-esnodes|wdp-couchdb|redis-ha-server|rabbitmq-ha"
+```
+
+- Make sure the migration relevant PVC are in 'Bound' status and also with the right storage classes.
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "es-server-esnodes|wdp-couchdb|redis-ha-server|rabbitmq-ha"
+```
+
+- Conduct user acceptance tests
+
+- Clean up
+```
+oc -n ${PROJECT_CPD_INST_OPERANDS} delete deployment sleep 
+```
+
+## Reference
+- [How to migrate data between PVs in OpenShift 4](https://access.redhat.com/solutions/5794841)
+- [Internal discussion](https://ibm-analytics.slack.com/archives/C07E81S6FD1/p1722624208506629?thread_ts=1722453586.457679&cid=C07E81S6FD1)
