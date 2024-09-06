@@ -72,7 +72,6 @@ podman tag 643870113757 <target_registry>/rhel7/rhel-tools:latest
 podman push <target_registry>/rhel7/rhel-tools:latest --tls-verify=false
 ```
 
-
 ### 1.4 The permissions required for the upgrade is ready
 
 It's recommended having the Openshift cluster administrator permissions ready for this migration.
@@ -129,14 +128,6 @@ Make sure the ODF cluster status is healthy and also **with enough capaciy**.
 
 ```
 oc describe cephcluster ocs-storagecluster-cephcluster -n openshift-storage
-```
-
-- 4.Check the ElasticSearch snapshot repository
-<br>
-Makes sure that there already exists a snapshot repository that we can use to take a new snapshot. Normally it should be initialized when the cluster is first created, but it helps to verify:
-
-```
-oc exec  elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url http://localhost:19200/_cat/snapshots/cloudpak --header 'content-type: application/json'
 ```
 
 ### 1.6 Schedule a maintenance time window
