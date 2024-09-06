@@ -1618,45 +1618,36 @@ oc scale sts rabbitmq-ha --replicas=4 -n ${PROJECT_CPD_INST_OPERANDS}
 
 ### 2.7.Change the ReclaimPolicy back to be "Delete" for the PVs
 
-1.Patch the CouchDB PVs.
+1.Patch the c-db2oltp-wkc-db2u PVs.
 ```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
-```
-
-2.Patch the Redis PVs.
-```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
 ```
 
-3.Patch the Rabbitmq PVs.
+-- ### 2.8.Make sure the correct storage type is specified in WKC cr db2ucluster db2oltp-wkc
 ```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
-```
-
-### 2.8.Make sure the correct storage type is specified in CCS cr and OpenSearch cr
-```
-oc patch ccs ccs-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch wkc wkc-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ```
-oc get ccs ccs-cr -oyaml
-oc get elasticsearchcluster elasticsearch-master -oyaml
+oc get wkc wkc-cr -oyaml
+oc get db2ucluster db2oltp-wkc -oyaml
 ``` 
 
 ### 2.9.Make changes to the k8s resources if needed (optional)
 
-### 2.10.Get the CCS cr out of the maintenance mode
+### 2.10.Get the WKC cr out of the maintenance mode
 
-Get the CCS cr out of the maintenance mode to trigger the operator reconcilation.
+Get the WKC cr out of the maintenance mode to trigger the operator reconcilation.
 
 ```
-oc patch ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ### 2.11 Validation
 - Make sure the CCS custom resource is in 'Completed' status and also with the right storage classes.
 ```
-oc get CCS cr -n ${PROJECT_CPD_INST_OPERANDS}
+oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 - Make sure all the services are in 'Completed' status.
@@ -1678,12 +1669,12 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 - Make sure the migration relevant pods are up and running.
 ```
-oc get pods -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "es-server-esnodes|wdp-couchdb|redis-ha-server|rabbitmq-ha"
+oc get pods -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "c-db2oltp-wkc-db2u-0"
 ```
 
 - Make sure the migration relevant PVC are in 'Bound' status and also with the right storage classes.
 ```
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "es-server-esnodes|wdp-couchdb|redis-ha-server|rabbitmq-ha"
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS}| egrep "c-db2oltp-wkc|wkc-db2u-backups"
 ```
 
 - Conduct user acceptance tests
