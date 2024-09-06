@@ -5,97 +5,10 @@
 ## Migration context
 
 ### Environment info
-From
-
 ```
-OCP: 4.14
-CPD: 4.8.1
-ODF: 4.14
-Componenets: cpfs,cpd_platform,dv,wkc,analyticsengine,mantaflow
-```
-
-To
-
-```
-OCP: 4.14
-CPD: 4.8.1
-ODF: 4.14
-Componenets: cpfs,cpd_platform,dv,wkc,analyticsengine,mantaflow
-```
-
-### PVC list in customer environment
-```
-[x5660001@daznsl4u1ap02 install]$ oc get pvc
-NAME                                              STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS                 AGE
-bigsql-c-db2u-dv-db2u-0                           Bound   pvc-16f643fb-1dff-4498-89da-e15056ecea2c  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-bigsql-c-db2u-dv-db2u-1                           Bound   pvc-2d20dcd2-1719-4047-b323-2b68772009e2  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-bigsql-c-db2u-dv-db2u-2                           Bound   pvc-e397a4b9-13a5-4026-9270-cd0ebe5b22b8  50Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-c-db2oltp-wkc-meta                                Bound   pvc-456000a1-ec84-49e1-ad1e-7c0ecb9cfe00  20Gi      RWX           ocs-storagecluster-cephfs    6d23h
-c-db2u-dv-auditlogs                               Bound   pvc-b1b294fc-2717-457b-a337-4e4c8ca8352b  30Gi      RWX           ocs-storagecluster-cephfs    6d23h
-c-db2u-dv-dvcaching                               Bound   pvc-20066a94-5912-48e2-8a9f-c9bf8ce7605f  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-c-db2u-dv-hurricane                               Bound   pvc-b65e3fef-9a4d-4d5c-ac5d-b0725c6b1fa3  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-cc-home-pvc                                       Bound   pvc-270c9a63-e0b9-4bb4-b03a-c22e97c2c330  50Gi      RWX           ocs-storagecluster-cephfs    6d23h
-conn-home-pvc                                     Bound   pvc-8254c812-e590-44f8-94f3-d25b72eeb309  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
-data-c-db2oltp-wkc-db2u-0                         Bound   pvc-55ab9fb6-07e6-4db3-a8ac-f55b381f9e82  40Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-0  Bound   pvc-7dd26fff-20d2-42ae-9343-86444703bb16  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-1  Bound   pvc-c67ef48e-df38-45d5-b471-28ea5bae0bbb  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-data-elasticsea-0ac3-ib-6fb9-es-server-esnodes-2  Bound   pvc-c9f51fcb-c3ba-426f-a9b3-5bc3da7d8069  30Gi      RWO           ocs-storagecluster-cephfs    6d19h
-data-ibm-dmc-1708981338412262-rediscp-server-0    Bound   pvc-d2534036-16ba-4187-9210-05cca3816bcc  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-ibm-dmc-1708981338412262-rediscp-server-1    Bound   pvc-09822004-dab0-45a5-9aa9-3b3e07cb91a0  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-ibm-dmc-1708981338412262-rediscp-server-2    Bound   pvc-441d77ce-6bee-4f17-99c3-811d92a6be92  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-0                                Bound   pvc-90c2d3ee-14bf-41c9-9b93-2be66611be19  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-1                                Bound   pvc-1702ddbc-a0b0-4485-9ac1-742842290e15  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-2                                Bound   pvc-688398c4-e3e4-4b05-9631-db4b63f494ba  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-rabbitmq-ha-3                                Bound   pvc-981095ef-820b-481d-a46b-3e2b2e8b6109  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-0                            Bound   pvc-995cc4e1-4ee2-4faa-b56d-6c592fb1b6ae  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-1                            Bound   pvc-5a698024-e4d4-4ca2-8a6d-965e89d1feb9  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-data-redis-ha-server-2                            Bound   pvc-958ff62b-5ad1-464e-8f85-d416b73f32c5  10Gi      RWO           ocs-storagecluster-cephfs    6d23h
-database-storage-wdp-couchdb-0                    Bound   pvc-e80583ab-5616-4fab-b68a-bef3dd9efd29  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
-database-storage-wdp-couchdb-1                    Bound   pvc-f869e03c-143a-46d1-b17a-9f6ae23a25da  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
-database-storage-wdp-couchdb-2                    Bound   pvc-eaa3bb34-6eb8-40f7-b34d-6869b0967ca6  30Gi      RWO           ocs-storagecluster-cephfs    6d23h
-datastage-ibm-datastage-ds-migration-pvc          Bound   pvc-5a608296-5fd0-4684-b83a-a793043feb95  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
-datastage-ibm-datastage-ds-storage-pvc            Bound   pvc-35069f66-f730-4548-ae94-482e03202135  100Gi     RWX           ocs-storagecluster-cephfs    6d23h
-datastagetest001-ibm-datastage-px-storage-pvc     Bound   pvc-fcd8e839-e760-439c-ab7b-3463ead8c1fd  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
-diaglogs-c-db2u-dv-db2u-0                         Bound   pvc-5e22059e-f926-403a-84d4-a63e422b1cc3  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-diaglogs-c-db2u-dv-db2u-1                         Bound   pvc-aed2234d-8ec9-41a6-aaf2-722e44e5a185  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-diaglogs-c-db2u-dv-db2u-2                         Bound   pvc-ecbc4b82-64da-481f-9c09-70c6bc5e1b96  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-ds-px-default-ibm-datastage-px-storage-pvc        Bound   pvc-cc3cbba3-7bd4-4d9e-b279-938fdf641d75  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
-dvutils-c-db2u-dv-dvutils-0                       Bound   pvc-8a941202-4f68-4c15-ad4d-6ce9264e627b  100Gi     RWO           ocs-storagecluster-ceph-rbd  6d23h
-elasticsea-0ac3-ib-6fb9-es-server-snap            Bound   pvc-3e3cd4ac-e24c-4d66-a904-2f94278ee7ba  90Gi      RWX           ocs-storagecluster-cephfs    6d23h
-elasticsearch-master-backups                      Bound   pvc-c8bc7861-3afd-4fbd-9b1b-261255d5cb29  90Gi      RWX           ocs-storagecluster-cephfs    6d23h
-export-zen-minio-0                                Bound   pvc-46b40274-0bfe-46a1-a401-2e054441fc82  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-export-zen-minio-1                                Bound   pvc-02bef669-411a-40cf-87c5-20ea1de3ae9e  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-export-zen-minio-2                                Bound   pvc-9f3a7a6c-2123-4f58-90a5-8e61c4b6c954  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-file-api-claim                                    Bound   pvc-d5a8c41b-1737-485d-b7b5-d0201344a023  100Gi     RWX           ocs-storagecluster-cephfs    6d23h
-ibm-dmc-1708981338412262-data                     Bound   pvc-7e901273-9c5f-45fe-a42d-bca42af95a57  10Gi      RWX           ocs-storagecluster-cephfs    6d23h
-ibm-zen-cs-mongo-backup                           Bound   pvc-4eb0ed59-bf60-4232-95da-d144f65a3cca  20Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-ibm-zen-objectstore-backup-pvc                    Bound   pvc-7fbcabf4-8f74-493d-b630-27513bb65acf  20Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-admin-dir-claim                             Bound   pvc-3292a09d-15c3-4b2a-a200-bae3e9ccfead  25Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-artemis-broker-claim                        Bound   pvc-34130afb-f156-40eb-80ec-373302cb0a74  40Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-cli-data-claim                              Bound   pvc-78b7f0ed-64bd-45d1-b415-2efc88bfbf7a  25Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-cli-lib-ext-claim                           Bound   pvc-8b4353fe-6d37-4561-b526-16185f9b4540  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-cli-platform-conf-claim                     Bound   pvc-ed3400b8-1ae3-43aa-bacf-7d6bf2ee8b45  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-cli-scenarios-conf-claim                    Bound   pvc-ae0460c8-defd-4451-b49c-92ef6a249af0  1Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-configuration-service-claim                 Bound   pvc-fa5e5b8e-46e3-4588-8196-4410c665540a  5Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-flow-agent-claim                            Bound   pvc-46e1834e-5aab-4eca-a302-6e23049849b5  2Gi       RWO           ocs-storagecluster-ceph-rbd  6d23h
-manta-server-dir-claim                            Bound   pvc-d10704d3-b368-442b-bc20-e9d47581d72c  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-mongodbdir-icp-mongodb-0                          Bound   pvc-10dd1050-c5ab-4d79-abbd-37289f88cc56  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
-mongodbdir-icp-mongodb-1                          Bound   pvc-1f2c6c71-5d03-483b-8f1b-7d0c2f2e75e2  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
-mongodbdir-icp-mongodb-2                          Bound   pvc-9a0786b4-4a9e-4f88-acf8-9a1b238a9dfc  20Gi      RWO           managed-csi-encrypted-cmk    6d23h
-spark-hb-cloud-native-postgresql-4                Bound   pvc-e4f98ec5-b881-46b7-805b-8edc793946cb  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-spark-hb-cloud-native-postgresql-5                Bound   pvc-15669e49-d8db-45f7-a2bc-791d42998f75  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-volumes-iaewdpthirdpartylib-pvc                   Bound   pvc-48342546-78c9-45ff-af0d-b9319f445c2b  2Gi       RWX           ocs-storagecluster-cephfs    6d23h
-volumes-profstgintrnl-pvc                         Bound   pvc-3c14479f-b20b-4096-b2fb-c2c4913401b2  5Gi       RWX           ocs-storagecluster-cephfs    6d23h
-wkc-db2u-backups                                  Bound   pvc-e7bd960b-670a-4512-8174-8398407a8413  40Gi      RWX           ocs-storagecluster-cephfs    6d23h
-wkc-foundationdb-cluster-fdb-backup-target-pvc    Bound   pvc-1bc49772-5c23-4e09-9c77-3bc7eb8d08a0  38Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-wkc-foundationdb-cluster-log-1-data               Bound   pvc-fee32b4b-f411-4f79-a3f1-89aa13ed8444  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-wkc-foundationdb-cluster-log-2-data               Bound   pvc-3e43fee0-276a-4576-9956-f2046fd49b20  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-wkc-foundationdb-cluster-storage-1-data           Bound   pvc-898cc39c-4dcb-4ff2-a495-2880d75b9882  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-wkc-foundationdb-cluster-storage-2-data           Bound   pvc-15c25066-811a-4e6d-9dbc-8fb8d864f9b3  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-wkc-foundationdb-cluster-storage-3-data           Bound   pvc-f5beb970-a444-420b-be40-1aefd98be1e1  30Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-zen-metastore-edb-1                               Bound   pvc-8b58ddba-adaf-4fe4-b1ac-f296dd2d2e58  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d23h
-zen-metastore-edb-2                               Bound   pvc-03cde3bc-b90d-4928-a55b-0a22a41e9341  10Gi      RWO           ocs-storagecluster-ceph-rbd  6d19h
-[x5660001@daznsl4u1ap02 install]$
+OCP: 4.12
+CPD: 4.8.5
+ODF: 4.12
 ```
 
 ### PVs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
