@@ -13,10 +13,10 @@ ODF: 4.12
 
 ### PVs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
 ```
-###Db2u related to IKC
-database-storage-wdp-couchdb-0                    Bound   pvc-e80583ab-5616-4fab-b68a-bef3dd9efd29  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
-database-storage-wdp-couchdb-1                    Bound   pvc-f869e03c-143a-46d1-b17a-9f6ae23a25da  45Gi      RWO           ocs-storagecluster-cephfs    6d23h
-database-storage-wdp-couchdb-2                    Bound   pvc-eaa3bb34-6eb8-40f7-b34d-6869b0967ca6  30Gi      RWO           ocs-storagecluster-cephfs    6d23h
+### Db2u PVs related to IKC
+c-db2oltp-wkc-data                                 Bound    pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            ocs-storagecluster-cephfs     385d
+c-db2oltp-wkc-meta                                 Bound    pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            ocs-storagecluster-cephfs     385d
+wkc-db2u-backups                                   Bound    pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            ocs-storagecluster-cephfs     385d
 ```
 
 ## 1 Pre-migration tasks
