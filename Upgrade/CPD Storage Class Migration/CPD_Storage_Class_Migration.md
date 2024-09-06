@@ -135,56 +135,30 @@ This migration work requires down time. It's recommended sending a heads-up to a
 
 ## 2 Migration 
 **Note** This migration steps need to be validated carefully in a testing cluster. Down time is expected during this migration.
-### 2.1.Put CCS into maintenance mode
-Put CCS into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
+### 2.1.Put WKC into maintenance mode
+Put WKC into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
 ```
-oc patch ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
-Make sure the CCS put into the maintenance mode successfully.
+Make sure the WKC put into the maintenance mode successfully.
 ```
-oc get ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS}
+oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ### 2.2.Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
-1.Patch the CouchDB PVs.
+1.Patch the c-db2oltp-wkc-db2u PVs.
 ```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep couchdb | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
-```
-
-Make sure the ReclaimPolicy of the CouchDB PVs are changed to be "Retain".
-
-```
-oc get pv | grep -i couchdb
-pvc-05493166-c0e2-4b67-b683-277ee23f51d6   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-2                     ocs-storagecluster-cephfs              17h
-pvc-2fb1d306-1d39-4860-acb4-f04bcbd48dea   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-0                     ocs-storagecluster-cephfs              17h
-pvc-6cc51d6e-d882-4abd-b50d-9c8d4dbf6276   30Gi       RWO            Retain           Bound    cpd/database-storage-wdp-couchdb-1                     ocs-storagecluster-cephfs              17h
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
 ```
 
-2.Patch the Redis PVs.
-```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep redis-ha-server | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
-```
+Make sure the ReclaimPolicy of the c-db2oltp-wkc-db2u PVs are changed to be "Retain".
 
-Make sure the ReclaimPolicy of the Redis PVs are changed to be "Retain".
 ```
-oc get pv | grep -i redis
-pvc-968033b4-0c99-4bc6-a91f-4b80948dcccf   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-1                             ocs-storagecluster-cephfs              17h
-pvc-d5869572-5dc5-4e1a-bc28-d94202ba7644   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-2                             ocs-storagecluster-cephfs              17h
-pvc-d6388a4a-6380-4be3-a94a-c111e0533d66   10Gi       RWO            Retain           Bound    cpd/data-redis-ha-server-0                             ocs-storagecluster-cephfs              17h
-```
-
-3.Patch the Rabbitmq PVs.
-```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep rabbitmq-ha | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
-```
-
-Make sure the ReclaimPolicy of the Rabbitmq PVs are changed to be "Retain".
-```
-oc get pv | grep -i rabbitmq
-pvc-02f9546c-d6b5-49a2-8530-890f0ab8908a   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-0                                 ocs-storagecluster-cephfs              17h
-pvc-58eac11a-0da2-4ca8-a0b3-841cacc0a6ad   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-1                                 ocs-storagecluster-cephfs              17h
-pvc-d56efba2-e8b3-4f84-a10d-24b752ab1dea   10Gi       RWO            Retain           Bound    cpd/data-rabbitmq-ha-2                                 ocs-storagecluster-cephfs              17h
+oc get pv | egrep "c-db2oltp-wkc|wkc-db2u-backups"
+pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-data                                            ocs-storagecluster-cephfs              385d
+pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            Retain           Bound    hptv-prodcloudpak/wkc-db2u-backups                                              ocs-storagecluster-cephfs              385d
+pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-meta                                            ocs-storagecluster-cephfs              385d
 ```
 
 ### 2.3.Migrate for ElasticSearch
