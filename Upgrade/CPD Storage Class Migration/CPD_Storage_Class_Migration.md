@@ -204,39 +204,39 @@ oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i c-db2oltp-wkc-db2u
 oc -n ${PROJECT_CPD_INST_OPERANDS} create deployment sleep --image=registry.access.redhat.com/rhel7/rhel-tools -- tail -f /dev/null
 ```
 #### 2.4.3 Migration for the database-storage-wdp-couchdb-0 pvc
-- Create a new PVC by referencing the database-storage-wdp-couchdb-0 pvc. 
+- Create a new PVC by referencing the c-db2oltp-wkc-data pvc. 
 ```
-oc get pvc database-storage-wdp-couchdb-0 -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-database-storage-wdp-couchdb-0-new.json
+oc get pvc c-db2oltp-wkc-data -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-c-db2oltp-wkc-data-new.json
 ```
 
 Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for the new PVC
 
 ```
 tmp=$(mktemp)
-jq '.metadata.name = "database-storage-wdp-couchdb-0-new"' pvc-database-storage-wdp-couchdb-0-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-new.json
+jq '.metadata.name = "c-db2oltp-wkc-data-new"' pvc-c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
 
-jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-database-storage-wdp-couchdb-0-new.json > "$tmp" && mv -f "$tmp" pvc-database-storage-wdp-couchdb-0-new.json
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
 
 ```
 Create the new PVC.
 
 ```
-oc apply -f pvc-database-storage-wdp-couchdb-0-new.json
+oc apply -f pvc-c-db2oltp-wkc-data-new.json
 
 ```
 
 Make sure the new PVC is created successfully.
 ```
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep database-storage-wdp-couchdb-0-new
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-data-new
 ```
 
-- Mount the old database-storage-wdp-couchdb-0 PVC to the sleep pod
+- Mount the old c-db2oltp-wkc-data PVC to the sleep pod
 ```
-oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=database-storage-wdp-couchdb-0 --mount-path=/old-claim
+oc set volume deployment/sleep --add -t pvc --name=old-claim --claim-name=c-db2oltp-wkc-data --mount-path=/old-claim
 ```
-- Mount the new database-storage-wdp-couchdb-0-new PVC to the sleep pod
+- Mount the new c-db2oltp-wkc-data-new PVC to the sleep pod
 ```
-oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=database-storage-wdp-couchdb-0-new --mount-path=/new-claim
+oc set volume deployment/sleep --add -t pvc --name=new-claim --claim-name=c-db2oltp-wkc-data-new --mount-path=/new-claim
 ```
 - Make sure the sleep pod is up and running
 ```
@@ -286,7 +286,7 @@ oc set volume deployment sleep --remove --name=old-claim
 oc set volume deployment sleep --remove --name=new-claim
 ```
 
-- Patch the PV of the database-storage-wdp-couchdb-0-new PVC for chaning the ReclaimPolicy to be "Retain" 
+- Patch the PV of the c-db2oltp-wkc-data-new PVC for chaning the ReclaimPolicy to be "Retain" 
 ```
 oc patch pv $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep wdp-couchdb-0-new | awk '{print $3}') -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
