@@ -38,13 +38,13 @@ oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc
 
 3.Bakup for c-db2oltp-wkc-db2u.
 ```
-oc get Db2uCluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-Db2uCluster.yaml
+oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-Db2uCluster.yaml
 
-oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-es-server-esnodes-bak.yaml
+oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-db2u" | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-c-db2oltp-wkc-db2u-bak.yaml
 
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
 
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep es-server-esnodes | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
 ```
 
 ### 1.3 Mirror images
