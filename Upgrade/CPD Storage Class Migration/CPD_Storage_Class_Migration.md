@@ -326,7 +326,7 @@ Refer to the new PV.
 jq --arg PV_NAME_WDP_COUCHDB_0 "$PV_NAME_WDP_COUCHDB_0" '.spec.volumeName = $PV_NAME_WDP_COUCHDB_0' pvc-c-db2oltp-wkc-data-recreate.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-recreate.json
 ```
 
-Remove the old and new PVCs for wdp-couchdb-0
+Remove the old and new PVCs for c-db2oltp-wkc-data
 ```
 oc delete pvc c-db2oltp-wkc-data-new -n ${PROJECT_CPD_INST_OPERANDS}
 
