@@ -199,7 +199,7 @@ oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i c-db2oltp-wkc-db2u
 ```
 oc -n ${PROJECT_CPD_INST_OPERANDS} create deployment sleep --image=registry.access.redhat.com/rhel7/rhel-tools -- tail -f /dev/null
 ```
-#### 2.4.3 Migration for the database-storage-wdp-couchdb-0 pvc
+#### 2.4.3 Migration for the c-db2oltp-wkc-data pvc
 - Create a new PVC by referencing the c-db2oltp-wkc-data pvc. 
 ```
 oc get pvc c-db2oltp-wkc-data -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-c-db2oltp-wkc-data-new.json
@@ -346,7 +346,7 @@ Make sure the new PVC is created and bound successfully.
 oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-data
 ```
 
-#### 2.4.4 Migration for the c-db2oltp-wkc-meta pvc
+~~#### 2.4.4 Migration for the c-db2oltp-wkc-meta pvc~~
 - Create a new PVC by referencing the c-db2oltp-wkc-meta pvc. 
 ```
 oc get pvc c-db2oltp-wkc-meta -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-c-db2oltp-wkc-meta-new.json
@@ -482,7 +482,7 @@ Make sure the new PVC is created and bound successfully.
 oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep c-db2oltp-wkc-meta
 ```
 
-#### 2.4.5 Migration for the wkc-db2u-backups pvc
+~~#### 2.4.5 Migration for the wkc-db2u-backups pvc~~
 - Create a new PVC by referencing the wkc-db2u-backups pvc. 
 ```
 oc get pvc wkc-db2u-backups -o json | jq 'del(.status)'| jq 'del(.metadata.annotations)' | jq 'del(.metadata.creationTimestamp)'|jq 'del(.metadata.resourceVersion)'|jq 'del(.metadata.uid)'| jq 'del(.spec.volumeName)' > pvc-wkc-db2u-backups-new.json
