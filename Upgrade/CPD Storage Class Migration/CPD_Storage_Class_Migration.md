@@ -46,9 +46,9 @@ oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_P
 
 oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-db2u" | awk '{print $1}'| xargs oc get sts -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/sts-c-db2oltp-wkc-db2u-bak.yaml
 
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep egrep "c-db2oltp-wkc-data" | awk '{print $1}') ;do oc get pvc $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pvc-$p-bak.yaml;done
 
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-data" | awk '{print $3}') ;do oc get pv $p -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/pv-$p-bak.yaml;done
 ```
 
 ### 1.3 Mirror images
@@ -153,16 +153,14 @@ oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 
 1.Patch the c-db2oltp-wkc-db2u PVs.
 ```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-data" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
 ```
 
 Make sure the ReclaimPolicy of the c-db2oltp-wkc-db2u PVs are changed to be "Retain".
 
 ```
-oc get pv | egrep "c-db2oltp-wkc|wkc-db2u-backups"
+oc get pv | egrep "c-db2oltp-wkc-data"
 pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-data                                            ocs-storagecluster-cephfs              385d
-pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            Retain           Bound    hptv-prodcloudpak/wkc-db2u-backups                                              ocs-storagecluster-cephfs              385d
-pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            Retain           Bound    hptv-prodcloudpak/c-db2oltp-wkc-meta                                            ocs-storagecluster-cephfs              385d
 ```
 
 ### 2.4 Migration for DB2OLTP
@@ -170,7 +168,7 @@ pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            Retain     
 - Get old PVC name and volume name.
 
 ```
-oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups"
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-data"
 ```
 
 Sample output looks like this:
@@ -178,20 +176,14 @@ Sample output looks like this:
 ```
 NAME                   STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS                  AGE
 c-db2oltp-wkc-data     Bound    pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            ocs-storagecluster-cephfs     385d
-c-db2oltp-wkc-meta     Bound    pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            ocs-storagecluster-cephfs     385d
-wkc-db2u-backups       Bound    pvc-d070ece6-7c0f-4419-8293-a3e48d084717   40Gi       RWX            ocs-storagecluster-cephfs     385d
 ```
 
 - Note the mount path of the meta, data and backup volumes are `/mnt/blumeta0` and `/mnt/backup` by checking the volumeMounts definition in c-db2oltp-wkc-db2u sts yaml file. 
 
 ```
         volumeMounts:
-        - mountPath: /mnt/blumeta0
-          name: meta
         - mountPath: /mnt/bludata0
           name: data
-        - mountPath: /mnt/backup
-          name: backup
 ```
 
 - Make sure that the replicas of c-db2oltp-wkc-db2u sts has been scaled down to zero.
