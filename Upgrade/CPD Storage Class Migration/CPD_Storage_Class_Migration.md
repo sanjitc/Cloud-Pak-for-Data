@@ -630,10 +630,10 @@ oc scale sts c-db2oltp-wkc-db2u --replicas=1 -n ${PROJECT_CPD_INST_OPERANDS}
 
 1.Patch the c-db2oltp-wkc-db2u PVs.
 ```
-for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc|wkc-db2u-backups" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
+for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-data" | awk '{print $3}') ;do oc patch pv $p -p '{"spec":{"persistentVolumeReclaimPolicy":"Delete"}}' -n ${PROJECT_CPD_INST_OPERANDS};done
 ```
 
--- ### 2.8.Make sure the correct storage type is specified in WKC cr db2ucluster db2oltp-wkc
+### 2.8.Make sure the correct storage type is specified in WKC cr db2ucluster db2oltp-wkc
 ```
 oc patch wkc wkc-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
