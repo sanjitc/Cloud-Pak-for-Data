@@ -11,9 +11,9 @@ CPD: 4.8.5
 ODF: 4.12
 ```
 
-### PVs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
+### PVCs to be migrated from ocs-storagecluster-cephfs to ocs-storagecluster-ceph-rbd
 ```
-### Db2u PVs related to IKC
+### Db2u PVs related to IKC. The c-db2oltp-wkc-meta and c-db2oltp-wkc-meta PVCs should be cephfs. 
 c-db2oltp-wkc-data     Bound    pvc-0706f3af-ccd7-420f-840d-4cfdd56988de   243Gi      RWX            ocs-storagecluster-cephfs     385d
 ```
 ~~c-db2oltp-wkc-meta     Bound    pvc-fbe8fe5b-8c7e-42b6-a5ed-5e2aec25f2fd   20Gi       RWX            ocs-storagecluster-cephfs     385d~~
