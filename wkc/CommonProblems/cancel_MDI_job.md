@@ -31,7 +31,7 @@ curl -k -X PATCH "https://<host>/v2/jobs/${jobid}/runs/${jobrunid}?project_id=${
 
 ## A second alternative - Delete the JobRun
 ```
-DELETE /v2/assets/${assetId of job run}?project_id=${project_id}&purge_on_delete=true
+DELETE 'https://<host>/v2/assets/${assetId of job run}?project_id=${project_id}&purge_on_delete=true'
 ```
 Here  *assetId*  is the  **job run id**
 ## Last alternative - Delete the Job
