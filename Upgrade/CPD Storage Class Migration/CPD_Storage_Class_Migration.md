@@ -29,18 +29,18 @@ Backup your Cloud Pak for Data installation before you upgrade.
 For details, see Backing up and restoring Cloud Pak for Data (https://www.ibm.com/docs/en/SSQNUZ_4.8.x/cpd/admin/backup_restore.html).
 
 ### 1.2 Have backup for the statefulsets relevant to the PV migration
-1.Create a backup dir.
+#### 1.2.1 Create a backup dir.
 ```
 mkdir -p /opt/ibm/cpd_pv_migration
 export CPD_PV_MIGRATION_DIR=/opt/ibm/cpd_pv_migration
 ```
 
-2.Bakup for the WKC CR.
+#### 1.2.2 Bakup for the WKC CR.
 ```
 oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc-cr.yaml
 ```
 
-3.Bakup for c-db2oltp-wkc-db2u.
+#### 1.2.3 Bakup for c-db2oltp-wkc-db2u.
 ```
 oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} -o yaml > ${CPD_PV_MIGRATION_DIR}/cr-db2ucluster.yaml
 
