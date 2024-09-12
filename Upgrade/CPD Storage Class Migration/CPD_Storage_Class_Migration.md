@@ -149,7 +149,7 @@ Make sure the WKC put into the maintenance mode successfully.
 oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-**We should put all WKC related Deployment and Statefulset to 0.**
+**We should put all _WKC related Deployment and Statefulset to 0_.**
 
 ### 2.2 Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
@@ -374,7 +374,7 @@ oc get db2ucluster db2oltp-wkc -oyaml
 ### 2.9.Make changes to the k8s resources if needed (optional)
 
 ### 2.10.Get the WKC cr out of the maintenance mode
-
+**We should put all _WKC related Deployment and Statefulset to regular number_.**
 Get the WKC cr out of the maintenance mode to trigger the operator reconcilation.
 
 ```
