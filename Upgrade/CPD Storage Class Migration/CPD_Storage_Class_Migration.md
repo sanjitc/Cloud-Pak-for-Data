@@ -149,6 +149,8 @@ Make sure the WKC put into the maintenance mode successfully.
 oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
+**We should put all WKC related Deployment and Statefulset to 0.**
+
 ### 2.2 Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
 1.Patch the c-db2oltp-wkc-db2u PVs.
