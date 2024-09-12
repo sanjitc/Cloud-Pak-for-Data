@@ -1,4 +1,4 @@
-# Cancel Medatadata Import/Export "job-run" forcefully
+# Cancel Medatadata Import/Export "Job-run" forcefully
 
 
 
@@ -29,7 +29,7 @@ curl -k -X PATCH "https://<host>/v2/jobs/${jobid}/runs/${jobrunid}?project_id=${
 -d @replace.json
 ```
 
-## A second alternative - Delete the JobRun
+## A second alternative - Delete the Job-run
 ```
 DELETE 'https://<host>/v2/assets/${assetId of job run}?project_id=${project_id}&purge_on_delete=true'
 ```
@@ -37,7 +37,7 @@ Here  *assetId*  is the  **job run id**
 
 -----------------------------------------------------------------------------------------------------
 
-## Delete the Job - Deleting job may not stopped/delete corresponding "job-run".
+## Delete the Job - Deleting job may not stopped/delete corresponding "Job-run".
 ```
 DELETE /v2/jobs/{job_id}
 ```
