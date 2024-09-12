@@ -226,6 +226,7 @@ jq '.metadata.name = "c-db2oltp-wkc-data-new"' pvc-c-db2oltp-wkc-data-new.json >
 jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
 
 ```
+Change the `spec:accessModes:` to `ReadWriteOnce`
 Create the new PVC.
 
 ```
