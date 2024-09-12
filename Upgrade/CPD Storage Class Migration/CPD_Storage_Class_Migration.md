@@ -38,6 +38,7 @@ export CPD_PV_MIGRATION_DIR=/opt/ibm/cpd_pv_migration
 #### 1.2.2 Bakup for the WKC CR.
 ```
 oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc-cr.yaml
+oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/db2uclusters-cr.yaml
 ```
 
 #### 1.2.3 Bakup for c-db2oltp-wkc-db2u.
@@ -139,17 +140,17 @@ This migration work requires down time. It's recommended sending a heads-up to a
 
 ## 2 Migration 
 **Note** This migration steps need to be validated carefully in a testing cluster. Down time is expected during this migration.
-### 2.1 Put WKC into maintenance mode
-Put WKC into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
+### 2.1 Put db2uclusters CR into maintenance mode
+Put db2uclusters into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
 ```
-oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
-Make sure the WKC put into the maintenance mode successfully.
+Make sure the db2uclusters put into the maintenance mode successfully.
 ```
-oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
+oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-**We should put all _WKC related Deployment and Statefulset to 0_.**
+**We should put all _db2uclusters related Deployment and Statefulset to 0_.**
 
 ### 2.2 Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
@@ -361,6 +362,7 @@ for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-dat
 ```
 
 ### 2.8.Make sure the correct storage type is specified in WKC cr db2ucluster db2oltp-wkc
+**_NEED to pay attension_**
 ```
 oc patch wkc wkc-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
