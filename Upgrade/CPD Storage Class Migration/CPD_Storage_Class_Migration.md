@@ -377,10 +377,10 @@ oc get db2ucluster db2oltp-wkc -oyaml
 
 ### 2.10.Get the WKC cr out of the maintenance mode
 **We should put all _WKC related Deployment and Statefulset to regular number_.**
-Get the WKC cr out of the maintenance mode to trigger the operator reconcilation.
+Get the db2ucluster db2oltp-wkc cr out of the maintenance mode to trigger the operator reconcilation.
 
 ```
-oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ### 2.11 Validation
