@@ -388,6 +388,7 @@ oc get db2ucluster db2oltp-wkc -oyaml
 
 ### 2.10.Get the WKC cr out of the maintenance mode
 **We should put all _db2ucluster related Deployment and Statefulset to regular number_.**
+
 Get the db2ucluster db2oltp-wkc cr out of the maintenance mode to trigger the operator reconcilation.
 
 ```
