@@ -223,7 +223,7 @@ Specify a new name and the right storage class (ocs-storagecluster-ceph-rbd) for
 tmp=$(mktemp)
 jq '.metadata.name = "c-db2oltp-wkc-data-new"' pvc-c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
 
-jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
+jq '.spec.storageClassName = "ocs-storagecluster-ceph-rbd"' pvc-c-db2oltp-wkc-data-new.json > "$tmp" && mv -f "$tmp" pvc-c-db2oltp-wkc-data-new.json
 
 ```
 Create the new PVC.
