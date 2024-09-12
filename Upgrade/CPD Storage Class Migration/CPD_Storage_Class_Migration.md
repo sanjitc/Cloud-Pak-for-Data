@@ -347,6 +347,7 @@ Remove the `claimRef` section from the new PV.
 oc patch pv $PV_NAME_C_DB2OLTP_WKC_DATA -p '{"spec":{"claimRef": null}}'
 ```
 
+Change the `spec:accessModes:` to `ReadWriteOnce`
 Recreate the c-db2oltp-wkc-data PVC.
 
 ```
