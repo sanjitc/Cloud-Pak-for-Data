@@ -157,6 +157,9 @@ oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 **We should put all _db2uclusters related Deployment and Statefulset to 0_.**
+```
+oc scale sts c-db2oltp-wkc-db2u --replicas=0 -n ${PROJECT_CPD_INST_OPERANDS}
+```
 
 ### 2.2 Change the ReclaimPolicy to be "Retain" for the existing PVs (the ones with the wrong SC ocs-storagecluster-cephfs)
 
