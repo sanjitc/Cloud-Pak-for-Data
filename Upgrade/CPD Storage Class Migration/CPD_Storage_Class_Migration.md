@@ -145,12 +145,14 @@ This migration work requires down time. It's recommended sending a heads-up to a
 ## 2 Migration 
 **Note** This migration steps need to be validated carefully in a testing cluster. Down time is expected during this migration.
 ### 2.1 Put db2uclusters CR into maintenance mode
-Put db2uclusters into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
+Put wkc and db2uclusters into maintenance mode for preventing the migration work from being impacted by the operator reconciliation.
 ```
+oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
 oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"ignoreForMaintenance": true}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 Make sure the db2uclusters put into the maintenance mode successfully.
 ```
+oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
