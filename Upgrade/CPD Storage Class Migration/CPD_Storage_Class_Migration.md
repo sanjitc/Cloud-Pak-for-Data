@@ -35,7 +35,7 @@ mkdir -p /opt/ibm/cpd_pv_migration
 export CPD_PV_MIGRATION_DIR=/opt/ibm/cpd_pv_migration
 ```
 
-#### 1.2.2 Bakup for the WKC CR.
+#### 1.2.2 Bakup for the WKC, db2ucluster CR.
 ```
 oc get wkc -o yaml -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/wkc-cr.yaml
 oc get db2ucluster db2oltp-wkc -n ${PROJECT_CPD_INST_OPERANDS} > ${CPD_PV_MIGRATION_DIR}/db2uclusters-cr.yaml
