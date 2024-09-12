@@ -76,6 +76,10 @@ podman tag 643870113757 <target_registry>/rhel7/rhel-tools:latest
 
 podman push <target_registry>/rhel7/rhel-tools:latest --tls-verify=false
 ```
+Image is available on :
+```
+hptv-docker-icp4d-np.oneartifactoryci.verizon.com/rhel7/rhel-tools:latest
+```
 
 ### 1.4 The permissions required for the upgrade is ready
 
