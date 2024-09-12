@@ -386,15 +386,15 @@ oc get db2ucluster db2oltp-wkc -oyaml
 ### 2.9.Make changes to the k8s resources if needed (optional)
 
 ### 2.10.Get the WKC cr out of the maintenance mode
-**We should put all _WKC related Deployment and Statefulset to regular number_.**
+**We should put all _db2ucluster related Deployment and Statefulset to regular number_.**
 Get the db2ucluster db2oltp-wkc cr out of the maintenance mode to trigger the operator reconcilation.
 
 ```
-oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
+oc patch wkc wkc-cr --type merge --patch '{"spec": {"ignoreForMaintenance": false}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
 ### 2.11 Validation
-- Make sure the CCS custom resource is in 'Completed' status and also with the right storage classes.
+- Make sure the WKC custom resource is in 'Completed' status and also with the right storage classes.
 ```
 oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
