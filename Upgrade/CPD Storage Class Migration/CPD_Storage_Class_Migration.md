@@ -259,7 +259,7 @@ oc rsh $(oc get pod | grep sleep | awk '{print $1}')
 
 - Migrate data to the new storage:
 ```
-rsync -avxHAX --progress /old-claim/* /new-claim
+nohup rsync -avxHAX --progress /old-claim/* /new-claim
 ```
 **Note:** Make sure the termial session will not be closed or expired during this step.
 
