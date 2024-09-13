@@ -379,7 +379,7 @@ oc patch wkc wkc-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-st
 ```
 
 Updade the accessModes to `ReadWriteOnce` and storageClassName to `ocs-storagecluster-ceph-rbd` in the db2ucluster CR under `storage:name->data:spec` section.
-``
+```
 - name: data
     spec:
       accessModes:
@@ -388,8 +388,9 @@ Updade the accessModes to `ReadWriteOnce` and storageClassName to `ocs-storagecl
         requests:
           storage: 40Gi
       storageClassName: ocs-storagecluster-ceph-rbd <--
-  ```
+```
 
+Check CRs updated correctly
 ```
 oc get wkc wkc-cr -oyaml
 oc get db2ucluster db2oltp-wkc -oyaml
