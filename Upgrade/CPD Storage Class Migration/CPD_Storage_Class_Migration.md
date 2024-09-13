@@ -207,9 +207,9 @@ oc scale sts c-db2oltp-wkc-db2u -n ${PROJECT_CPD_INST_OPERANDS} --replicas=0
 ```
 oc get sts -n ${PROJECT_CPD_INST_OPERANDS} | grep -i c-db2oltp-wkc-db2u
 ```
-#### 2.4.2 Start a new temporary deployment using the rhel-tools image
+#### 2.4.2 Start a new temporary deployment using the rhel-tools image. Change repository accordingly.
 ```
-oc -n ${PROJECT_CPD_INST_OPERANDS} create deployment sleep --image=registry.access.redhat.com/rhel7/rhel-tools -- tail -f /dev/null
+oc -n ${PROJECT_CPD_INST_OPERANDS} create deployment sleep --image=<registry.access.redhat.com>/rhel7/rhel-tools -- tail -f /dev/null
 ```
 #### 2.4.3 Migration for the c-db2oltp-wkc-data pvc
 - Create a new PVC by referencing the c-db2oltp-wkc-data pvc. 
