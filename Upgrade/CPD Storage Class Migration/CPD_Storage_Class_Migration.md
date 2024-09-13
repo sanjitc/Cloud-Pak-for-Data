@@ -376,8 +376,19 @@ for p in $(oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | egrep "c-db2oltp-wkc-dat
 **_NEED to pay attension_**
 ```
 oc patch wkc wkc-cr --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
-oc patch db2ucluster db2oltp-wkc --type merge --patch '{"spec": {"blockStorageClass": "ocs-storagecluster-ceph-rbd"}}' -n ${PROJECT_CPD_INST_OPERANDS}
 ```
+
+Updade the accessModes to `ReadWriteOnce` and storageClassName to `ocs-storagecluster-ceph-rbd` in the db2ucluster CR under `storage:name->data:spec` section.
+``
+- name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce <--
+      resources:
+        requests:
+          storage: 40Gi
+      storageClassName: ocs-storagecluster-ceph-rbd <--
+  ```
 
 ```
 oc get wkc wkc-cr -oyaml
