@@ -440,6 +440,11 @@ oc get pods -n ${PROJECT_CPD_INST_OPERANDS}| grep -E "c-db2oltp-wkc-db2u-0"
 oc get pvc -n ${PROJECT_CPD_INST_OPERANDS}| egrep "c-db2oltp-wkc|wkc-db2u-backups"
 ```
 
+- Mount path inside the pod should using rbd instead of ceph (i.g. `/dev/rbd0 on /mnt/bludata0 type ext4 (rw,relatime,seclabel,stripe=16`).
+```
+oc rsh c-db2oltp-wkc-db2u-0 bash
+mount |grep rbd
+```
 - Conduct user acceptance tests
 
 - Clean up
