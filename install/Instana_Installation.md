@@ -7,6 +7,9 @@ Part 1: Installation Option
 1.1 Self-Hosted Custom Edition
 1.2 Prerequisites
 
+Part 2: Installation procedure
+2.1 Install the kubectl plug-in
+
 ```
 
 ## Part 1: Installation Option
@@ -36,3 +39,24 @@ Storage requirements.
 - BeeInstana Kubernetes Operator: [[Offline]] (https://www.ibm.com/docs/en/instana-observability/current?topic=stores-installing-beeinstana-operator#installing-the-beeinstana-kubernetes-operator-offline-air-gapped) 
 - Kafka and Strimzi are compatible with the filesystem type on block storage, which can be either XFS or ext4.
 - The storage for raw spans requires Read Write Many (RWX) access mode storage such as FS (CephFS or NFS) or S3-compatible storage from any provider.
+
+## Part 2: Installation procedure
+### 2.1 [Install the kubectl plug-in] (https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-kubectl-plug-in#sitedatakeywordrhel-or-centos)
+2.1.1 Add the repository by running the following command as the root user. Replace <download_key> with your download key.
+```
+export DOWNLOAD_KEY="<download_key>"
+
+cat << EOF > /etc/yum.repos.d/Instana-Product.repo
+[instana-product]
+name=Instana-Product
+baseurl=https://_:$DOWNLOAD_KEY@artifact-public.instana.io/artifactory/rel-rpm-public-virtual/
+enabled=1
+gpgcheck=0
+gpgkey=https://_:$DOWNLOAD_KEY@artifact-public.instana.io/artifactory/api/security/keypair/public/repositories/rel-rpm-public-virtual
+repo_gpgcheck=1
+EOF
+```
+
+2.1.2 Install the Instana kubectl plug-in by running the following command:
+```
+```
