@@ -59,4 +59,18 @@ EOF
 
 2.1.2 Install the Instana kubectl plug-in by running the following command:
 ```
+yum clean expire-cache -y
+yum update -y
+yum install -y instana-kubectl-plugin
 ```
+
+2.1.3 If the versionlock plug-in is not installed on your host, run the following command to install the plug-in.
+```
+yum install python3-dnf-plugin-versionlock
+```
+
+2.1.4 To avoid automated updates, run the following command:
+```
+yum versionlock add instana-kubectl-plugin
+```
+
