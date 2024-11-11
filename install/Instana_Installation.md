@@ -41,7 +41,7 @@ Storage requirements.
 - The storage for raw spans requires Read Write Many (RWX) access mode storage such as FS (CephFS or NFS) or S3-compatible storage from any provider.
 
 ## Part 2: Installation procedure
-### 2.1 [Install the kubectl plug-in] (https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-kubectl-plug-in#sitedatakeywordrhel-or-centos)
+### 2.1 [Install the kubectl plug-in](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-kubectl-plug-in#sitedatakeywordrhel-or-centos)
 2.1.1 Add the repository by running the following command as the root user. Replace <download_key> with your download key.
 ```
 export DOWNLOAD_KEY="<download_key>"
