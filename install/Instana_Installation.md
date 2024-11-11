@@ -9,7 +9,7 @@ Part 1: Installation Option
 
 Part 2: Installation procedure
 2.1 Install the kubectl plug-in
-
+2.2 Installing the Instana Enterprise operator
 ```
 
 ## Part 1: Installation Option
@@ -74,3 +74,4 @@ yum install python3-dnf-plugin-versionlock
 yum versionlock add instana-kubectl-plugin
 ```
 
+### 2.2 [Installing the Instana Enterprise operator](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator)
