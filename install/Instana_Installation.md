@@ -31,3 +31,5 @@ Outbound network access requirements.
             https://setup.instana.io
             https://agents.instana.io/helm
   ```
+- Required data stores
+- 
