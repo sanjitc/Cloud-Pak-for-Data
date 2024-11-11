@@ -31,5 +31,7 @@ Outbound network access requirements.
             https://setup.instana.io
             https://agents.instana.io/helm
   ```
+Storage requirements.
 - Required third-party data store operators: [[Online]](https://www.ibm.com/docs/en/instana-observability/current?topic=64-preparing#preparing-for-online-installation) [[Offline]](https://www.ibm.com/docs/en/instana-observability/current?topic=64-preparing#preparing-for-offline-installation)
-- 
+- Kafka and Strimzi are compatible with the filesystem type on block storage, which can be either XFS or ext4.
+- The storage for raw spans requires Read Write Many (RWX) access mode storage such as FS (CephFS or NFS) or S3-compatible storage from any provider.
