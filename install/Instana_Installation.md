@@ -31,5 +31,5 @@ Outbound network access requirements.
             https://setup.instana.io
             https://agents.instana.io/helm
   ```
-- Required data stores
+- Required third-party data store operators [Online](https://www.ibm.com/docs/en/instana-observability/current?topic=64-preparing#preparing-for-online-installation) [Offline](https://www.ibm.com/docs/en/instana-observability/current?topic=64-preparing#preparing-for-offline-installation)
 - 
