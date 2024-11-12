@@ -75,3 +75,21 @@ yum versionlock add instana-kubectl-plugin
 ```
 
 ### 2.2 [Installing the Instana Enterprise operator](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator)
+The Instana Enterprise operator will be installed using the kubectl plug-in.
+
+2.2.1 Creating image pull secrets
+Unless you have your own Docker registry that mirrors artifact-public.instana.io and don't require pull secrets, you need to create an image pull secret for the namespace where the Instana Enterprise operator will be installed.
+
+a) Create a namespace where the Instana Enterprise operator will be installed. Replace <namespace_name> with the namespace name that you want, such as instana-operator.
+```
+kubectl create ns <namespace_name>
+```
+b) Install the secret in the namespace that you created.
+```
+kubectl create secret docker-registry <secret-name> \
+    --namespace=<namespace_name> \
+    --docker-username=_ \
+    --docker-password=<agent_key> \
+    --docker-server=artifact-public.instana.io
+```
+
