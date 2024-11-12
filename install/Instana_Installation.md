@@ -10,6 +10,8 @@ Part 1: Installation Option
 Part 2: Installation procedure
 2.1 Install the kubectl plug-in
 2.2 Installing the Instana Enterprise operator
+    2.2.1 Creating image pull secrets
+    2.2.2 Creating TLS secrets for admission webhook
 ```
 
 ## Part 1: Installation Option
@@ -91,5 +93,29 @@ kubectl create secret docker-registry <secret-name> \
     --docker-username=_ \
     --docker-password=<agent_key> \
     --docker-server=artifact-public.instana.io
+```
+
+2.2.2 Creating TLS secrets for admission webhook
+The operator comes with an admission webhook for defaulting, validation, and version conversion. Ensure that the TLS secret instana-operator-webhook of type kubernetes.io/tls is present. You can use ~~either cert-manager or~~ custom certificates. The secret must contain the following entries:
+
+- ca.crt
+- tls.crt
+- tls.key
+
+a) The certificate (tls.crt) must contain the following DNS names:
+
+- instana-operator.<namespace>.svc
+- instana-operator.<namespace>.svc.<clusterDomain>
+
+Replace _<namespace>_ with the namespace name where the Instana Enterprise operator will be installed.
+Replace _<clusterDomain>_ with the domain name of the cluster where the Instana Enterprise operator will be installed.
+
+b) Create the secret directly
+```
+kubectl create secret generic instana-operator-webhook \
+    --type=kubernetes.io/tls \
+    --from-file=tls.key=path/to/tls.key \
+    --from-file=tls.crt=path/to/tls.crt \
+    --from-file=ca.crt=path/to/ca.crt
 ```
 
