@@ -105,11 +105,12 @@ The operator comes with an admission webhook for defaulting, validation, and ver
 
 a) The certificate (tls.crt) must contain the following DNS names:
 
-- instana-operator.<namespace>.svc
-- instana-operator.<namespace>.svc.<clusterDomain>
+- instana-operator.`<namespace>`.svc
+- instana-operator.`<namespace>`.svc.`<clusterDomain>`
 
-Replace _<namespace>_ with the namespace name where the Instana Enterprise operator will be installed.
-Replace _<clusterDomain>_ with the domain name of the cluster where the Instana Enterprise operator will be installed.
+Replace `<namespace>` with the namespace name where the Instana Enterprise operator will be installed.
+
+Replace `<clusterDomain>` with the domain name of the cluster where the Instana Enterprise operator will be installed.
 
 b) Create the secret directly
 ```
