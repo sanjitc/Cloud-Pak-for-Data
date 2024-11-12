@@ -12,6 +12,7 @@ Part 2: Installation procedure
 2.2 Installing the Instana Enterprise operator
     2.2.1 Creating image pull secrets
     2.2.2 Creating TLS secrets for admission webhook
+    2.2.3 Creating the values file
 ```
 
 ## Part 1: Installation Option
@@ -118,4 +119,8 @@ kubectl create secret generic instana-operator-webhook \
     --from-file=tls.crt=path/to/tls.crt \
     --from-file=ca.crt=path/to/ca.crt
 ```
+
+2.2.3 Creating the values file
+The values file contains the configurations of the Instana Enterprise operator. The available options that you can configure are listed in the [Instana Enterprise operator configuration options](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#instana-enterprise-operator-configuration-options) table.
+
 
