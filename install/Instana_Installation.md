@@ -13,6 +13,9 @@ Part 2: Installation procedure
     2.2.1 Creating image pull secrets
     2.2.2 Creating TLS secrets for admission webhook
     2.2.3 Creating the values file
+
+2.3 Installing third-party data store operators
+    2.3.1 Preparing for offline installation
 ```
 
 ## Part 1: Installation Option
@@ -122,10 +125,96 @@ kubectl create secret generic instana-operator-webhook \
 ```
 
 2.2.3 Creating the values file
-The values file contains the configurations of the Instana Enterprise operator. The available options that you can configure are listed in the [Instana Enterprise operator configuration options](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#instana-enterprise-operator-configuration-options) table. Update the imagePullSecrets field with the image pull secret that you created earlier. 
+The `values` file contains the configurations of the Instana Enterprise operator. The available options that you can configure are listed in the [Instana Enterprise operator configuration options](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#instana-enterprise-operator-configuration-options) table. Update the `imagePullSecrets` field with the image pull secret that you created earlier. 
 
-Create a values.yaml file in the working directory and add the following lines:
+Create a `values.yaml` file in the working directory and add the following lines:
+```
+image:
+  registry: <my.registry.com>
 
+imagePullSecrets:
+  - name: <image_pull_secret>
+```
 
+### 2.3 [Installing third-party data store operators](https://www.ibm.com/docs/en/instana-observability/current?topic=edition-setting-up-data-stores)
+2.3.1 [Preparing for offline installation](https://www.ibm.com/docs/en/instana-observability/current?topic=64-preparing#preparing-for-offline-installation)
 
+1) Prepare a bastion host that can access both the internet and your own internal image registry.
+
+2) Install Helm on the bastion host.
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+3) Add the operator Helm chart repos.
+```
+helm repo add instana https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual --username=_ --password=<download_key>
+helm repo update
+```
+
+4) Download the Helm charts.
+```
+helm pull instana/ibm-clickhouse-operator --version=v1.2.0
+helm pull instana/zookeeper-operator --version=1.0.0
+helm pull instana/strimzi-kafka-operator --version=0.41.0
+helm pull instana/eck-operator --version=2.9.0
+helm pull instana/cloudnative-pg --version=0.20.0
+helm pull instana/cass-operator --version=0.45.2
+helm pull instana/cert-manager --version=1.13.2
+```
+
+5) Pull operator images
+- Cassandra
+```
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/operator/cass-operator:1.18.2_v0.15.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/system-logger:1.18.2_v0.4.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/k8ssandra-client:0.2.2_v0.5.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cassandra:4.1.4_v0.18.0
+```
+- ClickHouse
+```
+docker pull artifact-public.instana.io/clickhouse-operator:v1.2.0
+docker pull artifact-public.instana.io/clickhouse-openssl:23.8.10.43-1-lts-ibm
+```
+
+- Elasticsearch
+```
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/operator/elasticsearch:2.9.0_v0.13.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/elasticsearch:7.17.24_v0.11.0
+```
+
+- Kafka
+```
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/operator/strimzi:0.41.0_v0.11.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/kafka:0.41.0-kafka-3.6.2_v0.10.0
+```
+
+- PostgreSQL by using CloudNativePG
+```
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/operator/cloudnative-pg:v1.21.1_v0.7.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/cnpg-containers:15_v0.9.0
+```
+
+- ZooKeeper
+```
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/operator/zookeeper:0.2.15_v0.13.0
+docker pull artifact-public.instana.io/self-hosted-images/3rd-party/datastore/zookeeper:3.8.4_v0.14.0
+docker pull artifact-public.instana.io/self-hosted-images/k8s/kubectl:v1.31.0_v0.1.0
+```
+6) If you are using your bastion host as the Instana host in your air-gapped environment, you do not need to complete the following steps. However, if your bastion host and the air-gapped host are different, complete these steps:
+
+- On your bastion host, download the Helm binary for the operating system of your air-gapped host.
+```
+wget https://get.helm.sh/helm-v3.15.2-linux-amd64.tar.gz
+```
+
+- Copy the Helm binary file, operator images, and Helm charts from your bastion host to the host that is in your air-gapped environment.
+
+- Install Helm on the air-gapped host. Run these commands from the location of the Helm binary file.
+```
+tar –xvzf helm-v3.15.2-linux-amd64.tar.gz
+mv linux-amd64/helm /usr/local/bin/helm
+```
 
