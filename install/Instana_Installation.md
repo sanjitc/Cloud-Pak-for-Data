@@ -121,6 +121,10 @@ kubectl create secret generic instana-operator-webhook \
 ```
 
 2.2.3 Creating the values file
-The values file contains the configurations of the Instana Enterprise operator. The available options that you can configure are listed in the [Instana Enterprise operator configuration options](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#instana-enterprise-operator-configuration-options) table.
+The values file contains the configurations of the Instana Enterprise operator. The available options that you can configure are listed in the [Instana Enterprise operator configuration options](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#instana-enterprise-operator-configuration-options) table. Update the imagePullSecrets field with the image pull secret that you created earlier. 
+
+Create a values.yaml file in the working directory and add the following lines:
+
+
 
 
