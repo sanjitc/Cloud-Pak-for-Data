@@ -16,6 +16,7 @@ Part 2: Installation procedure
 
 2.3 Installing third-party data store operators
     2.3.1 Preparing for offline installation
+    2.3.2 Installing data stores on Linux x86_64
 ```
 
 ## Part 1: Installation Option
@@ -218,3 +219,43 @@ tar –xvzf helm-v3.15.2-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
 ```
 
+2.3.2 [Installing data stores on Linux x86_64](https://www.ibm.com/docs/en/instana-observability/current?topic=64-installing)
+You must install ZooKeeper before you install ClickHouse.
+1) [Cassandra](https://www.ibm.com/docs/en/instana-observability/current?topic=64-installing#:~:text=Focus%20sentinel-,Cassandra,-ZooKeeper)
+2) [ZooKeeper](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-zookeeper)
+3) [ClickHouse](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-clickhouse)
+4) [Elasticsearch](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-elasticsearch)
+5) [Kafka](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-kafka)
+6) [PostgreSQL](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-postgres)
+
+After you install each data store and add the appropriate usernames and passwords to the `config.yaml` file, the `config.yaml` file looks like the following example:
+```
+datastoreConfigs:
+  kafkaConfig:
+    adminUser: strimzi-kafka-user
+    adminPassword: <RETRIEVED_FROM_SECRET>
+    consumerUser: strimzi-kafka-user
+    consumerPassword: <RETRIEVED_FROM_SECRET>
+    producerUser: strimzi-kafka-user
+    producerPassword: <RETRIEVED_FROM_SECRET>
+  elasticsearchConfig:
+    adminUser: elastic
+    adminPassword: <RETRIEVED_FROM_SECRET>
+    user: elastic
+    password: <RETRIEVED_FROM_SECRET>
+  postgresConfigs:
+    - user: postgres
+      password: <RETRIEVED_FROM_SECRET>
+      adminUser: postgres
+      adminPassword: <RETRIEVED_FROM_SECRET>
+  cassandraConfigs:
+    - user: instana-superuser
+      password: <RETRIEVED_FROM_SECRET>
+      adminUser: instana-superuser
+      adminPassword: <RETRIEVED_FROM_SECRET>
+  clickhouseConfigs:
+    - user: clickhouse-user
+      password: <USER_GENERATED_PASSWORD>
+      adminUser: clickhouse-user
+      adminPassword: <USER_GENERATED_PASSWORD>
+```
