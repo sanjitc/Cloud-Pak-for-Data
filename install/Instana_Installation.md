@@ -274,6 +274,25 @@ kubectl instana operator apply --values values.yaml --ca-bundle-base64=<base64-e
 
 2.4.2 Updating the backend version
 The Instana backend is deployed with a default release version. Ideally, use the latest patch release or update to an available higher Instana backend version.
+
+1) To upgrade to a higher Instana backend version, you can use the following subcommands of the `versions` command. All commands have an optional `--download-key` flag. If you do not specify the flag, the download key of the existing installation is used.
+
+- The `identify` subcommand provides a list of currently available Instana backend versions that are compatible with the installed Custom Edition.
+- The `list-images` subcommand prints a list of images of the Instana Kubernetes operator and all Instana components. You can use the --instana-version flag to specify the operator version. If you do not use the flag, all available operator versions are listed, and you can then select a version.
+- The update command upgrades an existing installation to a new version. You can specify the upgrade version by using the `--instana-version` flag. Otherwise, all supported upgrade versions are displayed. You can then select a version. Alternatively, you can configure the backend version that you want to upgrade to in the core spec and apply the spec. See the following sample code.
 ```
+...
+spec:
+  imageConfig:
+    tag: 3.xxx.xxx-0
+...
 ```
+2) Verify the Instana backend upgrade by running the following commands:
+```
+kubectl get core -n instana-core
+kubectl get units -n instana-units
+```
+Check [notes](https://www.ibm.com/docs/en/instana-observability/current?topic=ice-upgrading#upgrade-notes) for release-specific requirements.
+
+
 
