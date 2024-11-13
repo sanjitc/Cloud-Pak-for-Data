@@ -17,6 +17,10 @@ Part 2: Installation procedure
 2.3 Installing third-party data store operators
     2.3.1 Preparing for offline installation
     2.3.2 Installing data stores on Linux x86_64
+
+2.4 Installing the Instana Enterprise operator
+    2.4.1 Install Instana Enterprise operator using custom certificates
+    2.4.2 Updating the backend version
 ```
 
 ## Part 1: Installation Option
@@ -259,3 +263,17 @@ datastoreConfigs:
       adminUser: clickhouse-user
       adminPassword: <USER_GENERATED_PASSWORD>
 ```
+
+### 2.4 [Installing the Instana Enterprise operator](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-instana-enterprise-operator#installing-the-instana-enterprise-operator-1)
+2.4.1 Install Instana Enterprise operator using custom certificates
+Applying manifests directly. This option creates CRDs and installs the Operator deployment and associated resources on the Kubernetes cluster.
+Install the Instana Enterprise operator in a specified namespace by using custom certificates, run the following command:
+```
+kubectl instana operator apply --values values.yaml --ca-bundle-base64=<base64-encoded ca.crt file> --namespace=instana-operator
+```
+
+2.4.2 Updating the backend version
+The Instana backend is deployed with a default release version. Ideally, use the latest patch release or update to an available higher Instana backend version.
+```
+```
+
