@@ -21,6 +21,8 @@ Part 2: Installation procedure
 2.4 Installing the Instana Enterprise operator
     2.4.1 Install Instana Enterprise operator using custom certificates
     2.4.2 Updating the backend version
+
+2.5 Setting up load balancers and DNS
 ```
 
 ## Part 1: Installation Option
@@ -295,4 +297,4 @@ kubectl get units -n instana-units
 Check [notes](https://www.ibm.com/docs/en/instana-observability/current?topic=ice-upgrading#upgrade-notes) for release-specific requirements.
 
 
-
+### 2.5 [Setting up load balancers and DNS](https://www.ibm.com/docs/en/instana-observability/current?topic=installing-setting-up-load-balancers-dns#setting-up-load-balancers-and-dns)
