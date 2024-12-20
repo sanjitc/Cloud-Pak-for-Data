@@ -38,7 +38,7 @@
 - **number_of_updated_assets** : The number of assets updated since last importing
 - **number_of_removed_assets** : The number of assets removed since last importing
 
-## There are some counts "with_children":
+### There are some counts "with_children":
 There are some "xxx_with_children". That number is usually same as "xxx", but in case of asset types which has descendants (ex. ibm_bi_report, ibm_logical_model, ibm_physical_model), "xxx" only contains number of top level assets, and "xxx_with_children" contains number of top level and descendant assets.
 These child assets can be importing from Manta. In such case, the "_with_children" count would contain top level and its descendants’ assets.
 - **discovered_with_children** : number of discovered asset including child assets from the data source
