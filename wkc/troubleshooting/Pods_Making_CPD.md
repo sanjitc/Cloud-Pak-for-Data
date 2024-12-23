@@ -41,7 +41,7 @@ The following table provides reference information on the pods making up CPD and
 |jobs-api|||||||
 |jobs-ui|||||||
 |kafka|WKC|UG|Runs Apache Kafka. Used for AD/QS and for OMRS metadata sync.|is-en-conductor-0, zookeeper-0, iis-services, odf-fastanalyzer, omag|AD, QS, and DQ jobs won't run, internal OMRS sync won't work.|Running AD, SQ, and DQ jobs may fail.|
-|metadata-discovery|WKC|general|WKC auto discovery feature on connections. This is back-end service for Metadata Import as well|catalog-api, rabbitmq-ha, redis-ha, projects-api, wdp-couchdb|Auto-discovery feature will be interrupted.|Asset creation of discovery process will resume.|
+|metadata-discovery|WKC|general|WKC auto discovery feature on connections. This is back-end service for Metadata Import (MDI) as well|catalog-api, rabbitmq-ha, redis-ha, projects-api, wdp-couchdb|Auto-discovery feature will be interrupted.|Asset creation of discovery process will resume.|
 |metastoredb|Zen|CPD|provides core api to zen services. stores extension, users, monitoring data||||
 |odf-fast-analyzer|WKC|QS|Backend for quick scan. Implements a local Hadoop cluster for running data discovery algorithms.|||Running QS jobs will fail.|
 |omag|WKC|general|Responsible for the IIS/IGC side of OMRS synchronization of data assets and governance artifacts.|kafka-0, redis-ha, iis-services|No sync between information assets view and Default Catalog.|Restart may help to recover from internal sync issues.|
