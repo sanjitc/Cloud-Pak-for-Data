@@ -28,6 +28,14 @@ function prompt_for_list_of_catalogs(){
     fi    
 }
 
+function prompt_for_cleanup(){
+    read -p "Do you want to remove stale records? Type \"YES\" to enable stale record deletion, default is NO:" CLEAN_STALE
+    if [[ $CLEAN_STALE == "YES" ]]; then
+        oc set env -n $NAMESPACE cronjob/wkc-search-reindexing-cronjob enable_orphan_asset_deletion="True"
+        oc set env -n $NAMESPACE cronjob/wkc-search-reindexing-cronjob delete_orphan_assets="True"
+    fi
+}
+
 function construct_db_list_string(){
     DB_STRING="["
     first=true
@@ -53,12 +61,14 @@ function spawn_job(){
 
 function restore_cronjob(){
     oc set env -n $NAMESPACE cronjob/wkc-search-reindexing-cronjob dbs_to_sync=[]
+    oc set env -n $NAMESPACE cronjob/wkc-search-reindexing-cronjob enable_orphan_asset_deletion="False"
+    oc set env -n $NAMESPACE cronjob/wkc-search-reindexing-cronjob delete_orphan_assets="False"
 }
 
 prompt_for_namespace
 prompt_for_list_of_catalogs
+prompt_for_cleanup
 construct_db_list_string
 patch_cronjob
 spawn_job
 restore_cronjob
-
