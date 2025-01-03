@@ -6,10 +6,9 @@
 1. [IKC Lineage - IBM Manta Data Lineage](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/manta/Demo%20IKC%20Lineage%20-%20IBM%20Manta%20Data%20Lineage.MP4.zip)
 
 ## Pods
-|Pod name|Service|Scope*|Description*|Connected pods*|Impact of being down*|Impact of restart*|
-|manta-admin-gui|WKC|Manta|||||
-|manta-admin|WKC|Manta|||||
-|manta-configuration-service|WKC|Manta|||||
-|manta-dataflow|WKC|Manta|||||
-|manta-flow-agent|WKC|Manta|||||
-|manta-open-manta-designer|WKC|Manta|||||
+- manta-admin-gui
+- manta-admin
+- manta-configuration-service
+- manta-dataflow
+- manta-flow-agent
+- manta-open-manta-designer
