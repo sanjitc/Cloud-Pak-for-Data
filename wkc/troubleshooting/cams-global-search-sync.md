@@ -20,9 +20,12 @@ curl -XDELETE --header 'Content-Type:text/plain' --header 'Accept:application/js
 ```
 Note that it needs to be run with Basic Auth + Service ID credentials
 
-4)  Run reindex job: 
+4)  Start resync job:
 ~~`oc create job --from=cronjob/wkc-search-reindexing-cronjob wkc-search-reindexing-cronjob-manual-01`~~
-- Ran [cpd_gs_sync.sh](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/scripts/cpd_gs_sync.sh) (Orginal location - https://github.ibm.com/wdp-gov/wdp-catalog-service/wiki/How-to-run-GS-resync-for-specific-catalogs-in-CPD-environment) for particular catalog. Script will ask for:
+- Ran [cpd_gs_sync.sh](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/scripts/cpd_gs_sync.sh) (Orginal location - https://github.ibm.com/wdp-gov/wdp-catalog-service/wiki/How-to-run-GS-resync-for-specific-catalogs-in-CPD-environment) for particular catalog.
+  Run chmod +x ./cpd_gs_sync.sh to make the above script executable.
+  Run ./cpd_gs_sync.sh to execute job against specific catalogs. Follow prompts to customize it as required. NOTE: if empty list of containers is provided - ALL of the catalogs/project/spaces will be resync'd.
+Script will ask for:
   - Project name where catalog resides, 
   - catalog_id
 
