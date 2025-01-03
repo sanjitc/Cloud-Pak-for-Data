@@ -7,9 +7,9 @@
 
 ## Pods
 |Pod name|Service|Scope*|Description*|Connected pods*|Impact of being down*|Impact of restart*|
-manta-admin-gui	WKC	Manta				
-manta-admin	WKC	Manta				
-manta-configuration-service	WKC	Manta				
-manta-dataflow	WKC	Manta				
-manta-flow-agent	WKC	Manta				
-manta-open-manta-designer	WKC	Manta	
+|manta-admin-gui|WKC|Manta|||||
+|manta-admin|WKC|Manta|||||
+|manta-configuration-service|WKC|Manta|||||
+|manta-dataflow|WKC|Manta|||||
+|manta-flow-agent|WKC|Manta|||||
+|manta-open-manta-designer|WKC|Manta|||||
