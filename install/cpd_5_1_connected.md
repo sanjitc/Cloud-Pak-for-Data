@@ -266,3 +266,193 @@ export OPENCONTENT_CASE_REPO_PATH=https://\$GITHUB_TOKEN@raw.github.ibm.com/IBMP
 
 EOF
 ```
+
+Validate if downloading the CASE files working:
+```
+cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION}
+```
+
+## CPD deployment
+Updating the global image pull secret
+Log the cpd-cli in to the Red Hat® OpenShift® Container Platform cluster: 
+```
+${CPDM_OC_LOGIN}
+```
+
+Update the global image pull secret
+```
+# 1. Get the current pull secret and save to file /tmp/dockerconfig.json
+oc get secret/pull-secret -n openshift-config -o jsonpath='{.data.\.dockerconfigjson}' | base64 -d > /tmp/dockerconfig.json
+
+# 2. For updating every registry, you need to run the below steps once
+# You need to include the secret for all of the below registries
+# - cp.stg.icr.io
+
+
+## 2a. Set up the variables
+registry=cp.stg.icr.io
+username=cp
+password=<entitlement key for accessing staging image registry>
+
+#You can get the entitlement key with below link
+#https://wwwpoc.ibm.com/myibm/products-services/containerlibrary
+
+pull_secret=$(echo -n "$username:$password" | base64 -w 0)
+
+## 2b. Update the file using jq
+jq --argjson obj '{"auth": "'$pull_secret'"}' '.auths += {"'$registry'": $obj}' /tmp/dockerconfig.json > /tmp/temp.json && mv /tmp/temp.json /tmp/dockerconfig.json -f
+
+# 3. Apply the global pull secret
+oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=/tmp/dockerconfig.json
+```
+
+Get the status of the nodes. 
+```
+cpd-cli manage oc get nodes
+```
+
+Wait until all the nodes are Ready before you proceed to the next step. For example, if you see Ready,SchedulingDisabled, wait for the process to complete.
+
+Set up ImageDigestMirrorSet and ImageTagMirrorSet
+```
+oc apply -f - << EOF
+apiVersion: config.openshift.io/v1
+kind: ImageDigestMirrorSet
+metadata:
+  name: cpd-icsp
+spec:  
+  imageDigestMirrors:
+  - mirrors:
+      - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-docker-local
+      - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-2-docker-local  
+      - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: icr.io/cpopen
+  - mirrors:
+      - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: icr.io/cpopen/cpfs
+  - mirrors:
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: cp.icr.io/cp/cpd
+
+---
+
+apiVersion: config.openshift.io/v1
+kind: ImageTagMirrorSet
+metadata:
+  name: cpd-icsp
+spec:  
+  imageTagMirrors:
+  - mirrors:
+      - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-docker-local
+      - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-2-docker-local  
+      - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: icr.io/cpopen
+  - mirrors:
+      - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: icr.io/cpopen/cpfs
+  - mirrors:
+      - cp.stg.icr.io/cp
+      - cp.stg.icr.io/cp/cpd
+    source: cp.icr.io/cp/cpd
+
+EOF
+```
+
+Changing required node settings
+
+Changing load balancer timeout settings
+
+https://ibmdocs-test.dcs.ibm.com/docs/en/SSNFH6_5.1_test?topic=settings-changing-load-balancer
+
+Changing the process IDs limit
+
+Run the following command to create the KubeletConfig that defines the podPidsLimit: 
+```
+oc apply -f - << EOF
+apiVersion: machineconfiguration.openshift.io/v1
+kind: KubeletConfig
+metadata:
+  name: cpd-pidslimit-kubeletconfig
+spec:
+  kubeletConfig:
+    podPidsLimit: 16384
+  machineConfigPoolSelector:
+    matchExpressions:
+    - key: pools.operator.machineconfiguration.openshift.io/worker
+      operator: Exists
+EOF
+```
+
+Manually creating projects (namespaces) for the shared cluster components
+```
+oc new-project ${PROJECT_LICENSE_SERVICE}
+oc new-project ${PROJECT_SCHEDULING_SERVICE}
+```
+
+Installing shared cluster components
+
+Install the License Service:
+```
+cpd-cli manage apply-cluster-components \
+--release=${VERSION} \
+--license_acceptance=true \
+--cert_manager_ns=${PROJECT_CERT_MANAGER} \
+--licensing_ns=${PROJECT_LICENSE_SERVICE}
+```
+
+Wait for the cpd-cli to return the following message before proceeding to the next step:
+```
+[SUCCESS]... The apply-cluster-components command ran successfully.
+```
+
+Install the Scheduler Service:
+```
+cpd-cli manage apply-scheduler \
+--release=${VERSION} \
+--license_acceptance=true \
+--scheduler_ns=${PROJECT_SCHEDULING_SERVICE}
+```
+
+Manually creating projects (namespaces) for CPD instance 
+
+Log in to Red Hat® OpenShift® Container Platform as a cluster administrator. 
+```
+${OC_LOGIN}
+```
+
+Create the operators project for the instance: 
+```
+oc new-project ${PROJECT_CPD_INST_OPERATORS}
+```
+
+Create the operands project for the instance:
+```
+oc new-project ${PROJECT_CPD_INST_OPERANDS}
+```
+
+Applying the required permissions to the projects (namespaces) for CPD instance
+
+Log the cpd-cli in to the Red Hat® OpenShift® Container Platform cluster: 
+```
+${CPDM_OC_LOGIN}
+```
+
+Run the cpd-cli manage authorize-instance-topology to apply the required permissions to the projects.
+```
+cpd-cli manage authorize-instance-topology \
+--cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+
+## Installing IBM Software Hub
