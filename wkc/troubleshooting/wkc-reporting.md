@@ -22,6 +22,14 @@ curl -i -k -H "content-type: application/json" -H "Authorization: Bearer $TOKEN"
 ```
 Response will have `total_rows` which is the total number of assets in the catalog.
 
+Assets at WKC Reporting datamart. From PostgreSQL:
+```
+select container_id, count(*) 
+from wkc_reorting.container_assets 
+where container_id  = 'b668e647-3f53-4997-8e45-f55c1a5f2b02'
+group by container_id
+```
+
 ## Force sync
 To trigger re-sync of all the assets under a project or catalog, you can use this curls command.
 ```
@@ -32,10 +40,4 @@ Example:
 curl -i -k -H "content-type: application/json" -H "Authorization: Bearer $TOKEN" -X POST "https://$HOSTNAME/v3/reporting/999/start?soft_restart=true&failed_only=true&include_passed_zone_ids=\"aaaaa090-64bc-4c26-9ad7-ae615db92cab,xxxxx090-64bc-4c26-9ad7-ae615db92cab\""
 ```
 
-Assets at WKC Reporting datamart. From PostgreSQL:
-```
-select container_id, count(*) 
-from wkc_reorting.container_assets 
-where container_id  = 'b668e647-3f53-4997-8e45-f55c1a5f2b02'
-group by container_id
-```
+
