@@ -70,6 +70,7 @@ podman rmi $OLM_UTILS_IMAGE  ## remove existing olm-utils image if any
 cpd-cli manage restart-container
 
 cpd-cli manage login-to-ocp --server=https://<your apiserver>:6443 -u <cluster admin> -p <cluster admin user's password>
+#Example: cpd-cli manage login-to-ocp --server=https://oauth-openshift.apps.cpd485vz.cp.fyre.ibm.com:6443 -u kubeadmin -p <password>
 ```
 
 ## Creating an environment variables file 
