@@ -1,4 +1,4 @@
-# CPD 5.1 Installation Testing
+# CPD 5.1 Installation on connected network
 
 ## Assumption
 Environment base (internet connected)
