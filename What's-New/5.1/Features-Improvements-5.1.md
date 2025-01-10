@@ -31,8 +31,10 @@ Better target the data elements for monitoring of data quality:
 d) **Segment data assets by column values to focus on the information you need**
 You can now chunk data assets into smaller data assets based on selected column values to help you access only the data that you’re interested in. You can work with connected data assets in your project or directly select a data asset and column from a connection in your project without creating a connected data asset first.
 
-e) **Import, enrich, and assess data quality of data from additional data sources**
-You can now import metadata from Dremio data lakes, enrich that data, and assess its quality.
+e) **Import, enrich, and assess data quality of data from additional data sources** - You can now import metadata from Dremio data lakes, enrich that data, and assess its quality.
 
-f) **Simplify the importing of metadata to better understand your data**
-You can now import metadata by using a new experience that is integrated with IBM Manta Data Lineage service. The metadata import experience process is simplified and provides more lineage import configuration options, which can help you to understand how data flows in more detail.
+f) **Simplify the importing of metadata to better understand your data** - You can now import metadata by using a new experience that is integrated with IBM Manta Data Lineage service. The metadata import experience process is simplified and provides more lineage import configuration options, which can help you to understand how data flows in more detail.
+
+g) **IBM Knowledge Catalog now store data in a Neo4j graph database** -  All editions of IBM Knowledge Catalog now use a Neo4j graph database to store lineage and relationship information. Neo4j provides greater data consistency while improving scaling and performance.
+
+Neo4j is the graph database that is used with the IBM Manta Data Lineage service. If you want to use the MANTA Automated Data Lineage service as your lineage service or if you want to enable the relationship explorer feature, you can enable the use of FoundationDB instead of Neo4j during installation or upgrade.
