@@ -2,6 +2,31 @@
 ### Quick links
 - [What's new in Version 5.1](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=overview-whats-new#whats-new__50__title__1)
 
+### IBM Software Hub (Cloud Pak for Data platform) 
+a) **A standard framework for:**
+   - Installing and upgrading
+   - Backing up and restoring installations
+   - Monitoring resource use and installation health
+   - Scaling resources
+
+b) **IBM Software Hub Administration Console** 
+Offers a dedicated and streamlined experience for administrators. The IBM Software Hub Administration Console includes the:
+   - Identity provider configuration
+   - Access control
+   - Configuration and settings
+   - Monitoring
+   - Storage volumes
+
+c) **IBM Software Hub with the OADP utility**
+It is now easier to back up and restore an IBM Software Hub instance when you use the OADP utility. The improved process includes the following changes:
+
+   - You need to run only a single command to create an online or offline backup. The single command does a backup precheck, runs backup prehooks, backs up volumes and Kubernetes resources, runs backup posthooks, and validates the backup.
+   - You need to run only a single command to restore a backup. The single command does a restore precheck, restores volumes and Kubernetes resources, runs restore posthooks, and validates the restore.
+   - Some tasks that you previously had to do to prepare IBM Software Hub and some services before creating a backup are now automated.
+   - Some tasks that you previously had to do to after a restore to make IBM Software Hub and some services fully functional are now automated.
+   - You no longer need to manually download the backup script cpd-operators.sh.
+   - A new script was added to clean up a cluster before you restore a backup.
+
 
 ### Cloud Pak for Data Common Core Services
 a) **Access more data with new connectors** 
