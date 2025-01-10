@@ -2,6 +2,7 @@
 ### Quick links
 - [What's new in Version 5.1](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=overview-whats-new#whats-new__50__title__1)
 
+
 ### Cloud Pak for Data Common Core Services
 a) **Access more data with new connectors** 
    - Denodo
@@ -10,8 +11,10 @@ a) **Access more data with new connectors**
 
 b) **Integrated service connections** - You can now add new connections using the information from existing service instances. This means that parameter values for the new connection can be automatically filled in from the existing instance.
 
+
 ### Analytics Engine powered by Apache Spark
 a) **Automatic daily database snapshot backups** - IBM Analytics Engine now automatically backs up the metastore database each day. Administrators can restore the database from the snapshots.
+
 
 ### IBM Knowledge Catalog
 a) **Enhanced gen AI based enrichment (IBM Knowledge Catalog Premium and IBM Knowledge Catalog Standard)**
@@ -38,3 +41,8 @@ f) **Simplify the importing of metadata to better understand your data** - You c
 g) **IBM Knowledge Catalog now store data in a Neo4j graph database** -  All editions of IBM Knowledge Catalog now use a Neo4j graph database to store lineage and relationship information. Neo4j provides greater data consistency while improving scaling and performance.
 
 Neo4j is the graph database that is used with the IBM Manta Data Lineage service. If you want to use the MANTA Automated Data Lineage service as your lineage service or if you want to enable the relationship explorer feature, you can enable the use of FoundationDB instead of Neo4j during installation or upgrade.
+
+
+### Watson Studio
+a) **Schedule jobs in Git-based projects** -  You can now schedule jobs within Git-based projects. You can set up scheduling when you create the job.
+
