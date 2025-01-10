@@ -9,16 +9,14 @@ a) **A standard framework for:**
    - Monitoring resource use and installation health
    - Scaling resources
 
-b) **IBM Software Hub Administration Console** 
-Offers a dedicated and streamlined experience for administrators. The IBM Software Hub Administration Console includes the:
+b) **IBM Software Hub Administration Console**  - Offers a dedicated and streamlined experience for administrators. The IBM Software Hub Administration Console includes the:
    - Identity provider configuration
    - Access control
    - Configuration and settings
    - Monitoring
    - Storage volumes
 
-c) **IBM Software Hub with the OADP utility**
-It is now easier to back up and restore an IBM Software Hub instance when you use the OADP utility. The improved process includes the following changes:
+c) **IBM Software Hub with the OADP utility** - It is now easier to back up and restore an IBM Software Hub instance when you use the OADP utility. The improved process includes the following changes:
 
    - You need to run only a single command to create an online or offline backup. The single command does a backup precheck, runs backup prehooks, backs up volumes and Kubernetes resources, runs backup posthooks, and validates the backup.
    - You need to run only a single command to restore a backup. The single command does a restore precheck, restores volumes and Kubernetes resources, runs restore posthooks, and validates the restore.
@@ -43,18 +41,18 @@ a) **Automatic daily database snapshot backups** - IBM Analytics Engine now auto
 
 ### IBM Knowledge Catalog
 a) **Enhanced gen AI based enrichment (IBM Knowledge Catalog Premium and IBM Knowledge Catalog Standard)**
-- The granite-8b-code-instruct model replaces the previously used granite 13b model for generating asset and column descriptions. The new model provides more accurate results and needs less memory and storage.
-- Business term abbreviations are now taken into account when display names are generated during metadata enrichment. If a source asset or column name matches any defined business term abbreviation, this abbreviation is used to expand the name.
-- In the metadata enrichment results, you can now remove suggested display names or descriptions in bulk.
+   - The granite-8b-code-instruct model replaces the previously used granite 13b model for generating asset and column descriptions. The new model provides more accurate results and needs less memory and storage.
+   - Business term abbreviations are now taken into account when display names are generated during metadata enrichment. If a source asset or column name matches any defined business term abbreviation, this abbreviation is used to expand the name.
+   - In the metadata enrichment results, you can now remove suggested display names or descriptions in bulk.
 
 b) **Enhanced management and scheduling of metadata enrichment jobs**
-- You can now configure execution windows for your metadata enrichment jobs to balance workloads. Jobs then run only within the configured time frames.
-- On the new run metrics dashboard, you can monitor the progress of the individual enrichment tasks for an active metadata enrichment job run. In addition, you can explore run information for completed job runs to identify if and where issues occurred.
+   - You can now configure execution windows for your metadata enrichment jobs to balance workloads. Jobs then run only within the configured time frames.
+   - On the new run metrics dashboard, you can monitor the progress of the individual enrichment tasks for an active metadata enrichment job run. In addition, you can explore run information for completed job runs to identify if and where issues occurred.
 
 c) **Enhanced data quality monitoring (IBM Knowledge Catalog and IBM Knowledge Catalog Premium)**
 Better target the data elements for monitoring of data quality:
-- You can now configure data quality SLA rules without asset-level filters. The rules can be applied to any number of columns that have the same name or the same terms assigned, regardless of the containing data asset.
-- You can now select and run data quality SLA rules as part of metadata enrichment. The rules are no longer enabled in the enrichment settings for the project.
+   - You can now configure data quality SLA rules without asset-level filters. The rules can be applied to any number of columns that have the same name or the same terms assigned, regardless of the containing data asset.
+   - You can now select and run data quality SLA rules as part of metadata enrichment. The rules are no longer enabled in the enrichment settings for the project.
 
 d) **Segment data assets by column values to focus on the information you need**
 You can now chunk data assets into smaller data assets based on selected column values to help you access only the data that you’re interested in. You can work with connected data assets in your project or directly select a data asset and column from a connection in your project without creating a connected data asset first.
