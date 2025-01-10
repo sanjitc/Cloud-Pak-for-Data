@@ -27,7 +27,9 @@ Download the IBM Software Hub command-line interface 5.1.0.
 ```
 wget http://icpfs1.svl.ibm.com/zen/cp4d-builds/cpd-cli/14.1.0/latest/cpd-cli-linux-EE-14.1.0.tgz
 tar xvf cpd-cli-linux-EE-14.1.0.tgz
-export PATH=${CPD_WORKSPACE}/cpd-cli-linux-EE-14.1.0-1106:$PATH
+
+# Check the "cpd-cli-linux-EE*" directory get created the above tar extraction. It may be different in your case.
+export PATH=${CPD_WORKSPACE}/cpd-cli-linux-EE-14.1.0-1291:$PATH
 ```
 
 Update the CPD_CLI_MANAGE_WORKSPACE variable
