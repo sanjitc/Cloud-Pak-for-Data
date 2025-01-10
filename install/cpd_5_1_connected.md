@@ -51,13 +51,17 @@ cpd-cli
 
 Set up cpd-cli
 ```
-#Get the entitlement key for cp.stg.icr.io
+# Get the entitlement key for cp.stg.icr.io
 #https://wwwpoc.ibm.com/myibm/products-services/containerlibrary
+
+# Get the entitlement key for icr.io
+https://myibm.ibm.com/products-services/containerlibrary
 
 podman login -u cp -p <entitlement key>
 
 # define olm-utils image for 5.1.x
-export OLM_UTILS_IMAGE=cp.stg.icr.io/cp/cpd/olm-utils-v3:5.1.0
+#export OLM_UTILS_IMAGE=cp.stg.icr.io/cp/cpd/olm-utils-v3:5.1.0
+export OLM_UTILS_IMAGE=icr.io/cpopen/cpd/olm-utils-v3:5.1.0
 
 podman rm olm-utils-play-v3 --force ## stop and delete running olm-utils container if any
 
