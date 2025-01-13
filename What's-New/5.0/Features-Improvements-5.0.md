@@ -17,13 +17,17 @@ a) **HTTP Proxy for connections** - You can use HTTP Proxy for managing inbound 
 b) **Access more data with a new connector** - You can now work with data from the following data sources: 
    - Elastic Cloud
    - Microsoft Azure Synapse Analytics
-   - Vertica 
+   - Vertica
+   - Microsoft Azure Databricks
+   - MicroStrategy
+   - Milvus
 
 c) **New property for the Microsoft SQL Server connection** -  You can now use an Azure Active Directory username and password for authentication.
 
 d) **LDAP authentication** - Apache Impala connection can now use LDAP authentication for another way of verifying access to the connection.
 
-e) **Connection name change: Cloudera Impala is now Apache Impala** - The Cloudera Impala connection is renamed to Apache Impala. Your previous settings for the connection remain the same. Only the connection name is changed.
+e) **Use data source definitions to manage and protect data that is accessed from connections** - Data source definitions are a new type of asset that you define based on a connection or connected data asset's endpoints. When you create a data source definition, you can monitor where your data is stored across multiple projects, catalogs, or multi-node data sources. You can also apply the correct protection solution (enforcement engine) based on the data source definition.
+
 
 
 ### IBM IBM Knowledge Catalog
