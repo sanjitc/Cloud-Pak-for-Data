@@ -29,13 +29,14 @@ d) **LDAP authentication** - Apache Impala connection can now use LDAP authentic
 e) **Use data source definitions to manage and protect data that is accessed from connections** - Data source definitions are a new type of asset that you define based on a connection or connected data asset's endpoints. When you create a data source definition, you can monitor where your data is stored across multiple projects, catalogs, or multi-node data sources. You can also apply the correct protection solution (enforcement engine) based on the data source definition.
 
 
-
-### IBM IBM Knowledge Catalog
+### IBM Knowledge Catalog
 a) **Import, enrich, and assess the quality of data from additional data sources:**
    - Apache Impala
    - SAP OData
    - SingleStoreDB
    - Hive Metastore in Microsoft Azure
+   - MicroStrategy
+   - OpenLineage
 
 b) **Enhanced export of the lineage graph to PDF** - You can now export your lineage graph to an interactive PDF, that includes detailed information, such as:
    - Canvas summary
@@ -70,11 +71,30 @@ m) **Enhancements in governance artifacts**
    - You can now make bulk edits when updating relationships in governance artifacts.
    - When viewing all governance artifacts of a specific type, you can now filter the list by a number of properties, including custom properties.
 
+n) **Data quality enhancements** - You can now add data assets or columns with the new relationship type Validates data quality of to any type of data quality rule to have the quality score and any data quality issues reported for this item on the Data quality page. With this enhancement, data quality rules with externally managed bindings and SQL-based data quality rules can now also contribute to the quality scores of assets and columns.
+
+o) **Data protection rules are no longer enforced in projects** - Data protection rules are now only enforced in governed catalogs or by a deep enforcement solution. Assets that are added into projects from a governed catalog no longer have preview, download, or profiling restricted by data protection rules.
+
+p) **Enhanced project list view in catalogs** - Now, when you are adding assets from a catalog to a project, you can view more than 100 projects in your project list page and add up to 50 assets at a time to your project.
+
+q) **Enhancements in governance artifacts** - 
+   - You can now make changes to multiple governance artifacts at once. Bulk edits are available when updating tags and stewards. 
+   - Now you can move any category either to the top level or to any other category as a sub-category. The collaborators are also moved provided they have required permissions on the new parent category. 
+   - You can now add custom properties and relationships for reference data sets.
+   - Notifications about changes in governance artifacts, for example, when an artifact is added, updated, or deleted, can now be forwarded to external applications or users.
+
+r) **Relationship Explorer to visualize your metadata** - Relationship Explorer is now available to help better understand your data. This new feature helps you to visualize, explore and govern your metadata. Discover how your governance artifacts and data assets relate with each other in a single view.
+
+### Analytics Engine powered by Apache Spark
+a) **Auto-scaling Spark workloads** - You can now enable the auto-scaling feature for a Spark application by adding the configuration setting ae.spark.autoscale.enable=true to the existing application configuration. A Spark application that has auto-scaling enabled can automatically determine the number of executors required by the application based on the application's usage.
+
 
 ### Watson Studio
 a) **Create git-integrated projects through API or CLI** - You can now create git-integrated projects through API or CLI.
 
 b) **Upload data files to a folder in a project** - You can now upload data files directly to an existing folder of your choice if folders are enabled. Previously, you would upload a file to the root folder and move it into a different folder.
+
+c) **Tag projects for easy retrieval** - You can now assign tags to projects to make them easier to group or retrieve. Assign tags when you create a new project or from the list of all projects. Filter the list of projects by tag to retrieve a related set of projects.
 
 
 ### Watson Studio Runtimes
@@ -83,3 +103,12 @@ a) **NLP transformer embedding models are included in Runtime 24.1** - In the Ru
 b) **New specialized NLP models are available in Runtime 24.1** - The following new, specialized NLP models are now included in the Runtime 24.1 environment:
    - A model that is able to detect and identify hateful, abusive, or profane content (HAP) in textual content.
    - Three pre-trained models that are able to address topics related to finance, cybersecurity, and biomedicine.
+
+c) **Runtime 24.1 is now available for use with Python and R** - You can now use Runtime 24.1, which includes the latest data science frameworks on Python 3.11 and on R 4.3, to run your code in Watson Studio Jupyter notebooks and in RStudio. 
+
+d) **A new version of Jupyter notebooks editor is now available** - If you're running your notebook in environments that are based on Runtime 23.1 and 24.1, you can now:
+   - Automatically debug your code
+   - Automatically generate a table of contents for your notebook
+   - Toggle line numbers next to your code
+   - Collapse cell contents and use side-by-side view for code and output, for enhanced productivity
+
