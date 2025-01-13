@@ -68,9 +68,9 @@ To retain the system setup when you upgrade one of these services from an earlie
 12) **Import metadata from every database** - Now, you don't have to specify the database to which you want to connect for the Informix, SAP ASE, and Microsoft SQL Server connections. With no database specified, you can import metadata from every database that is available for that connection.
 
 13) **Enhancements in governance artifacts**
-   - You can now change the primary or secondary category for multiple governance artifacts at once.
-   - You can now make bulk edits when updating relationships in governance artifacts.
-   - When viewing all governance artifacts of a specific type, you can now filter the list by a number of properties, including custom properties.
+    - You can now change the primary or secondary category for multiple governance artifacts at once.
+    - You can now make bulk edits when updating relationships in governance artifacts.
+    - When viewing all governance artifacts of a specific type, you can now filter the list by a number of properties, including custom properties.
 
 14) **Data quality enhancements** - You can now add data assets or columns with the new relationship type Validates data quality of to any type of data quality rule to have the quality score and any data quality issues reported for this item on the Data quality page. With this enhancement, data quality rules with externally managed bindings and SQL-based data quality rules can now also contribute to the quality scores of assets and columns.
 
@@ -79,10 +79,10 @@ To retain the system setup when you upgrade one of these services from an earlie
 16) **Enhanced project list view in catalogs** - Now, when you are adding assets from a catalog to a project, you can view more than 100 projects in your project list page and add up to 50 assets at a time to your project.
 
 17) **Enhancements in governance artifacts** - 
-   - You can now make changes to multiple governance artifacts at once. Bulk edits are available when updating tags and stewards. 
-   - Now you can move any category either to the top level or to any other category as a sub-category. The collaborators are also moved provided they have required permissions on the new parent category. 
-   - You can now add custom properties and relationships for reference data sets.
-   - Notifications about changes in governance artifacts, for example, when an artifact is added, updated, or deleted, can now be forwarded to external applications or users.
+    - You can now make changes to multiple governance artifacts at once. Bulk edits are available when updating tags and stewards. 
+    - Now you can move any category either to the top level or to any other category as a sub-category. The collaborators are also moved provided they have required permissions on the new parent category. 
+    - You can now add custom properties and relationships for reference data sets.
+    - Notifications about changes in governance artifacts, for example, when an artifact is added, updated, or deleted, can now be forwarded to external applications or users.
 
 18) **Relationship Explorer to visualize your metadata** - Relationship Explorer is now available to help better understand your data. This new feature helps you to visualize, explore and govern your metadata. Discover how your governance artifacts and data assets relate with each other in a single view.
 
