@@ -17,6 +17,7 @@ a) **HTTP Proxy for connections** - You can use HTTP Proxy for managing inbound 
 b) **Access more data with a new connector** - You can now work with data from the following data sources: 
    - Elastic Cloud
    - Microsoft Azure Synapse Analytics
+   - Vertica 
 
 c) **New property for the Microsoft SQL Server connection** -  You can now use an Azure Active Directory username and password for authentication.
 
@@ -37,6 +38,7 @@ b) **Enhanced export of the lineage graph to PDF** - You can now export your lin
    - Time and date stamp
    - Details of each asset
    - Column lineage
+   - Microsoft Azure Databricks
 
 c) **New storage for profiling results** - Profiling results are now stored in an internal PostgreSQL database instead of the asset-files service. To retain profiling results after an upgrade to Cloud Pak for Data 5.0.3, you must migrate the results to the new storage as a post-upgrade step.
 
@@ -57,4 +59,23 @@ j) **Enhanced governance artifact configuration** - You can now change different
 
 k) **Process workflow tasks in bulk** - When working with workflow tasks, you can now select a batch of compatible tasks that require the same action and then process them in bulk.
 
+l) **Import metadata from every database** - Now, you don't have to specify the database to which you want to connect for the Informix, SAP ASE, and Microsoft SQL Server connections. With no database specified, you can import metadata from every database that is available for that connection.
 
+m) **Enhancements in governance artifacts**
+   - You can now change the primary or secondary category for multiple governance artifacts at once.
+   - You can now make bulk edits when updating relationships in governance artifacts.
+   - When viewing all governance artifacts of a specific type, you can now filter the list by a number of properties, including custom properties.
+
+
+### Watson Studio
+a) **Create git-integrated projects through API or CLI** - You can now create git-integrated projects through API or CLI.
+
+b) **Upload data files to a folder in a project** - You can now upload data files directly to an existing folder of your choice if folders are enabled. Previously, you would upload a file to the root folder and move it into a different folder.
+
+
+### Watson Studio Runtimes
+a) **NLP transformer embedding models are included in Runtime 24.1** - In the Runtime 24.1 environment, you can now use natural language processing (NLP) transformer embedding models to create text embeddings that capture the meaning of a sentence or passage to help with retrieval-augmented generation tasks.
+
+b) **New specialized NLP models are available in Runtime 24.1** - The following new, specialized NLP models are now included in the Runtime 24.1 environment:
+   - A model that is able to detect and identify hateful, abusive, or profane content (HAP) in textual content.
+   - Three pre-trained models that are able to address topics related to finance, cybersecurity, and biomedicine.
