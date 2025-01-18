@@ -9,6 +9,9 @@ Services to be installed
 - Control plane 
 - WKC
 
+A storage class is avaialble
+- [ODF installation](https://github.ibm.com/bxu/concert-enablement/blob/main/How-to-install-ODF-4.14-(OpenShift-Data-Foundation)-on-OpenShift-4.14-FYRE.md)
+
 ## Installing the IBM Software Hub command-line interface
 
 Install tools:
