@@ -338,17 +338,17 @@ spec:
       - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-docker-local
       - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-2-docker-local  
       - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: icr.io/cpopen
   - mirrors:
       - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: icr.io/cpopen/cpfs
   - mirrors:
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: cp.icr.io/cp/cpd
 
 ---
@@ -363,17 +363,17 @@ spec:
       - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-docker-local
       - docker-na.artifactory.swg-devops.com/hyc-cp4d-team-bootstrap-2-docker-local  
       - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: icr.io/cpopen
   - mirrors:
       - docker-na-public.artifactory.swg-devops.com/hyc-cloud-private-daily-docker-local/ibmcom
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: icr.io/cpopen/cpfs
   - mirrors:
-      - cp.stg.icr.io/cp
-      - cp.stg.icr.io/cp/cpd
+      - cp.icr.io/cp
+      - cp.icr.io/cp/cpd
     source: cp.icr.io/cp/cpd
 
 EOF
