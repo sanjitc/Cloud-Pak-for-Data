@@ -202,11 +202,11 @@ oc get secret/pull-secret -n openshift-config -o jsonpath='{.data.\.dockerconfig
 
 # 2. For updating every registry, you need to run the below steps once
 # You need to include the secret for all of the below registries
-# - cp.stg.icr.io
+# - cp.icr.io
 
 
 ## 2a. Set up the variables
-registry=cp.stg.icr.io
+registry=cp.icr.io
 username=cp
 password=<entitlement key for accessing staging image registry>
 
