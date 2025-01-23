@@ -211,7 +211,7 @@ username=cp
 password=<entitlement key for accessing staging image registry>
 
 #You can get the entitlement key with below link
-#https://wwwpoc.ibm.com/myibm/products-services/containerlibrary
+#https://myibm.ibm.com/products-services/containerlibrary
 
 pull_secret=$(echo -n "$username:$password" | base64 -w 0)
 
