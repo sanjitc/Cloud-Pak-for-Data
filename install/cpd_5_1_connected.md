@@ -216,7 +216,9 @@ password=<entitlement key for accessing staging image registry>
 pull_secret=$(echo -n "$username:$password" | base64 -w 0)
 
 ## 2b. Update the file using jq
-jq --argjson obj '{"auth": "'$pull_secret'"}' '.auths += {"'$registry'": $obj}' /tmp/dockerconfig.json > /tmp/temp.json && mv /tmp/temp.json /tmp/dockerconfig.json -f
+#jq --argjson obj '{"auth": "'$pull_secret'"}' '.auths += {"'$registry'": $obj}' /tmp/dockerconfig.json > /tmp/temp.json && mv /tmp/temp.json /tmp/dockerconfig.json -f
+
+###### Manually add the secret for registry cp.icr.io by adding an entry in the /tmp/dockerconfig.json. ######
 
 # 3. Apply the global pull secret
 oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=/tmp/dockerconfig.json
