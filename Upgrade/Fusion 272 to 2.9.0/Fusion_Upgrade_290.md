@@ -12,7 +12,7 @@ Current version(2.7.2) > 2.8.0 > 2.8.2 > 2.9.0
 - [Upgrading IBM Storage Fusion to 2.8.2](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=upgrading-storage-fusion)
 - [Upgrading IBM Storage Fusion to 2.9.0](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=upgrading-fusion-its-components)
 
-### Before you begin
+### 1. Before you begin
 Because of a known Red Hat issue, the Fusion operator upgrade can get stuck during upgrade. Run the following commands before you begin the IBM Storage Fusion operator upgrade to prevent this scenario.
 ```
 oc project $(oc get spectrumfusion -A -o custom-columns=NS:metadata.namespace --no-headers)
@@ -22,3 +22,11 @@ oc get fusionserviceinstance -o jsonpath='{.items[*].metadata.name}' |tr ' ' '\n
 oc get fusionserviceinstance -o jsonpath='{.items[*].metadata.name}' |tr ' ' '\n' | xargs -I {} oc patch fusionserviceinstance {} --type=merge --subresource=status -p '{"status": {"operatorUpgradeStartTime": 0}}'
 oc get fusionservicedefinition -o jsonpath='{.items[*].metadata.name}' |tr ' ' '\n' | xargs -I {} oc patch fusionservicedefinition {} --type=merge -p '{"spec": {"serviceInformation": {"lastUpdated": 0}}}'
 ```
+
+### 2. [Prerequisites for enterprise registry upgrade](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-prerequisites-enterprise-registry-upgrade)
+2.1. [Mirror IBM Storage Fusion images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images).
+2.2. [Mirror Backup & Restore image]s(https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-backup-restore-images)
+2.3. [Mirror IBM Storage Scale images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-scale-images)
+
+
+
