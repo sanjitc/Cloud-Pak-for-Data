@@ -24,9 +24,9 @@ oc get fusionservicedefinition -o jsonpath='{.items[*].metadata.name}' |tr ' ' '
 ```
 
 ### 2. [Prerequisites for enterprise registry upgrade](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-prerequisites-enterprise-registry-upgrade)
-2.1 [Mirror IBM Storage Fusion images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images)
-2.2 [Mirror Backup & Restore images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-backup-restore-images)
-2.3 [Mirror IBM Storage Scale images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-scale-images)
+- [Mirror IBM Storage Fusion images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images)
+- [Mirror Backup & Restore images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-backup-restore-images)
+- [Mirror IBM Storage Scale images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-scale-images)
 
 
 
