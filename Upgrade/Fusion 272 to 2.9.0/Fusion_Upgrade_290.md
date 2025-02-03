@@ -219,4 +219,12 @@ f) After the upgrade is successful, refresh your browser and clear your cache.
 
 g) Verify whether the IBM Storage Fusion is in succeeded state and the version is 2.8.0 or 2.8.2. Also, in the **Subscription** tab, ensure that the upgrade status displays **Up to date**.
 
+### 6. [Upgrade IBM Storage Fusion services - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-upgrading-storage-services)
+From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion services, namely Data Foundation, Global Data Platform, Backup & Restore, and Data Cataloging.
+
+**Important:** It is recommended to upgrade the services to the latest version after a IBM Storage Fusion upgrade to avoid compatibility issues between IBM Storage Fusion and its installed services.
+
+<follow from the documentation link>
+
+
 
