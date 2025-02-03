@@ -391,3 +391,37 @@ spec:
     source: registry.redhat.io/amq-streams
 ```
 
+### 11. [Upgrading IBM Fusion - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion)
+
+- Do not change the installation mode
+- Ensure all compute nodes are in ready state on OpenShift user interface.
+
+**Note:** If you use Backup & Restore service, direct upgrade from 2.8.1 or lower to 2.9.0 is not supported because support does not exist for OADP lower then 1.4.1 in 2.9.0. In this case, the upgrade path must be upgrade Fusion and to 2.8.2 first, which should upgrade OADP to 1.4.1 level,and then upgrade to 2.9.0.
+In this case, the upgrade path must be as follows: i)Upgrade IBM Fusion and Backup & Restore to 2.8.2 first. It upgrades OADP to 1.4.1 level. ii)Upgrade IBM Fusion to 2.9.0.
+
+1. Log in to the OpenShift Container Platform management console as the cluster administrator.
+
+2. Upgrade IBM Fusion:
+
+2.a. From the navigation menu, click **Operators > Installed Operators**.
+
+2.b. From the Installed Operators list, click **IBM Storage Fusion** operator.
+The **Details** tab opens by default.
+
+2.c. Go to **Subscription** tab.
+
+2.d. View the **Subscription details** section for the upgrade status.
+
+**Note:** If this is an offline setup, then update the image path in IBM Fusion catalog source with new catalog source image.
+
+2.e. If an upgrade is available for the operator, then click **Approve** to manually initiate the upgrade. If you do not agree to the upgrade, click **Deny**.
+If no new upgrade is available, then **Upgrade status** displays **Up to date**.
+
+**Note:** By default, the upgrade of the IBM Fusion is Manual.
+
+2.f. After the upgrade is successful, refresh your browser and clear your cache.
+
+2.g. Verify whether the IBM Fusion is in succeeded state and the version is 2.9.0. Also, in the **Subscription** tab, ensure that the upgrade status displays **Up to date**.
+
+
+
