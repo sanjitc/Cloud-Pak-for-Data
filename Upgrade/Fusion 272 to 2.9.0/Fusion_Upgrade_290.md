@@ -226,8 +226,9 @@ From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion servi
 
 **Important:** It is recommended to upgrade the services to the latest version after a IBM Storage Fusion upgrade to avoid compatibility issues between IBM Storage Fusion and its installed services.
 
-[[follow from the documentation link]]
-------------------
+Follow instruction from the documentation link.....
+
+--------------------
 
 ### 7. Data Cataloging offline upgrade - 2.9
 a. Update the redhat-operators catalog source.
