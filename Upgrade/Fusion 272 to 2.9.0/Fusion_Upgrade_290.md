@@ -89,23 +89,23 @@ c. Start the IBM Storage Fusion version upgrade.
 
 d. Update the image digest ID after you upgrade the IBM Storage Fusion as follows:
 
-i) Run the following command to get the catalog source image digest ID.
+d.i. Run the following command to get the catalog source image digest ID.
 ```
 skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf-data-foundation-catalog:<ocp version> | jq -r ".Digest"
 ```
 You need to record the image digest ID. It is used in deployment phase only.
 
-ii) Check whether the data-foundation-service FusionServiceDefinition CR is created.
+d.2. Check whether the data-foundation-service FusionServiceDefinition CR is created.
 ```
 oc get fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
 ```
 
-iii) Update the imageDigest in the FusionServiceDefinition data-foundation-service.
+d.3. Update the imageDigest in the FusionServiceDefinition data-foundation-service.
 ```
 skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf-data-foundation-catalog:<ocp version> | jq -r ".Digest"
 ```
 
-iv) Edit the data-foundation-service .spec.onboarding.serviceOperatorSubscription.multiVersionCatSrcDetails.ocp412-t.imageDigest.
+d.4. Edit the data-foundation-service .spec.onboarding.serviceOperatorSubscription.multiVersionCatSrcDetails.ocp412-t.imageDigest.
 ```
 oc edit fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
 ```
@@ -140,7 +140,7 @@ spec:
 
 e. Change **Update approval** to the original value in the IBM Storage Fusion user interface.
 
-g. Modify the image content source policy isf-operator-index. For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
+f. Modify the image content source policy isf-operator-index. For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
 See the following sample image content source policy:
 ```
 apiVersion: operator.openshift.io/v1alpha1
