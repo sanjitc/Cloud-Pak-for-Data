@@ -422,3 +422,8 @@ If no new upgrade is available, then **Upgrade status** displays **Up to date**.
 2.f. After the upgrade is successful, refresh your browser and clear your cache.
 
 2.g. Verify whether the IBM Fusion is in succeeded state and the version is 2.9.0. Also, in the **Subscription** tab, ensure that the upgrade status displays **Up to date**.
+
+------------------
+
+### 12. [Upgrading IBM Fusion services - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion-services)
+
