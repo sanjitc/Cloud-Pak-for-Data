@@ -426,4 +426,8 @@ If no new upgrade is available, then **Upgrade status** displays **Up to date**.
 ------------------
 
 ### 12. [Upgrading IBM Fusion services - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion-services)
+From the IBM Fusion user interface, upgrade the IBM Fusion services, namely Data Foundation, Global Data Platform, and Data Cataloging. The Backup & Restore service auto upgrades based on availability and you can monitor the progress.
 
+**Important:** It is recommended to upgrade the services to the latest version after a IBM Fusion upgrade to avoid compatibility issues between IBM Fusion and its installed services.
+
+Follow instruction from the documentation link.....
