@@ -270,6 +270,120 @@ EOF
 oc apply -f imagecontentsourcepolicy_dcs.yaml
 ```
 
+--------------------
 
+### 8. Fusion Data Foundation offline service upgrade - 2.9
 
+a. Before you upgrade IBM Fusion, from the Services page of the IBM Fusion user interface, disable **Automatic updates** for Data Foundation service.
+
+b. Go to **Operators > Installed Operators > Fusion Data Foundation > Subscription**, and check whether the **Update approval** is changed to **Manually**.
+
+c. Start the IBM Fusion version upgrade.
+
+d. Update the image digest ID after you upgrade the IBM Fusion as follows:
+
+d.1. Run the following command to get the catalog source image digest ID.
+```
+skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf-data-foundation-catalog:<ocp version> | jq -r ".Digest"
+```
+You need to record the image digest ID. It is used in deployment phase only.
+
+d.2. Check whether the data-foundation-service FusionServiceDefinition CR is created.
+```
+oc get fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
+```
+
+d.3. Update the imageDigest in the FusionServiceDefinition data-foundation-service.
+```
+skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf-data-foundation-catalog:<ocp version> | jq -r ".Digest"
+```
+
+d.4. Edit the data-foundation-service .spec.onboarding.serviceOperatorSubscription.multiVersionCatSrcDetails.ocp412-t.imageDigest.
+```
+oc edit fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
+```
+Example of OpenShift Container Platform 4.12 output:
+```
+spec:
+  hasRelatedDefinition: false
+  onboarding:
+...
+    serviceOperatorSubscription:
+      catalogSourceName: isf-data-foundation-catalog
+      createCatalogSource: true
+      globalCatalogSource: true
+      isClusterWide: false
+      multiVersionCatSrcDetails:
+        ocp49:
+          skipCatSrcCreation: true
+        ocp410:
+          skipCatSrcCreation: true
+        ocp411:
+          skipCatSrcCreation: true
+        ocp412-t:
+          displayName: Data Foundation Catalog
+          imageDigest: sha256:ed94a66296d1a4fe047b0a79db0e8653e179a8a2a646b0c05e435762d852de73
+          imageName: isf-data-foundation-catalog
+          imageTag: v4.12
+          publisher: IBM
+          registryPath: icr.io/cpopen
+          skipCatSrcCreation: false
+```
+
+e. Change **Update approval** to the original value in the IBM Fusion user interface.
+
+f. Modify the image content source policy isf-operator-index. For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
+
+See the following sample image content source policy:
+```
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: isf-catalog-index
+spec:
+  repositoryDigestMirrors:
+  # for scale
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>
+    - <New ISF enterprise registry host>/<New ISF target-path>
+    - <New ISF enterprise registry host:port>/<New ISF target-path>
+    source: cp.icr.io/cp/spectrum/scale
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>
+    - <New ISF enterprise registry host>/<New ISF target-path>
+    - <New ISF enterprise registry host:port>/<New ISF target-path>
+    source: icr.io/cpopen
+  #for IBM Spectrum Fusion operator 
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>
+    - <New ISF enterprise registry host>/<New ISF target-path>
+    - <New ISF enterprise registry host:port>/<New ISF target-path>
+    source: cp.icr.io/cp/isf-sds
+  # for spp agent
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>/sppc
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>/sppc
+    - <New ISF enterprise registry host>/<New ISF target-path>/sppc
+    - <New ISF enterprise registry host:port>/<New ISF target-path>/sppc
+    source: cp.icr.io/cp/sppc
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>/sppc
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>/sppc
+    - <New ISF enterprise registry host>/<New ISF target-path>/sppc
+    - <New ISF enterprise registry host:port>/<New ISF target-path>/sppc
+    source: registry.redhat.io/amq7
+  - mirrors:
+    - <Old ISF enterprise registry host>/<Old ISF target-path>/sppc
+    - <Old ISF enterprise registry host:port>/<Old ISF target-path>/sppc
+    - <New ISF enterprise registry host>/<New ISF target-path>/sppc
+    - <New ISF enterprise registry host:port>/<New ISF target-path>/sppc
+    source: registry.redhat.io/oadp
+  - mirrors: 
+    - <New ISF enterprise registry host>/<New ISF target-path>/sppc 
+    - <New ISF enterprise registry host:port>/<New ISF target-path>/sppc 
+    source: registry.redhat.io/amq-streams
+```
 
