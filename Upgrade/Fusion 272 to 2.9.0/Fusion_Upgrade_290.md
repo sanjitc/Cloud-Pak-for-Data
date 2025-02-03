@@ -27,7 +27,7 @@ oc get fusionservicedefinition -o jsonpath='{.items[*].metadata.name}' |tr ' ' '
 - [Mirror IBM Storage Fusion images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images)
 - [Mirror Backup & Restore images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-backup-restore-images)
 - [Mirror IBM Storage Scale images](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-scale-images)
-- [Mirroring Data Foundation images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=mii-mirroring-data-foundation-images-deployed-openshift-container-platform-414-higher-using-imagedigestmirrorset)
+- [Mirror Data Foundation images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=mii-mirroring-data-foundation-images-deployed-openshift-container-platform-414-higher-using-imagedigestmirrorset)
   
 
 
