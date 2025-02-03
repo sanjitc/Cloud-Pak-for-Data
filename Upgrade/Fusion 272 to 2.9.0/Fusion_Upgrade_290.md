@@ -140,7 +140,10 @@ spec:
 
 e. Change **Update approval** to the original value in the IBM Storage Fusion user interface.
 
-f. Modify the image content source policy isf-operator-index. For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
+------------------
+
+### 5. Modify the image content source policy isf-operator-index - 2.8
+For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
 See the following sample image content source policy:
 ```
 apiVersion: operator.openshift.io/v1alpha1
@@ -194,7 +197,7 @@ spec:
     source: registry.redhat.io/amq-streams
 ```
 ------------------
-### 5. Upgrading IBM Storage Fusion - 2.8
+### 6. Upgrading IBM Storage Fusion - 2.8
 1. Log in to the OpenShift Container Platform management console as the cluster administrator.
 2. Upgrade IBM Storage Fusion:
 
@@ -221,7 +224,7 @@ g) Verify whether the IBM Storage Fusion is in succeeded state and the version i
 
 ------------------
 
-### 6. [Upgrade IBM Storage Fusion services - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-upgrading-storage-services)
+### 7. [Upgrade IBM Storage Fusion services - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-upgrading-storage-services)
 From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion services, namely Data Foundation, Global Data Platform, Backup & Restore, and Data Cataloging.
 
 **Important:** It is recommended to upgrade the services to the latest version after a IBM Storage Fusion upgrade to avoid compatibility issues between IBM Storage Fusion and its installed services.
@@ -230,7 +233,7 @@ Follow instruction from the documentation link.....
 
 --------------------
 
-### 7. Data Cataloging offline upgrade - 2.9
+### 8. Data Cataloging offline upgrade - 2.9
 a. Update the redhat-operators catalog source.
 ```
 for catalog in $(ls oc-mirror-workspace/results-*/catalogSource* | grep -v spectrum-discover); do echo "Creating CatalogSource from file: $catalog"; echo "oc apply -f $catalog"; done
@@ -272,7 +275,7 @@ oc apply -f imagecontentsourcepolicy_dcs.yaml
 
 --------------------
 
-### 8. Fusion Data Foundation offline service upgrade - 2.9
+### 9. Fusion Data Foundation offline service upgrade - 2.9
 
 a. Before you upgrade IBM Fusion, from the Services page of the IBM Fusion user interface, disable **Automatic updates** for Data Foundation service.
 
@@ -332,7 +335,8 @@ spec:
 
 e. Change **Update approval** to the original value in the IBM Fusion user interface.
 
-f. Modify the image content source policy isf-operator-index. For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
+### 10. Modify the image content source policy isf-operator-index - 2.9. 
+For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
 
 See the following sample image content source policy:
 ```
