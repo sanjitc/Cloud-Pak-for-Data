@@ -79,7 +79,7 @@ spec:
 EOF
 oc apply -f imagecontentsourcepolicy_dcs.yaml
 ```
-
+------------------
 ### 4. Fusion Data Foundation offline service upgrade - 2.8
 a. Before you upgrade IBM Storage Fusion, from the Services page of the IBM Storage Fusion user interface, disable **Automatic updates** for Data Foundation service.
 
@@ -193,7 +193,7 @@ spec:
     - <New ISF enterprise registry host:port>/<New ISF target-path>/sppc 
     source: registry.redhat.io/amq-streams
 ```
-
+------------------
 ### 5. Upgrading IBM Storage Fusion - 2.8
 1. Log in to the OpenShift Container Platform management console as the cluster administrator.
 2. Upgrade IBM Storage Fusion:
@@ -218,6 +218,8 @@ If no new upgrade is available, then **Upgrade status** displays **Up to date**.
 f) After the upgrade is successful, refresh your browser and clear your cache.
 
 g) Verify whether the IBM Storage Fusion is in succeeded state and the version is 2.8.0 or 2.8.2. Also, in the **Subscription** tab, ensure that the upgrade status displays **Up to date**.
+
+------------------
 
 ### 6. [Upgrade IBM Storage Fusion services - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-upgrading-storage-services)
 From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion services, namely Data Foundation, Global Data Platform, Backup & Restore, and Data Cataloging.
