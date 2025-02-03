@@ -227,6 +227,48 @@ From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion servi
 **Important:** It is recommended to upgrade the services to the latest version after a IBM Storage Fusion upgrade to avoid compatibility issues between IBM Storage Fusion and its installed services.
 
 [[follow from the documentation link]]
+------------------
+
+### 7. Data Cataloging offline upgrade - 2.9
+a. Update the redhat-operators catalog source.
+```
+for catalog in $(ls oc-mirror-workspace/results-*/catalogSource* | grep -v spectrum-discover); do echo "Creating CatalogSource from file: $catalog"; echo "oc apply -f $catalog"; done
+```
+
+b. If a new TARGET_PATH value is used for the upgrade, then update the existing ImageContentSourcePolicy.
+```
+cat << EOF > imagecontentsourcepolicy_dcs.yaml
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: isf-dcs-icsp
+spec:
+  repositoryDigestMirrors:
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/cpopen
+      source: icr.io/cpopen
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/redhat
+      source: registry.redhat.io/redhat
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/ubi8
+      source: registry.redhat.io/ubi8
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/amq-streams
+      source: registry.redhat.io/amq-streams
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/openshift4
+      source: registry.redhat.io/openshift4
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/cp/ibm-spectrum-discover
+      source: cp.icr.io/cp/ibm-spectrum-discover
+    - mirrors:
+        - $LOCAL_ISF_REGISTRY/db2u
+      source: icr.io/db2u
+EOF
+oc apply -f imagecontentsourcepolicy_dcs.yaml
+```
+
 
 
 
