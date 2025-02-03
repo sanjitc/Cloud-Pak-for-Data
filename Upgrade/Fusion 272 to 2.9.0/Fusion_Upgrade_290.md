@@ -199,18 +199,24 @@ spec:
 2. Upgrade IBM Storage Fusion:
 
 a) From the navigation menu, click **Operators > Installed Operators**.
+
 b) From the **Installed Operators** list, click **IBM Storage Fusion** operator.
 The **Details** tab opens by default.
+
 c) Go to **Subscription** tab.
+
 d) View the **Subscription details** section for the upgrade status.
 
 **Note:** If this is an offline setup, then update the image path in IBM Storage Fusion catalog source with new catalog source image.
 
 e) If an upgrade is available for the operator, then click Approve to manually initiate the upgrade. If you do not agree to the upgrade, click Deny.
+
 **Note:** You can ignore this step if you have set auto-approval to true. By default, the upgrade of the IBM Storage Fusion is Automatic. However, you can change it to Manual.
 
 If no new upgrade is available, then **Upgrade status** displays **Up to date**.
+
 f) After the upgrade is successful, refresh your browser and clear your cache.
+
 g) Verify whether the IBM Storage Fusion is in succeeded state and the version is 2.8.0 or 2.8.2. Also, in the **Subscription** tab, ensure that the upgrade status displays **Up to date**.
 
 
