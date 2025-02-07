@@ -13,7 +13,13 @@ Current version(2.7.2) > 2.8.0 > 2.8.2 > 2.9.0
 - [Upgrading IBM Storage Fusion to 2.9.0](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=upgrading-fusion-its-components)
 
 ### 1. Before you begin
-Because of a known Red Hat issue, the Fusion operator upgrade can get stuck during upgrade. Run the following commands before you begin the IBM Storage Fusion operator upgrade to prevent this scenario.
+#### 1.1. Updating the cpdbr service
+If you use IBM Fusion to back up and restore your IBM® Software Hub deployment, you must upgrade the cpdbr service after you upgrade IBM Cloud Pak® for Data Version 4.8 to IBM Software Hub Version 5.1.
+
+[Updating the cpdbr service](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=data-updating-cpdbr-service)
+
+#### 1.2. Because of a known Red Hat issue, the Fusion operator upgrade can get stuck during upgrade. 
+Run the following commands before you begin the IBM Storage Fusion operator upgrade to prevent this scenario.
 ```
 oc project $(oc get spectrumfusion -A -o custom-columns=NS:metadata.namespace --no-headers)
 oc get fusionserviceinstance -o jsonpath='{.items[*].metadata.name}' |tr ' ' '\n' | xargs -I {} oc patch fusionserviceinstance {} --type=merge --subresource=status -p '{"status": {"triggerCatSrcCreateStartTime": 0}}'
