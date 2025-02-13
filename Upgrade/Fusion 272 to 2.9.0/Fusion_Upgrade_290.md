@@ -45,12 +45,14 @@ oc get fusionservicedefinition -o jsonpath='{.items[*].metadata.name}' |tr ' ' '
 - ~~[Mirror IBM Storage Scale images - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-scale-images)~~
 - ~~[Mirror IBM Storage Scale images - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=images-mirroring-storage-scale)~~
 ------------------
-  
-### 3. ~~Data Cataloging offline upgrade - 2.8~~
-a. Update the redhat-operators catalog source.
+
+### 3. Update the redhat-operators catalog source - 2.8
 ```
 for catalog in $(ls oc-mirror-workspace/results-*/catalogSource* | grep -v spectrum-discover); do echo "Creating CatalogSource from file: $catalog"; echo "oc apply -f $catalog"; done
 ```
+
+### 3. ~~Data Cataloging offline upgrade - 2.8~~
+
 
 b. If a new TARGET_PATH value is used for the upgrade, then update the existing ImageContentSourcePolicy.
 ```
