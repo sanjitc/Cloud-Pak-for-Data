@@ -453,11 +453,11 @@ From the IBM Fusion user interface, upgrade the IBM Fusion services, namely Data
 
 Follow instruction from the documentation link.....
 
+------------------
+
 ### 13. [IBM Storage Fusion 2.9.0 hotfix](https://www.ibm.com/support/pages/ibm-storage-fusion-290-hotfix)
 Download and apply the hotfix for IBM Storage Fusion to resolve issues in Backup & Restore service 2.9.0.
 Follow the instructions to apply this hotfix:
-
-------------------
 
 13.a. For offline environments, use the following script to mirror hotfix images to offline registry before applying hotfix:
 [br-290patch-offline-mirror.sh](https://github.com/IBM/storage-fusion/blob/master/backup-restore/hotfixes/2.9.0/br-290patch-offline-mirror.sh).
