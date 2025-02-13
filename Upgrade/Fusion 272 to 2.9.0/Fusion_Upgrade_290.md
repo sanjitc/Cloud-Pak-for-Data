@@ -457,6 +457,8 @@ Follow instruction from the documentation link.....
 Download and apply the hotfix for IBM Storage Fusion to resolve issues in Backup & Restore service 2.9.0.
 Follow the instructions to apply this hotfix:
 
+------------------
+
 13.a. For offline environments, use the following script to mirror hotfix images to offline registry before applying hotfix:
 [br-290patch-offline-mirror.sh](https://github.com/IBM/storage-fusion/blob/master/backup-restore/hotfixes/2.9.0/br-290patch-offline-mirror.sh).
 
