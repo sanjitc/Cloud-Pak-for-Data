@@ -240,12 +240,13 @@ From the IBM Storage Fusion user interface, upgrade the IBM Storage Fusion servi
 Follow instruction from the documentation link.....
 
 --------------------
-
-### 8. ~~Data Cataloging offline upgrade - 2.9~~
-a. Update the redhat-operators catalog source.
+### 8. Update the redhat-operators catalog source.
 ```
 for catalog in $(ls oc-mirror-workspace/results-*/catalogSource* | grep -v spectrum-discover); do echo "Creating CatalogSource from file: $catalog"; echo "oc apply -f $catalog"; done
 ```
+
+### 8. ~~Data Cataloging offline upgrade - 2.9~~
+
 
 b. If a new TARGET_PATH value is used for the upgrade, then update the existing ImageContentSourcePolicy.
 ```
