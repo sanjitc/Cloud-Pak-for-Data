@@ -452,3 +452,18 @@ From the IBM Fusion user interface, upgrade the IBM Fusion services, namely Data
 **Important:** It is recommended to upgrade the services to the latest version after a IBM Fusion upgrade to avoid compatibility issues between IBM Fusion and its installed services.
 
 Follow instruction from the documentation link.....
+
+### 13. [IBM Storage Fusion 2.9.0 hotfix](https://www.ibm.com/support/pages/ibm-storage-fusion-290-hotfix)
+Download and apply the hotfix for IBM Storage Fusion to resolve issues in Backup & Restore service 2.9.0.
+Follow the instructions to apply this hotfix:
+
+13.a. For offline environments, use the following script to mirror hotfix images to offline registry before applying hotfix:
+[br-290patch-offline-mirror.sh](https://github.com/IBM/storage-fusion/blob/master/backup-restore/hotfixes/2.9.0/br-290patch-offline-mirror.sh).
+
+13.b. Download the [br-post-install-patch-290.sh](https://github.com/IBM/storage-fusion/blob/master/backup-restore/hotfixes/2.9.0/br-post-install-patch-290.sh) and apply it as follows:
+Download or copy the <[br-post-install-patch-290.sh](https://github.com/IBM/storage-fusion/blob/master/backup-restore/hotfixes/2.9.0/br-post-install-patch-290.sh)> to local folder.
+Run the following command to apply the patch.
+**Note:** Make sure you are logged in to the cluster from CLI.
+```
+chmod +x <br-post-install-patch-290.sh>
+```
