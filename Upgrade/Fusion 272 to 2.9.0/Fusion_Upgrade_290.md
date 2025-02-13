@@ -36,6 +36,18 @@ oc get fusionservicedefinition -o jsonpath='{.items[*].metadata.name}' |tr ' ' '
 - [Mirror Data Foundation images - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=myier-mirroring-data-foundation-images-deployed-openshift-container-platform-414-higher-using-imagedigestmirrorset)
 - [Mirror Data Foundation images - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=mii-mirroring-data-foundation-images-deployed-openshift-container-platform-414-higher-using-imagedigestmirrorset)
 ------------------
+**Note:** In the following step, when creating an image set configuration file for Red Hat packages that are required for IBM Storage Fusion installation use following configuration file:
+```
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+mirror:
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.14
+      full: true
+      packages:
+        - name: "amq-streams"
+        - name: "redhat-oadp-operator"
+```
 - [Mirror IBM Storage Fusion images - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images)
 - [End-to-end mirroring of IBM Fusion and its services - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services)
 ------------------
