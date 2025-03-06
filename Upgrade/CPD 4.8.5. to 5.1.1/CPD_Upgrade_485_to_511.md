@@ -2016,6 +2016,13 @@ Example: `oc adm migrate icsp ${CPD_ICSP}.yaml --dest-dir idms-files`
 6) Testthepullofanimagefromtheprivatecontainerregistry. 
 7) Deletetheimagecontentsourcepolicy: `oc delete icsp ${CPD_ICSP}`
 
+### 4.14 Predefined roles are missing permissions - SF TS018667576
+After the upgrade from IBM Knowledge Catalog 4.7.x or 4.8.x to IBM Knowledge Catalog 5.1.x or IBM Knowledge Catalog Premium 5.1.x, some permissions are missing from Data Engineer, Data Quality Analyst, and Data Steward roles. Users with these roles might not be able to run metadata imports or access any governance artifacts.
+
+Workaround: To add any missing permissions to the Data Engineer, Data Quality Analyst, and Data Steward roles, restart the zen-watcher pod by running the following command:
+```
+oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Name:metadata.name" -l app.kubernetes.io/component=zen-watcher --no-headers) -n ${PROJECT_CPD_INST_OPERANDS}
+```
 
 ### 4.14 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
