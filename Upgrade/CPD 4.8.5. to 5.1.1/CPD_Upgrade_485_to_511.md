@@ -1888,7 +1888,12 @@ metadata:
 6) Restart the portal-catalog pods
 7) Verify in CPD UI - Lineage "tab" and "button" status
 
-### 4.9 Upgrade the Backup & Restore service and application
+### 4.9 Resync of lineage metadata
+[Resynchronize your catalog metadata to start seeing the Knowledge Graph](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=administering-resync-lineage-metadata).
+
+Complete catalog resynchronization after you upgrade to Version 5.1 from Version 4.7.3.
+
+### 4.10 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
