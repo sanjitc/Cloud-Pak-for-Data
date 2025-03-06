@@ -1783,8 +1783,112 @@ oc edit cm spark-hb-deployment-properties
 ```
 oc get cm spark-hb-deployment-properties -o yaml | grep -i deploymentStatusRetryCount
 ```
+### 4.8 Enable Data Lineage in UI and remove old "lineage" tab under asset (from TS018466973).
+1) Take a backup of kg-config-map: `oc get cm kg-config-map -oyaml`
+2) Edit kg-config-map: `oc edit cm kg-config-map`
+```
+apiVersion: v1
+data:
+  add-ons.json: |
+    {
+       "wkc-knowledgegraph":{    <=== change from "wkc-knowledgegraph-neo4j" to "wkc-knowledgegraph"
+          "add_on_type": "component",
+          "details":{
+             "internal": true
+          },
+          "versions":{
+             "5.1.0":{
+                "state":"enabled"
+             }
+          }
+       }
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2024-02-05T00:37:53Z"
+  labels:
+    app: wdp-kg-ingestion-service
+    app.kubernetes.io/instance: 0075-wkc-lite
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: wdp-kg-ingestion-service
+    chart: wdp-kg-ingestion-service-chart
+    helm.sh/chart: wdp-kg-ingestion-service-chart
+    heritage: Tiller
+    icpdata_addon: "true"
+    icpdata_addon_version: 5.1.0-fdb       <=== change version from "5.1.0" to "5.1.0-fdb"
+    icpdsupport/addOnId: wkc
+    icpdsupport/app: api
+    icpdsupport/module: wdp-kg-ingestion-service
+    release: 0075-wkc-lite
+  name: kg-config-map
+  namespace: wkc
+  ownerReferences:
+  - apiVersion: wkc.cpd.ibm.com/v1beta1
+    kind: Knowledgegraph
+    name: knowledgegraph-cr
+    uid: 1540d451-5736-45e2-9b9b-f6db88d7fcae
+  - apiVersion: wkc.cpd.ibm.com/v1beta1
+    kind: WKC
+    name: wkc-cr
+    uid: 3282e11f-3ef0-472b-948c-9d0098f2ca64
+  resourceVersion: "1332043077"
+  uid: bd8f77d0-4861-4cad-b84a-6e36d2368e3b
+```
+3) Delete the configmap: `oc delete cm kg-config-map`
+4) Edit the backup copy of the yaml file
+```
+apiVersion: v1
+data:
+  add-ons.json: |
+    {
+       "wkc-knowledgegraph":{    <=== change from "wkc-knowledgegraph" to "wkc-knowledgegraph-neo4j"
+          "add_on_type": "component",
+          "details":{
+             "internal": true
+          },
+          "versions":{
+             "5.1.0":{
+                "state":"enabled"
+             }
+          }
+       }
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2024-02-05T00:37:53Z"
+  labels:
+    app: wdp-kg-ingestion-service
+    app.kubernetes.io/instance: 0075-wkc-lite
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: wdp-kg-ingestion-service
+    chart: wdp-kg-ingestion-service-chart
+    helm.sh/chart: wdp-kg-ingestion-service-chart
+    heritage: Tiller
+    icpdata_addon: "true"
+    icpdata_addon_version: 5.1.0-fdb       <=== change version from "5.1.0-fdb" to "5.1.0"
+    icpdsupport/addOnId: wkc
+    icpdsupport/app: api
+    icpdsupport/module: wdp-kg-ingestion-service
+    release: 0075-wkc-lite
+  name: kg-config-map
+  namespace: wkc
+  ownerReferences:
+  - apiVersion: wkc.cpd.ibm.com/v1beta1
+    kind: Knowledgegraph
+    name: knowledgegraph-cr
+    uid: 1540d451-5736-45e2-9b9b-f6db88d7fcae
+  - apiVersion: wkc.cpd.ibm.com/v1beta1
+    kind: WKC
+    name: wkc-cr
+    uid: 3282e11f-3ef0-472b-948c-9d0098f2ca64
+  resourceVersion: "1332043077"
+  uid: bd8f77d0-4861-4cad-b84a-6e36d2368e3b
+```
+5) Apply the changed yaml file: `oc apply -f <backup yaml>`
+6) Restart the portal-catalog pods
+7) Verify in CPD UI - Lineage "tab" and "button" status
 
-### 4.8 Upgrade the Backup & Restore service and application
+### 4.9 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
