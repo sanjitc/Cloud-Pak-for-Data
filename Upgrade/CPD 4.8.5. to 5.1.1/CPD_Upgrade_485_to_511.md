@@ -1921,6 +1921,74 @@ oc edit deploy -n ${CPD_INSTANCE_PROJECT} portal-projects
 <add relevant env var to `env` section>
 ```
 
+### 4.12 Configure dedicated nodes for CouchDB
+Previously IBM Engineering suggested providing dedicated nodes for CouchDB to enhance performance. CPD 5.x offers greater control over placing CCS pods on specific nodes.
+- Worker node size:
+ CPU: 16
+ Memory: 64Gi
+
+- Current CouchDB resource:
+ CouchDB container
+  CPU: 8
+  Memory: 12Gi
+
+ Search container
+  CPU: 2
+  Memory: 4Gi
+- Need to leave resource for OpenShift, Instana, Rock-ceph pods to be scheduled on dedicated nodes.
+
+Here is the step for configuration:
+1) Retrieve the name of the worker nodes that you want to dedicate to couchDb pods: `oc get nodes`
+2) Taint 3 nodes with the "NoSchedule" effect and safely evict all of the pods from those nodes:
+```
+oc adm taint node <node_name> icp4data=dedicated-wdp-couchdb:NoSchedule --overwrite
+oc adm cordon <node_name>
+oc adm drain <node_name>
+oc adm uncordon <node_name>
+```
+3) Label 3 nodes:
+```
+oc label node <node_name> icp4data=dedicated-wdp-couchdb --overwrite
+```
+4) Verify that nodes are labeled: `oc get node --show-labels`
+5) Add tolerations to any pods that must run on all nodes. In this case,
+IBM Storage Ceph must run on all nodes to provide the platform for software-defined storage.
+The value for tolerations used is `dedicated-wdp-couchdb`.
+Similarly need to add tolerations for Instana.
+```
+-------
+oc edit cm -n openshift-storage rook-ceph-operator-config
+
+...
+apiVersion: v1
+data:
+...
+ CSI_PLUGIN_TOLERATIONS: |-
+  - key: icp4data
+   operator: Equal
+   value: "dedicated-wdp-couchdb"
+   effect: NoSchedule
+-------
+```
+6. Change CCS CR for use dedicated CouchDB resources.
+oc patch ccs ccs-cr --type merge -p '{
+ "spec": {
+  "couchdb_node_selector": { "icp4data": "dedicated-wdp-couchdb"},
+  "couchdb_tolerations": [{
+    "effect": "NoSchedule",
+    "key": "icp4data",
+    "operator": "Equal",
+    "value": "dedicated-wdp-couchdb"
+   }
+  ]
+ }
+}'
+7. Change CPU and memory limit for couchdb pod:
+oc patch ccs ccs-cr --type merge --patch '{"spec": {
+"couchdb_resources":{
+"requests":{"cpu": "3", "memory": "256Mi"}, "limits":{"cpu": "10", "memory": "40Gi"}
+}}}'
+
 ### 4.11 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
