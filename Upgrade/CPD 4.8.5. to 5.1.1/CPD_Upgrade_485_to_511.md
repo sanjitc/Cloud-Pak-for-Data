@@ -1992,8 +1992,32 @@ oc patch ccs ccs-cr --type merge --patch '{"spec": {
 "requests":{"cpu": "3", "memory": "256Mi"}, "limits":{"cpu": "10", "memory": "40Gi"}
 }}}'
 ```
+### 4.13 Migrating Image Content Source Policy (ICSP) to an Image Digest Mirror Set
+Starting in Red Hat OpenShift Container Platform Version 4.14, the image content source policy (ISCP) is replaced by the image digest mirror set. If you upgrade your environment from Red Hat OpenShift Container Platform Version 4.12 to Version 4.14 or Version 4.15 and you mirror images to a private container registry, you must migrate your existing IBM Cloud Pak for Data (CPD) image content source policy to an image digest mirror set.
 
-### 4.11 Upgrade the Backup & Restore service and application
+1) LogintoRedHatOpenShiftContainerPlatformasauserwithsuVicient permissions to complete the task.
+2) Runthefollowingcommandtogetthenameoftheimagecontentsourcepolicies on your cluster: `oc get -A icsp`
+
+The default name for the Cloud Pak for Data image content source policy is cloud- pak-for-data-mirror.
+
+3) SettheCPD_ICSPenvironmentvariabletothenameoftheCloudPakfor Data image content source policy. The following command uses the default name as an example. Change it according to your environemnt: `export CPD_ICSP=cloud-pak-for-data-mirror`
+4) SavetheimagecontentsourcepolicyasaYAMLfileonthecluster.Thefollowing command saves the YAML file to the current directory: `oc get icsp ${CPD_ICSP} -o yaml > ${CPD_ICSP}.yaml`
+
+Use the following command to convert one or more ImageContentSourcePolicy YAML files to an ImageDigestMirrorSet YAML file:
+```
+oc adm migrate icsp <file_name>.yaml <file_name>.yaml <file_name>.yaml --dest-dir <path_to_the_directory>
+```
+where:
+`<file_name>` - Specifies the name of the source ImageContentSourcePolicy YAML. You can list multiple file names.
+`--dest-dir` - Optional: Specifies a directory for the output ImageDigestMirrorSet YAML. If unset, the file is written to the current directory.
+
+Example: `oc adm migrate icsp ${CPD_ICSP}.yaml --dest-dir idms-files`
+5) Converttheimagecontentsourcepolicytoanimagedigestmirrorset: `oc create -f idms-files/<file-name>.yaml`
+6) Testthepullofanimagefromtheprivatecontainerregistry. 
+7) Deletetheimagecontentsourcepolicy: `oc delete icsp ${CPD_ICSP}`
+
+
+### 4.14 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
