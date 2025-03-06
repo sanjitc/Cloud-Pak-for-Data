@@ -1970,7 +1970,8 @@ data:
    effect: NoSchedule
 -------
 ```
-6. Change CCS CR for use dedicated CouchDB resources.
+6) Change CCS CR for use dedicated CouchDB resources.
+```
 oc patch ccs ccs-cr --type merge -p '{
  "spec": {
   "couchdb_node_selector": { "icp4data": "dedicated-wdp-couchdb"},
@@ -1983,11 +1984,14 @@ oc patch ccs ccs-cr --type merge -p '{
   ]
  }
 }'
-7. Change CPU and memory limit for couchdb pod:
+```
+7) Change CPU and memory limit for couchdb pod:
+```
 oc patch ccs ccs-cr --type merge --patch '{"spec": {
 "couchdb_resources":{
 "requests":{"cpu": "3", "memory": "256Mi"}, "limits":{"cpu": "10", "memory": "40Gi"}
 }}}'
+```
 
 ### 4.11 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
