@@ -1995,7 +1995,7 @@ oc patch ccs ccs-cr --type merge --patch '{"spec": {
 ### 4.13 Migrating Image Content Source Policy (ICSP) to an Image Digest Mirror Set
 Starting in Red Hat OpenShift Container Platform Version 4.14, the image content source policy (ISCP) is replaced by the image digest mirror set. If you upgrade your environment from Red Hat OpenShift Container Platform Version 4.12 to Version 4.14 or Version 4.15 and you mirror images to a private container registry, you must migrate your existing IBM Cloud Pak for Data (CPD) image content source policy to an image digest mirror set.
 
-1) LogintoRedHatOpenShiftContainerPlatformasauserwithsuVicient permissions to complete the task.
+1) Login to RedHat OpenShift Container Platform asauser withsuVicient permissions to complete the task.
 2) Runthefollowingcommandtogetthenameoftheimagecontentsourcepolicies on your cluster: `oc get -A icsp`
 
 The default name for the Cloud Pak for Data image content source policy is cloud- pak-for-data-mirror.
