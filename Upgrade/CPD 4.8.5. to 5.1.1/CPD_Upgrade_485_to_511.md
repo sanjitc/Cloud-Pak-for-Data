@@ -2024,12 +2024,12 @@ Workaround: To add any missing permissions to the Data Engineer, Data Quality An
 oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Name:metadata.name" -l app.kubernetes.io/component=zen-watcher --no-headers) -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 ### 4.15 Installing license key for Manta
-# Instructions for installing license key:
+#### Instructions for installing license key:
 1) Choose the appropriate key for your installation.  If you are using 4.6.3 or later, use "license-IBM-unlimited-non-expiring-FIPS-compliant.key".  This will apply to most customers. If you are using 4.6.2 or older, use "license-IBM-unlimited-non-expiring-FIPS-non-compliant.key".
 2) Rename your key to ìlicense.keyî
 3) Install the license key
 
-# To input the license key into the Cloud Pak for Data config map.
+#### To input the license key into the Cloud Pak for Data config map.
 1) Log into the infrastructure node of the openshift cluster 
 2) Run the following command: `oc set data secret/manta-keys -n test --from-file=license.key=./license.key`
    where: license.key is the license file 
