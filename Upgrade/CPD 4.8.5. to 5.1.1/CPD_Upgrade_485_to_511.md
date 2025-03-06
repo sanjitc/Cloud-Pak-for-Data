@@ -1893,6 +1893,23 @@ metadata:
 
 Complete catalog resynchronization after you upgrade to Version 5.1 from Version 4.7.3.
 
+### 4.10 Resync for glossary assets
+1) Get the token
+```
+curl -X POST \
+  'https://<instance_route>/icp4d-api/v1/authorize'\
+  -H 'Content-Type: application/json' \
+  -d' { \
+    "username":"<username>", \
+    "password":"<password>" \
+  }'
+```
+
+2) Run the resync for glossary assets
+```
+curl -k -X POST  -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "https://$CPD_URL/v3/glossary_terms/admin/resync?artifact_type=all&sync_destinations=KNOWLEDGE_GRAPH" -d '{}'
+```
+
 ### 4.10 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
