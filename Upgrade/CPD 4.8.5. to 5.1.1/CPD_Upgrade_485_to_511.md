@@ -1910,7 +1910,18 @@ curl -X POST \
 curl -k -X POST  -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $TOKEN" "https://$CPD_URL/v3/glossary_terms/admin/resync?artifact_type=all&sync_destinations=KNOWLEDGE_GRAPH" -d '{}'
 ```
 
-### 4.10 Upgrade the Backup & Restore service and application
+### 4.11 Update default project list view from 200 to 5000 projects (SF TS018467023)
+1) Put CCS  into maintenance mode:
+```
+oc patch -n ${CPD_INSTANCE_PROJECT} ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}'
+```
+2) Edit the `portal-projects` deployment with new environment variable `TOTAL_PROJECT_THRESHOLD` values `5000`.
+```
+oc edit deploy -n ${CPD_INSTANCE_PROJECT} portal-projects
+<add relevant env var to `env` section>
+```
+
+### 4.11 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
@@ -1925,6 +1936,8 @@ If you use IBM Fusion to back up and restore your IBM® Software Hub deployment,
 **2.Upgrade the IBM Fusion application**
 <br>
 IBM Fusion team can help on this task.
+
+### 4.12 
 
 ## Summarize and close out the upgrade
 
