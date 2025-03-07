@@ -134,7 +134,16 @@ Part 4: Maintenance
 4.5 Increase ephemeral storage for zen-watchdog-serviceability-job
 4.6 Update wdp-lineage deployment for addressing the potential Db2 high CPU and Memory usage issue
 4.7 Apply the workaround for MDE Job
-4.8 Upgrade the Backup & Restore service and application
+4.8 Enable Data Lineage in UI and remove old "lineage" tab under asset
+4.9 Resync of lineage metadata
+4.10 Resync for glossary assets
+4.11 Update default project list view from 200 to 5000 projects
+4.12 Configure dedicated nodes for CouchDB
+4.13 Migrating Image Content Source Policy (ICSP) to an Image Digest Mirror Set
+4.14 Predefined roles are missing permissions
+4.15 Installing license key for Manta
+4.16 Gathering diagnostic job for CCS component fails with error 400
+4.17 Upgrade the Backup & Restore service and application
 
 Summarize and close out the upgrade
 
