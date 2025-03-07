@@ -2035,7 +2035,7 @@ oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Na
    where: license.key is the license file 
    <namespace> is the namespace where MANTA is deployed 
 
-### 4.14 Upgrade the Backup & Restore service and application
+### 4.16 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
@@ -2050,8 +2050,6 @@ If you use IBM Fusion to back up and restore your IBM® Software Hub deployment,
 **2.Upgrade the IBM Fusion application**
 <br>
 IBM Fusion team can help on this task.
-
-### 4.12 
 
 ## Summarize and close out the upgrade
 
