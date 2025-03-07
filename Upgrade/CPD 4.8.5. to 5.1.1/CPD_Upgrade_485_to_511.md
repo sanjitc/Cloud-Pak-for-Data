@@ -2035,7 +2035,64 @@ oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Na
    where: license.key is the license file 
    <namespace> is the namespace where MANTA is deployed 
 
-### 4.16 Upgrade the Backup & Restore service and application
+### 4.16 Gathering diagnostic job for CCS component fails with error 400
+When running a diagnostic job for the Common Core Services component, it fails with error 400.
+The problem is caused by conflicting versions of CCS being enabled in the internal metastore database.
+As a workaround, connect to any zen-metastore-edb pod and perform a similar steps as follows: 
+```
+$ oc rsh zen-metastore-edb-1 bash
+
+bash-5.1$ psql -U postgres -d zen
+psql (14.11)
+Type "help" for help.
+
+zen=# select state,id from add_ons where type='ccs';
+     state     |     id
+---------------+-------------
+ not_installed | ccs/2.5.0.0
+ not_installed | ccs/3.5.1
+ not_installed | ccs/3.5.2
+ not_installed | ccs/3.5.3
+ not_installed | ccs/3.5.5
+ not_installed | ccs/4.0.2
+ not_installed | ccs/4.0.4
+ not_installed | ccs/4.0.6
+ not_installed | ccs/4.0.7
+ not_installed | ccs/4.5.1
+ not_installed | ccs/4.5.3
+ enabled       | ccs/6.5.0
+ enabled       | ccs/8.5.0
+(13 rows)
+
+zen=# update add_ons set state='not_installed' where type='ccs' and id='ccs/6.5.0';
+UPDATE 1
+
+zen=# select state,id from add_ons where type='ccs';
+     state     |     id
+---------------+-------------
+ not_installed | ccs/2.5.0.0
+ not_installed | ccs/3.5.1
+ not_installed | ccs/3.5.2
+ not_installed | ccs/3.5.3
+ not_installed | ccs/3.5.5
+ not_installed | ccs/4.0.2
+ not_installed | ccs/4.0.4
+ not_installed | ccs/4.0.6
+ not_installed | ccs/4.0.7
+ not_installed | ccs/4.5.1
+ not_installed | ccs/4.5.3
+ not_installed | ccs/6.5.0
+ enabled       | ccs/8.5.0
+(13 rows)
+
+zen=# \q
+
+In the above scenario problem was related CCS but similar problem could happen with other services also. 
+
+```
+
+
+### 4.17 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
