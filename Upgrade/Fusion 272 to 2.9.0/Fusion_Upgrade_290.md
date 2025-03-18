@@ -163,7 +163,7 @@ e. Change **Update approval** to the original value in the IBM Storage Fusion us
 
 ------------------
 
-### 5. Modify the image content source policy isf-operator-index - 2.8
+### 5. [Modify the image content source policy isf-operator-index - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-prerequisites-enterprise-registry-upgrade)
 For each source defined in the image content source policy, add the new mirror that points to the new registry. If you want to mirror to the same enterprise registry as the previous version, then skip this step.
 See the following sample image content source policy:
 ```
