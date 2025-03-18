@@ -218,7 +218,7 @@ spec:
     source: registry.redhat.io/amq-streams
 ```
 ------------------
-### 6. Upgrading IBM Storage Fusion - 2.8
+### 6. [Upgrading IBM Storage Fusion - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=upgrading-storage-fusion#tasksf_sds_upgrade__steps__1)
 1. Log in to the OpenShift Container Platform management console as the cluster administrator.
 2. Upgrade IBM Storage Fusion:
 
