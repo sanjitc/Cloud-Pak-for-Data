@@ -116,17 +116,17 @@ skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf
 ```
 You need to record the image digest ID. It is used in deployment phase only.
 
-d.2. Check whether the data-foundation-service FusionServiceDefinition CR is created.
+d.ii. Check whether the data-foundation-service FusionServiceDefinition CR is created.
 ```
 oc get fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
 ```
 
-d.3. Update the imageDigest in the FusionServiceDefinition data-foundation-service.
+d.iii. Update the imageDigest in the FusionServiceDefinition data-foundation-service.
 ```
 skopeo inspect docker://<enterprise registry host:port>/<target-path>/cpopen/isf-data-foundation-catalog:<ocp version> | jq -r ".Digest"
 ```
 
-d.4. Edit the data-foundation-service .spec.onboarding.serviceOperatorSubscription.multiVersionCatSrcDetails.ocp412-t.imageDigest.
+d.iv. Edit the data-foundation-service .spec.onboarding.serviceOperatorSubscription.multiVersionCatSrcDetails.ocp412-t.imageDigest.
 ```
 oc edit fusionservicedefinitions.service.isf.ibm.com -n ibm-spectrum-fusion-ns data-foundation-service
 ```
