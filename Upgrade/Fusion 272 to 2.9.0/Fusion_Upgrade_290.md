@@ -49,7 +49,8 @@ mirror:
         - name: "redhat-oadp-operator"
 ```
 - [Mirror IBM Storage Fusion images - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-storage-fusion-images)
-- [End-to-end mirroring of IBM Fusion and its services - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services)
+- ~~[End-to-end mirroring of IBM Fusion and its services - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services)~~
+- [Mirroring IBM Fusion images - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=images-mirroring-fusion))
 ------------------
 - [Mirror Backup & Restore images - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=registry-mirroring-backup-restore-images)
 - [Mirror Backup & Restore images - 2.9](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=images-mirroring-backup-restore)
