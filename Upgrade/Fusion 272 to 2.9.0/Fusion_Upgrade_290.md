@@ -101,7 +101,7 @@ EOF
 oc apply -f imagecontentsourcepolicy_dcs.yaml
 ```
 ------------------
-### 4. Fusion Data Foundation offline service upgrade - 2.8
+### 4. [Fusion Data Foundation offline service upgrade - 2.8](https://www.ibm.com/docs/en/fusion-software/2.8.x?topic=fusion-prerequisites-enterprise-registry-upgrade)
 a. Before you upgrade IBM Storage Fusion, from the Services page of the IBM Storage Fusion user interface, disable **Automatic updates** for Data Foundation service.
 
 b. Go to **Operators > Installed Operators > IBM Storage Fusion Data Foundation > Subscription**, and check whether the **Update approval** is changed to **Manually**.
