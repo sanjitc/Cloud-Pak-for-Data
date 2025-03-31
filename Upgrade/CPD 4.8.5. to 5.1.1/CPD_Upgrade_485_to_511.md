@@ -2100,7 +2100,16 @@ In the above scenario problem was related CCS but similar problem could happen w
 
 ```
 ### 4.17 After upgrading to version 5.1.1, the DSD assignment for migrated connections is not working (TS018733740)
-
+- Get the rabbitmq-username and rabbitmq-password
+```
+oc get secret rabbitmq-ha -oyaml
+Decdoe them using - echo -n 'XXXXXXXXXX'|base64 -d
+```
+- Forward local ports to rabbitmq-ha pod
+From a client machine CMD (Windows/Mac/Linux) (From OCP console, download oc cmmandline tool in respect to the client),
+Login to cluster using `oc CLI and set appropriate projcet`
+Forward the port using `oc port-forward rabbitmq-ha-0 15671:15671`
+Access RabbitMQ console from client machine browser: `https://localhost:15671/#/queues`
 - Delete RabbitMQ Queues owned by catalog-api-jobs:
 ```
  BG-update-event     
