@@ -2099,9 +2099,21 @@ zen=# \q
 In the above scenario problem was related CCS but similar problem could happen with other services also. 
 
 ```
+### 4.17 After upgrading to version 5.1.1, the DSD assignment for migrated connections is not working (TS018733740)
 
+- Delete RabbitMQ Queues owned by catalog-api-jobs:
+```
+ BG-update-event     
+ cams-api-jobs-delete-type-events       
+ CAMS-GSRelDoc-Project-Update-Event      
+ cams-api-jobs-connection-update-events  
+ CAMS-GSRelDoc-Space-Update-Event        
+ cams-api-jobs-ibm-data-source-events    
+ gss_queue_resync_request
+```
+- Restart `catalog-api-jobs` pod
 
-### 4.17 Upgrade the Backup & Restore service and application
+### 4.18 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
