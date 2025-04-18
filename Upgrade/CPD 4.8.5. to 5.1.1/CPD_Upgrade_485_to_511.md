@@ -2034,7 +2034,7 @@ oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Na
 ```
 ### 4.15 Installing license key for Manta
 
-#### Instructions for installing license key (v.4.6.0)[https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=administering-enabling-lineage-import]:
+#### [Instructions for installing license key (v.4.6.0)](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=administering-enabling-lineage-import):
 1) Choose the appropriate key for your installation.  If you are using 4.6.3 or later, use "license-IBM-unlimited-non-expiring-FIPS-compliant.key".  This will apply to most customers. If you are using 4.6.2 or older, use "license-IBM-unlimited-non-expiring-FIPS-non-compliant.key".
 2) Rename your key to ìlicense.keyî
 3) Install the license key
@@ -2045,7 +2045,7 @@ oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Na
    where: license.key is the license file 
    <namespace> is the namespace where MANTA is deployed 
 
-#### Instruction from 4.8.4 and later [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=administering-enabling-lineage-import#ibm-cloud-pak-for-data-484-and-later] 
+#### [Instruction from 4.8.4 and later](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=administering-enabling-lineage-import#ibm-cloud-pak-for-data-484-and-later)
 1) Restart the metadata-discovery pod, run the following command:
 ```
 oc delete "$(oc get pods -o name | grep metadata-discovery)"
