@@ -2033,7 +2033,8 @@ Workaround: To add any missing permissions to the Data Engineer, Data Quality An
 oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Name:metadata.name" -l app.kubernetes.io/component=zen-watcher --no-headers) -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 ### 4.15 Installing license key for Manta
-#### Instructions for installing license key:
+
+#### Instructions for installing license key (v.4.6.0)[https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=administering-enabling-lineage-import]:
 1) Choose the appropriate key for your installation.  If you are using 4.6.3 or later, use "license-IBM-unlimited-non-expiring-FIPS-compliant.key".  This will apply to most customers. If you are using 4.6.2 or older, use "license-IBM-unlimited-non-expiring-FIPS-non-compliant.key".
 2) Rename your key to ìlicense.keyî
 3) Install the license key
@@ -2043,6 +2044,17 @@ oc delete pod $(oc get pod -n ${PROJECT_CPD_INST_OPERANDS} -o custom-columns="Na
 2) Run the following command: `oc set data secret/manta-keys -n test --from-file=license.key=./license.key`
    where: license.key is the license file 
    <namespace> is the namespace where MANTA is deployed 
+
+#### Instruction from 4.8.4 and later [https://www.ibm.com/docs/en/cloud-paks/cp-data/4.8.x?topic=administering-enabling-lineage-import#ibm-cloud-pak-for-data-484-and-later] 
+1) Restart the metadata-discovery pod, run the following command:
+```
+oc delete "$(oc get pods -o name | grep metadata-discovery)"
+```
+
+2) Restart the wkc-metadata-imports-ui pod, run the following command:
+```
+oc delete "$(oc get pods -o name | grep wkc-metadata-imports-ui)"
+```
 
 ### 4.16 Gathering diagnostic job for CCS component fails with error 400
 When running a diagnostic job for the Common Core Services component, it fails with error 400.
