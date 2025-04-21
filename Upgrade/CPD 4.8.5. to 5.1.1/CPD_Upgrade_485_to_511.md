@@ -2136,7 +2136,17 @@ Access RabbitMQ console from client machine browser: `https://localhost:15671/#/
 ```
 - Restart `catalog-api-jobs` pod
 
-### 4.18 Upgrade the Backup & Restore service and application
+### 4.18 Increase Knowledge Graph transaction timeout
+WKC CR should be in maintenance mode
+
+```
+oc edit deployment wkc-data-lineage-service
+   Set kg_neo4j_global_transaction_timeout env value to 500.
+```
+
+[Reference](https://github.ibm.com/wdp-gov/tracker/issues/218821)
+
+### 4.19 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
