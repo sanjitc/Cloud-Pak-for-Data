@@ -2136,17 +2136,32 @@ Access RabbitMQ console from client machine browser: `https://localhost:15671/#/
 ```
 - Restart `catalog-api-jobs` pod
 
-### 4.18 Increase Knowledge Graph transaction timeout
+### 4.18 Increase Knowledge Graph transaction timeout (TS018658120)
 WKC CR should be in maintenance mode
 
 ```
 oc edit deployment wkc-data-lineage-service
    > Set kg_neo4j_global_transaction_timeout env value to 500.
 ```
-
 [Reference](https://github.ibm.com/wdp-gov/tracker/issues/218821)
 
-### 4.19 Upgrade the Backup & Restore service and application
+### 4.19 The error Error 504 - Gateway Timeout shows on the data lineage graph page (TS018658120)
+Datalineage CR should be in maintenance mode
+
+Add a line proxy_read_timeout 7200m; under the line proxy_pass https://lineage-ui-upstream/ in the section location /lineage { under the location.conf.
+1) Change "proxy_read_timeout" values to "7200" in zenextension datalineage-ui-routes (3 different places)
+```
+oc edit zenextension datalineage-ui-routes
+```
+
+2) Reload nginx inside all ibm-nginx pods
+```
+nginx -s reload
+```
+  
+[Reference](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=issues-manta-data-lineage#error504)
+
+### 4.20 Upgrade the Backup & Restore service and application
 **Note:** This will be done as a separate task in another maintenance time window.
 
 **1.Updating the cpdbr service**
