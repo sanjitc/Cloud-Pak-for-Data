@@ -2141,7 +2141,7 @@ WKC CR should be in maintenance mode
 
 ```
 oc edit deployment wkc-data-lineage-service
-   Set kg_neo4j_global_transaction_timeout env value to 500.
+   > Set kg_neo4j_global_transaction_timeout env value to 500.
 ```
 
 [Reference](https://github.ibm.com/wdp-gov/tracker/issues/218821)
