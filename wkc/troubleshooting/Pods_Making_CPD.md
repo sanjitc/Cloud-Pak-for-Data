@@ -91,5 +91,7 @@ The following table provides reference information on the pods making up CPD and
 |manta-dataflow|WKC|Manta|||||
 |manta-flow-agent|WKC|Manta|||||
 |manta-open-manta-designer|WKC|Manta|||||
+|data-lineage-neo4j-server1-0|IBM Neo4j||Graph repository for storing Knowledge Graph and Manta Data Lineage data.|wkc-data-lineage-service,wdp-kg-ingestion-service|Cannot show lineage, relationship explorer not working. Data from Manta scanners not being imported. Updates from Catalog&Glossary not stored for RE use-case|In case of single replica, some of the services will not be up|
+
 
 (\*) *AD: Automated discovery, QS: Quick scan, IAS: Information assets, MI: Metadata import, DS: DataStage, UG: Unified governance, WKC: Watson Knowledge Catalog, ODF: Open discovery framework, PRF: Profiling, DPS: Data protection service, GS: Global search, WF: workflow*
