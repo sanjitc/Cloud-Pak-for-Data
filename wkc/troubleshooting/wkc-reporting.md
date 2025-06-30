@@ -23,17 +23,19 @@ db2 connect to wfdb
 db2 "select distinct feature from BIOPSDB_icp4data.rpt_load_feature_status order by feature" > features.log
 db2 "select a.service, a.zone_id, b.status, c.feature, c.status as fstatus from BIOPSDB_icp4data.RPT_DATA_TENANTS_ZONES a INNER JOIN BIOPSDB_icp4data.RPT_LOAD_ZONE_QUEUE b ON b.ZONE_ID = a.zone_id JOIN BIOPSDB_icp4data.RPT_LOAD_FEATURE_STATUS c ON c.zone_id = b.zone_id AND c.zone_id = a.zone_id order by a.service, a.zone_id, c.feature " > feat_status.log
 ```
-3) From features list - pick these features (which are added after VZ last 4.8.5)
+3) Build current rebalancing status
+3.1. From features list - pick these features (which are added after VZ last 4.8.5)
 For catalog - CAMS_ASSET_500
 For projects - PROJ_ASSET_500
 For Glossary - GLOSSARY_510
 
-Searching them in feat_status (number of lines/rows containing). For example:
+3.2. Find total registered number from the `register.json`
+
+3.3. Searching them in feat_status (number of lines/rows containing). For example:
 CAMS_ASSET_500 = 32 - i.e. feature status is updated for 32 catalogs out of total registered 174 catalogs
 PROJ_ASSET_500 = 111 - i.e. feature status is updated for 111 projects out of total registered 1073 projects
 GLOSSARY_510 = 15 - i.e. feature status is updated for 15 categories out of total registered 15 categories
 
-Find total registered number from the `register.json`
 
 ## Compare assets between IKC/WKC and WKC Reporting Datamart
 Assets at IKC side. From CAMS API:
