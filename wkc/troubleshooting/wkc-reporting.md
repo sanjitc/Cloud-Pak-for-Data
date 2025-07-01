@@ -24,6 +24,7 @@ db2 "select distinct feature from BIOPSDB_icp4data.rpt_load_feature_status order
 db2 "select a.service, a.zone_id, b.status, c.feature, c.status as fstatus from BIOPSDB_icp4data.RPT_DATA_TENANTS_ZONES a INNER JOIN BIOPSDB_icp4data.RPT_LOAD_ZONE_QUEUE b ON b.ZONE_ID = a.zone_id JOIN BIOPSDB_icp4data.RPT_LOAD_FEATURE_STATUS c ON c.zone_id = b.zone_id AND c.zone_id = a.zone_id order by a.service, a.zone_id, c.feature " > feat_status.log
 ```
 3) Build current rebalancing status
+   
 3.1. From features list - pick these features (which are added after VZ last 4.8.5)
 For catalog - CAMS_ASSET_500
 For projects - PROJ_ASSET_500
