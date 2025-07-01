@@ -2,15 +2,15 @@
 wkc/troubleshooting/Pods_Making_CPD.md
 
 ## DEscription of IBM Data Lineage job steps
-`inputsInitializationStep, `inputsCompletionStep`, `dictionaryInitializationStep`, `dictionaryCompletionStep`: These are what we call "platform" steps. They update some internal state of the scanner service to make sure everything is stored properly. These four steps shouldn't take more than few seconds each.
-bigqueryExtractorStep: This is the step that actually extracts the metadata that is used to generate lineage.
-bigqueryDictionaryMappingStep: Extracts information that is necessary to identify the correct dictionary when referencing this data source from other technologies.
-attachedInputsExtractionStep: Fetches the external inputs that the user manually added to the MDI asset.
-*DataflowStep: These steps are the ones that run the analysis and generate lineage.
-Dictionary: Creates graph assets from the extracted dictionary.
-Extracted: Analysis of inputs extracted during the ExtractorStep.
-External: Analysis of manually added external inputs.
-Job: Specific to BigQuery, analysis of BQ jobs.
+- `inputsInitializationStep`, `inputsCompletionStep`, `dictionaryInitializationStep`, `dictionaryCompletionStep`: These are what we call "platform" steps. They update some internal state of the scanner service to make sure everything is stored properly. These four steps shouldn't take more than few seconds each.
+- `bigqueryExtractorStep`: This is the step that actually extracts the metadata that is used to generate lineage.
+- `bigqueryDictionaryMappingStep`: Extracts information that is necessary to identify the correct dictionary when referencing this data source from other technologies.
+- `attachedInputsExtractionStep`: Fetches the external inputs that the user manually added to the MDI asset.
+- `*DataflowStep`: These steps are the ones that run the analysis and generate lineage.
+- - `Dictionary`: Creates assets from the extracted dictionary.
+- - `Extracted`: Analysis of inputs extracted during the ExtractorStep.
+- - `External`: Analysis of manually added external inputs.
+- - `Job`: Specific to BigQuery, analysis of BQ jobs.
 
 ## Capture wkc-data-lineage-service log with DEBUG level:
 
