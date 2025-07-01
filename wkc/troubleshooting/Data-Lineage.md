@@ -1,5 +1,5 @@
 ## Pods related to IBM Data Lineage
-wkc/troubleshooting/Pods_Making_CPD.md
+[Pods description](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/troubleshooting/Pods_Making_CPD.md)
 
 ## Description of IBM Data Lineage Job Steps
 - `inputsInitializationStep`, `inputsCompletionStep`, `dictionaryInitializationStep`, `dictionaryCompletionStep`: These are what we call "platform" steps. They update some internal state of the scanner service to make sure everything is stored properly. These four steps shouldn't take more than few seconds each.
