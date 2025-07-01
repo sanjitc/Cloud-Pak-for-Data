@@ -1,7 +1,7 @@
 ## Pods related to IBM Data Lineage
 wkc/troubleshooting/Pods_Making_CPD.md
 
-## DEscription of IBM Data Lineage job steps
+## Description of IBM Data Lineage Job Steps
 - `inputsInitializationStep`, `inputsCompletionStep`, `dictionaryInitializationStep`, `dictionaryCompletionStep`: These are what we call "platform" steps. They update some internal state of the scanner service to make sure everything is stored properly. These four steps shouldn't take more than few seconds each.
 - `bigqueryExtractorStep`: This is the step that actually extracts the metadata that is used to generate lineage.
 - `bigqueryDictionaryMappingStep`: Extracts information that is necessary to identify the correct dictionary when referencing this data source from other technologies.
