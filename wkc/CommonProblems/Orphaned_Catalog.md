@@ -22,6 +22,7 @@ oc login <cluster_address> -u <openshift user> -p <openshift user's password>
 - Now get a bearer token for that service id.  This is documented in the [IBM Cloud Pak for Data Platform API Authentication Documentation](https://cloud.ibm.com/apidocs/cloud-pak-data/cloud-pak-data-5.0.0#authentication).
 
 **Step 2: Retrieve the current uid of the desired new administrator user.**
+
 You'll need to know the user's username.  Ask them for it if you don't already know it.  It's the name they use when they log into IBM CloudPak for Data.  Once you have the user's name, call the [Get User By Name](https://cloud.ibm.com/apidocs/cloud-pak-data/cloud-pak-data-5.0.0#getuserbyname) API.  You'll need the authorization token of a user who has the privileges to access the user management information for that user.  Try the one you got from Step 1 above.  Or, get one for the very user you'll be adding as the administrator of the orphaned catalog by calling [IBM Cloud Pak for Data Platform API Authentication Documentation](https://cloud.ibm.com/apidocs/cloud-pak-data/cloud-pak-data-5.0.0#authentication) using that user's userid/password combination.
 You'll have a response that looks something like this:
 ```
@@ -34,6 +35,7 @@ You'll have a response that looks something like this:
 ```
 
 **Step 3: Assign the User as Admin for the Catalog**
+
 Here's the information you'll have ready at hand to proceed with this step:
 1. An authorization token to perform the API call assigning the user as the orphaned catalog's admin (from Step 1).
 2. The user-id of the user you'll be assigning as the administrator.
