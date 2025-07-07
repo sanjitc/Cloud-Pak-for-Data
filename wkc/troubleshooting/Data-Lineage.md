@@ -7,7 +7,7 @@
 - `bigqueryDictionaryMappingStep`: Extracts information that is necessary to identify the correct dictionary when referencing this data source from other technologies.
 - `attachedInputsExtractionStep`: Fetches the external inputs that the user manually added to the MDI asset.
 - `*DataflowStep`: These steps are the ones that run the analysis and generate lineage.
-  -  `Dictionary`: Creates assets from the extracted dictionary.
+  -  `Dictionary`: Creates lineage assets from the extracted dictionary.
   -  `Extracted`: Analysis of inputs extracted during the ExtractorStep.
   -  `External`: Analysis of manually added external inputs.
   -  `Job`: Specific to BigQuery, analysis of BQ jobs.
