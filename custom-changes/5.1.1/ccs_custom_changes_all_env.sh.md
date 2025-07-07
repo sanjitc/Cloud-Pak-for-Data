@@ -23,7 +23,7 @@ function update_cm-ccs-features-configmap(){
   cm=ccs-features-configmap
   echo "Updating $cm."
   oc get -n $ns cm $cm -oyaml > cm_$cm$$.yaml
-  oc patch configmap ccs-features-configmap -n $ns --type=json \
+  oc patch cm $cm -n $ns --type=json \
      --patch='[{"op": "replace", "path": "/data/enforceAuthorizeReporting", "value": "true"},{"op": "replace", "path": "/data/defaultAuthorizeReporting", "value": "true"}]'
 }
 
