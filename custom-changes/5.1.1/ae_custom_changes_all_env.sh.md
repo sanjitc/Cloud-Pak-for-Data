@@ -21,9 +21,6 @@ function update_cm-spark-hb-deployment-properties(){
   else
 	  echo "deploymentStatusRetryCount has already set in the configmap $cm"
   fi
-
-  #oc patch cm $cm -n $ns --type=json \
-  #   --patch='[{"op": "replace", "path": "/data/enforceAuthorizeReporting", "value": "true"},{"op": "replace", "path": "/data/defaultAuthorizeReporting", "value": "true"}]'
 }
 
 put_cr_in_maintenance
