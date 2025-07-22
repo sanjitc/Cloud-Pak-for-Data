@@ -26,3 +26,8 @@ How to check the design document version for a given catalog?
 In this case, step 1-5 are to gather variable values.
 Step 6 is checking for a single catalog ID.
 ```
+
+How to find the size of portal-notifications in the CouchDB?
+```
+oc exec wdp-couchdb-0 -c couchdb -- bash -c 'curl -ks -u "admin:`cat /etc/.secrets/COUCHDB_PASSWORD`" https://localhost:6984/portal-notifications_icp_test' |jq .
+```
