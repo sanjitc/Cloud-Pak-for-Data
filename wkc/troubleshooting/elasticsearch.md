@@ -16,7 +16,7 @@ curl -X GET https://localhost:19200/_cluster/health?filter_path=status,*_shards\
 curl -X GET  https://localhost:19200/_cluster/health
 ```
 ## Other Troubleshooting command
-All these commands can be run as `oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl ....`
+All these commands can be run as `oc exec elasticsea-<...>-es-server-esnodes-0 -c elasticsearch -- curl ....`
 ```
 curl -X GET https://localhost:19200/_cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason&s=state
 curl --request GET --url http://localhost:19200/_cat/indices?v=true  --header 'content-type: application/json'
