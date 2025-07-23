@@ -12,8 +12,8 @@ elasticsea-*-es-server-esnode*
 ## Check health
 For health check from the elasticsearch cluster pods (all curl commands need to run from inside a elasticsearch pod; oc exec elasticsearch-master-0 -c elasticsearch -- curl command)
 ```
-curl -X GET https://localhost:19200/_cluster/health?filter_path=status,*_shards\&pretty=true
-curl -X GET  https://localhost:19200/_cluster/health
+oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url 'http://localhost:19200/_cat/health' --header 'content-type: application/json'
+oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url 'http://localhost:19200/_cat/health?filter_path=status,*_shards\&pretty=true' --header 'content-type: application/json'
 ```
 ## Other Troubleshooting command
 All these commands can be run as `oc exec elasticsea-<...>-es-server-esnodes-0 -c elasticsearch -- curl ....`
