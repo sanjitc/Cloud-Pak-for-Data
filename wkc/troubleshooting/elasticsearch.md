@@ -38,8 +38,9 @@ oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --r
 oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url http://localhost:19200/_cat/recovery?detailed=true&active_only=true&v=true  --header 'content-type: application/json'
 ```
 ## Loop through all the elastic shards and reroute them to assign them for any unassigned shards
+```
 oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request POST --url http://localhost:19200/_cluster/reroute?retry_failed=true  --header 'content-type: application/json'
-
+```
 ## Check incoming request from a user
 ```
 oc logs catalog-api... -f --tail=10 | grep <userid of the use i.e., svc_maria_prod_dgi>
