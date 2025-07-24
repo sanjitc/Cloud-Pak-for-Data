@@ -10,13 +10,13 @@ v.4.8.x
 elasticsea-*-es-server-esnode*
 ```
 ## Check health
-For health check from the elasticsearch cluster pods (all curl commands need to run from inside an elasticsearch pod; oc exec elasticsearch-master-0 -c elasticsearch -- curl command)
+For a health check from the elasticsearch cluster pods (all curl commands need to run from inside an elasticsearch pod; oc exec elasticsearch-master-0 -c elasticsearch -- curl command)
 ```
 oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url 'http://localhost:19200/_cat/health' --header 'content-type: application/json'
 oc exec elasticsea-0ac3-ib-6fb9-es-server-esnodes-0 -c elasticsearch -- curl --request GET --url 'http://localhost:19200/_cat/health?filter_path=status,*_shards\&pretty=true' --header 'content-type: application/json'
 ```
 ## Other Troubleshooting command
-All these commands can be run as `oc exec elasticsea-<...>-es-server-esnodes-0 -c elasticsearch -- curl ....`
+All these commands can be run as `oc exec $(oc get pod -l app.kubernetes.io/managed-by=ibm-elasticsearch,apps.kubernetes.io/pod-index=0 -o jsonpath='{.items[0].metadata.name}') -- curl ....`
 ```
 curl -X GET https://localhost:19200/_cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason&s=state
 curl --request GET --url http://localhost:19200/_cat/indices?v=true  --header 'content-type: application/json'
