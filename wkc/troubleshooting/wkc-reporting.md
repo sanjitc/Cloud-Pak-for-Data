@@ -14,6 +14,16 @@ curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/999/register"
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/bistatus?tenant_id=999&table_name=all"
 ```
+## Find sync status of a catalog or project
+
+- Check `bidata_sync_status` table to monitor the current processed count.
+```
+select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id/project_id>'
+```
+- Check `bidata_sync_errors` table for skipped assets.
+```
+select * from wkc_reporting.bidata_sync_errors where zone_id = '<catalog_id/project_id>'
+```
 ## Find rebalancing status
 1) Capture WKC report status using above APIs
 2) Cpature reporing feature status from the Db2 database.
