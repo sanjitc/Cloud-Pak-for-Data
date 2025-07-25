@@ -40,3 +40,6 @@ Clean up the notifications-db using the following API and restart the portal-not
 # oc exec wdp-couchdb-0 -c couchdb -- bash -c 'curl -ks -u "admin:`cat /etc/.secrets/COUCHDB_PASSWORD`" -X DELETE https://localhost:6984/portal-notifications_icp_test'
 ```
 Alternatively, on CPD 5.x, a new cronjob `portal-notifications-db-cleanup-cronjob` was introduced to clean this database. "By default, this cronjob is suspended. We should enable the cronjob and let it run once every week. By default cronjob will keep the last 7 days of data in the portal-notification information. It is controlled by the environment variable `CLEANDB_RANGESTART_DAYS` in the cronjob. 
+
+## Check status of elasticsearch
+
