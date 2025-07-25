@@ -1,12 +1,12 @@
 ## Check all pods are healthy
 
 ## Any global search catalog bulk reindex running?
-Check wkc-search-reindexing-job running on any catalog, which can cause performance issue. You can delete the job anytime without causing any problem.
+Check `wkc-search-reindexing-job` is running on any catalog, which can cause a performance issue. With a large amount of data, this causes undue stress on the system and slows down the global search activities. You can delete the job anytime without causing any problem.
 ```
 oc get jobs | grep wkc-search-reindexing-job
 ```
 ## Size of portal-notification-db in CouchDB
-Large amount of notification records in the portal-notification-db can cause problem. Couple of Gb in size fine. Make sure periodically clean the data from portal-notification-db.
+A large number of notification records in the `portal-notification-db` can cause problems. This database stores the notifications and any email alerts generated from the CPD, IKC, and other services. A couple of GB in size is fine. Make sure to periodically clean the data from portal-notification-db.
 - Find the data size
 ```
 # oc exec wdp-couchdb-0 -c couchdb -- bash -c 'curl -ks -u "admin:`cat /etc/.secrets/COUCHDB_PASSWORD`" https://localhost:6984/portal-notifications_icp_test' |jq .
@@ -39,3 +39,4 @@ Clean up the notifications-db using the following API and restart the portal-not
 ```
 # oc exec wdp-couchdb-0 -c couchdb -- bash -c 'curl -ks -u "admin:`cat /etc/.secrets/COUCHDB_PASSWORD`" -X DELETE https://localhost:6984/portal-notifications_icp_test'
 ```
+Alternatively, on CPD 5.x, a new cronjob `portal-notifications-db-cleanup-cronjob` was introduced to clean this database. "By default, this cronjob is suspended. We should enable the cronjob and let it run once every week. By default cronjob will keep the last 7 days of data in the portal-notification information. It is controlled by the environment variable `CLEANDB_RANGESTART_DAYS` in the cronjob. 
