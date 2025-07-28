@@ -18,7 +18,7 @@ curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer
 
 - Check `bidata_sync_status` table to monitor the current processed count.
 ```
-select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id/project_id>'
+select count(*) from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id/project_id>'
 ```
 - Check `bidata_sync_errors` table for skipped assets.
 ```
