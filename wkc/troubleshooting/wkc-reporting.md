@@ -69,8 +69,12 @@ select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id>'
 
 ## Find reason for skipped assets
 ```
-select * from wkc_reporting.bidata_sync_errors where zone_id = '<catalog_id>'
+select count(*) from wkc_reporting.dq_checks where container_id = '<catalog_id/project_id';
+select count(*) from wkc_reporting.dq_issues_for_assets where container_id = '<catalog_id/project_id';
+select count(*) from wkc_reporting.dq_issues_for_asset_columns where container_id = '<catalog_id/project_id';
+select object_type, count(*) from wkc_reporting.bidata_sync_errors where zone_id = '<catalog_id/project_id' group by object_type;
 ```
+Depending on where you find the record, check that table for details, for example: `select * from wkc_reporting.bidata_sync_errors where zone_id = '<catalog_id/project_id>'`
 
 ## Force sync
 To trigger re-sync of all the assets under a project or catalog, you can use this curls command.
