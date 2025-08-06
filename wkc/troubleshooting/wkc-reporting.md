@@ -62,6 +62,15 @@ from wkc_reorting.container_assets
 where container_id  = '<CATALOG ID>'
 group by container_id
 ```
+## Check/monitor current sync processed count for a catalog.
+```
+select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id>'
+```
+
+## Find reason for skipped assets
+```
+select * from wkc_reporting.bidata_sync_errors where zone_id = '<catalog_id>'
+```
 
 ## Force sync
 To trigger re-sync of all the assets under a project or catalog, you can use this curls command.
