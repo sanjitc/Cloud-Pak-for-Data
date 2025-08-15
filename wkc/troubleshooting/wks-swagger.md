@@ -12,7 +12,7 @@
 |Catalog Assets|https://<CPD URL>/v2/cams/explorer/|
 |Jobs|https://<CPD URL>/v2/jobs/docs/swagger/|
 |Knowledge Accelerators|https://<CPD URL>/v1/knowledge_accelerators/api/explorer/#/|
-|Workflow -https://<CPD URL>/v3/workflows/api/swagger-ui/swagger-ui/index.html|
+|Workflow|https://<CPD URL>/v3/workflows/api/swagger-ui/swagger-ui/index.html|
 |Data Discovery|https://<CPD URL>/v2/data_discoveries/api/explorer/|
 |Asset Lineage|https://<CPD URL>/v2/asset_lineages/api/explorer|
 |Data Flow|https://<CPD URL>/data_intg/v3/flows_runtime/api/explorer/#/|
