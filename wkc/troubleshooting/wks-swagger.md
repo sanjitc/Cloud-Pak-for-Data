@@ -1,6 +1,7 @@
 # IKC Swagger UI
 
 |Funtionality|Swagger URL|
+|---|---|
 |Global Search|https://<CPD URL>/v3/search/api/explorer/|
 |Data Profile|https://<CPD URL>/v2/data_profiles/api/explorer/|
 |Metadata Enrichment|https://<CPD URL>/v1/wkc-mde-service-manager/api/explorer/|
