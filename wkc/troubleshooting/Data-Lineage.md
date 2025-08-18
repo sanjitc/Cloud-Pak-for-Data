@@ -45,3 +45,11 @@ oc logs -f wkc-data-lineage-service-<podid> > lineage.log
         - name: SPRING_APPLICATION_JSON
           value: '{"logging.level.com.ibm.wdp":"INFO"}'
 ```
+
+## API to retrieve the completion percentage of Lineage jobs.
+```
+curl --request GET \
+  --url <BASE_URL>/gov_lineage/v2/scan_executions/<LINEAGE_EXECUTION_ID> \
+  --header 'Authorization: Bearer <TOKEN>'
+```
+The <LINEAGE_EXECUTION_ID>  is the ID present in the MDI job log.
