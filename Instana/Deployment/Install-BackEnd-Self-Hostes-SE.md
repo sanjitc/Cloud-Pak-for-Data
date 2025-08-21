@@ -1,7 +1,7 @@
 # Installing Instana backend self-hosted standard edition and data stores
 
 ## 1. Documentation:
-   https://www.ibm.com/docs/en/instana-observability/1.0.302?topic=edition-installing
+https://www.ibm.com/docs/en/instana-observability/1.0.301?topic=edition-installing
 
 ## 2. Prerequisites
 
