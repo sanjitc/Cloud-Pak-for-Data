@@ -4,6 +4,7 @@
 
    
 Instana server installation Instructions for air-gapped
+
 3.1. For an air-gapped environment, an air-gapped package must be created first on a bastion host using the Instana cli tool stanctl.
        Follow the instructions from - https://www.ibm.com/docs/en/instana-observability/1.0.301?topic=edition-installing#adding-instana-repository
        Mirroring the repositories - https://www.ibm.com/docs/en/instana-observability/1.0.301?topic=edition-installing#mirroring-the-repositories
