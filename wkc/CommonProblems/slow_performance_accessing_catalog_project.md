@@ -1,3 +1,5 @@
+# Investige performance issues affecting access to catalog project pages.
+
 ## Check all pods are healthy
 ```
 # oc get pod | egrep -v 'Complete|1/1|2/2|3/3|4/4|5/5|6/6'
