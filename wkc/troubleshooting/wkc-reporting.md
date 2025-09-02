@@ -62,7 +62,7 @@ from wkc_reorting.container_assets
 where container_id  = '<CATALOG ID>'
 group by container_id
 ```
-## Check/monitor current sync processed count for a catalog.
+## Check/monitor current initial crawl processed count for a catalog.
 ```
 select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id>'
 ```
