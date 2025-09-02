@@ -59,8 +59,7 @@ Assets at WKC Reporting datamart. From PostgreSQL:
 ```
 select container_id, count(*) 
 from wkc_reorting.container_assets 
-where container_id  = '<CATALOG ID>'
-group by container_id
+group by container_id;
 ```
 ## Check/monitor current initial crawl processed count for a catalog.
 ```
