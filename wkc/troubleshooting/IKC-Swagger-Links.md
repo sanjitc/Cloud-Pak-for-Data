@@ -10,6 +10,7 @@
 |Data Policy|[CPD URL]/v3/enforcement/policies/api/explorer|
 |Data Profile|[CPD URL]/v2/data_profiles/api/explorer/|
 |Data Quality|[CPD URL]/data_quality/v3/api/explorer/|
+|Data Refinery|[CPD URL]/v2/data_flow_spark/docs/swagger/index.html|
 |Global Search|[CPD URL]/v3/search/api/explorer/|
 |Glossary|[CPD URL]/v3/glossary_terms/api|
 |Jobs|[CPD URL]/v2/jobs/docs/swagger/|
