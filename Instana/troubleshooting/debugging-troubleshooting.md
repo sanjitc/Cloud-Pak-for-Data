@@ -53,5 +53,5 @@ stanctl backend apply
 kubectl logs <component name> -n instana-core
 ```
 
-Replace `<componentname>` is the component name that you want to troubleshoot.
+Replace `<component name>` is the component name that you want to troubleshoot.
 
