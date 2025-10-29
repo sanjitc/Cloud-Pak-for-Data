@@ -65,6 +65,8 @@ Follow the steps to gather the Agent `DEBUG` logs that capture most details for 
 ```
 log4j2.logger.instana.level=DEBUG
 ```
+- Start the agent (`<instana_install_dir>/bin/start.sh`)
+- Reproduce the issue and after ~15 minutes zip up the logs (in `<instana_install_dir>/data/logs`) and upload the zip file to the support case.
 
 ## Host agent cannot connect to the Instana backend on SLES hosts
 After you install the host agent on the local host on SUSE Linux Enterprise Server (SLES) 15 SP5 hosts for self monitoring, the agent does not automatically connect to the Instana backend.
