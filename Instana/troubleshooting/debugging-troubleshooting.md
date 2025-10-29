@@ -1,4 +1,4 @@
-# Debugging and troubleshooting
+# Debugging and Troubleshooting
 ![Instana On-Prem Architecture](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/Instana-On-Prem-Architecture.png)
 
 ## Mustgather
