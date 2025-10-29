@@ -4,6 +4,7 @@
 ## Mustgather
 For "error" or "troubleshooting" issues, proactively capture the required must-gather data and upload it to the ticket.
 Include the date and time when the issue occurred. Ensure the must-gather captured covers the time when the issue was reproduced.
+
 ### Must-Gather Resources:
 - Collect must-gather data for Self-hosted Instana **backend** environments (Kubernetes/OpenShift):
   [Self-hosted Instana backend environments running on Kubernetes/OpenShift](https://www.ibm.com/support/pages/how-collect-instana-doc-self-hosted-instana-backend-environments-kubernetesopenshift)
@@ -55,3 +56,11 @@ kubectl logs <component name> -n instana-core
 
 `<component name>` is the component name that you want to troubleshoot.
 
+
+## Host agent cannot connect to the Instana backend on SLES hosts
+After you install the host agent on the local host on SUSE Linux Enterprise Server (SLES) 15 SP5 hosts for self monitoring, the agent does not automatically connect to the Instana backend.
+
+You must use the agent external URL to connect to the backend as a remote host. Use the following command:
+```
+stanctl agent apply --agent-endpoint-host agent-acceptor.<base_domain> --agent-endpoint-port 8443
+```
