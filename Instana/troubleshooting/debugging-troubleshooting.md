@@ -30,7 +30,7 @@ The archive file collects the following information:
 stanctl debug
 ```
 
-## Adjust log level for Instana components
+## Adjust log level for Instana components (**backend**)
 To adjust the level for Instana components, complete following steps:
 
 1. Edit the Core Config file, for example, `$HOME/.stanctl/values/instana-core/custom-values.yaml`.
@@ -56,6 +56,15 @@ kubectl logs <component name> -n instana-core
 
 `<component name>` is the component name that you want to troubleshoot.
 
+## Adjust log level for Instana Agent
+If you have an issue on the agent side, collect the agent debug logs for the Instana team for further investigation.
+Follow the steps to gather the Agent `DEBUG` logs that capture most details for diagnosis and then default `INFO` logs:
+- Stop the agent (`<instana_install_dir>/bin/stop.sh`)
+- Wipe the logs (delete all files in `<instana_install_dir>/data/logs`)
+- Set log level to DEBUG (change the severity in the configuration file (`*instanaAgentDir*/etc/org.ops4j.pax.logging.cfg`)
+```
+log4j2.logger.instana.level=DEBUG
+```
 
 ## Host agent cannot connect to the Instana backend on SLES hosts
 After you install the host agent on the local host on SUSE Linux Enterprise Server (SLES) 15 SP5 hosts for self monitoring, the agent does not automatically connect to the Instana backend.
