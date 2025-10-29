@@ -12,6 +12,9 @@ Include the date and time when the issue occurred. Ensure the must-gather captur
   - [Getting the Instana Agent logs for Windows Host](https://www.ibm.com/support/pages/node/7015761)
   - [Getting Instana Agent logs for Linux Host](https://www.ibm.com/support/pages/node/7024752)
   - [Instana agent and k8sensor logs on Red Hat Openshift and Kubernetes environments](https://www.ibm.com/support/pages/node/6823809)
+- Support Information for the Instana Agent:
+  Sometimes, when troubleshooting an agent issue, you need additional information besides agent logs. To collect support information, please navigate to your agent page and click on the "Collect Support Information" button.
+![Collect Support Information for the Instana Agent](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/Collect_Support_Information.png)  
 
 ## Collect information (**backend**)
 Create an archive file with information about your cluster. You can use the information in the file to troubleshoot issues, or share the file with the support team.
