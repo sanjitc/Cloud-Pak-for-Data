@@ -12,6 +12,10 @@ Check `wkc-search-reindexing-job` is running on any catalog, which can cause a p
 ```
 oc get jobs | grep wkc-search-reindexing-job
 ```
+## CouchDB reindexing 
+```
+oc exec wdp-couchdb-0 -c couchdb -- bash -c 'curl -ks -u "admin:`cat /etc/.secrets/COUCHDB_PASSWORD`" https://localhost:6984/_active_tasks' |jq '.[] | select((.type == "search_indexer") and (.design_document|endswith("_temporary")))'
+```
 ## Size of portal-notification-db in CouchDB
 A large number of notification records in the `portal-notification-db` can cause problems. This database stores the notifications and any email alerts generated from the CPD, IKC, and other services. A couple of GB in size is fine. Make sure to periodically clean the data from portal-notification-db.
 - Find the data size
