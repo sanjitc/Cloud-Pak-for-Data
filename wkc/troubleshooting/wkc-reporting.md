@@ -14,6 +14,12 @@ curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/999/register"
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/bistatus?tenant_id=999&table_name=all"
 ```
+
+## RMQ queues and consumer details
+```
+oc exec -ti rabbitmq-ha-0 -- rabbitmqctl list_queues -p / name messages messages_ready messages_unacknowledged | grep bidata
+oc exec -ti rabbitmq-ha-0 -- rabbitmqctl list_consumers | grep bidata
+```
 ## Find ongoing sync process status of a catalog or project
 
 - Check `bidata_sync_status` table to monitor the current processed count.
