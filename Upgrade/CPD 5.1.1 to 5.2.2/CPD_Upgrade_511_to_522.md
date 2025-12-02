@@ -8,6 +8,25 @@ Table of Content
 
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
 
+
+## Upgrade context
+From
+
+```
+OCP: 4.16
+CPD: 5.1.1
+Storage: Fusion 2.9.0
+Componenets: cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow, dp
+```
+
+To
+```
+OCP: 4.16
+CPD: 5.2.2
+Storage: Fusion 2.9.0
+Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow,dp
+```
+
 ## 1. Set up client workstation
 
 ### 1.1 Prepare the client workstation
