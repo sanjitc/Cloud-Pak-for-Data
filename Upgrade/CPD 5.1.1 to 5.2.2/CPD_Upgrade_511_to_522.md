@@ -1,7 +1,7 @@
 # CPD Upgrade Runbook - v.5.1.1 to 5.2.2
 
 Table of Content
-- [Upgrade documentation](#Upgrade documentation)
+- [Upgrade documentation](#upgrade-documentation)
 
 
 ## Upgrade documentation
