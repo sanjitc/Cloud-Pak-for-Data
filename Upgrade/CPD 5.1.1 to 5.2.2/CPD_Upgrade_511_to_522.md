@@ -2,7 +2,7 @@
 
 ## Upgrade documentation
 
-* [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.1](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
+* [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
 
 ## 1. Set up client workstation
 
