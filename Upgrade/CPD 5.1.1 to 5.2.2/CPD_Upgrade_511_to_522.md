@@ -1,5 +1,9 @@
 # CPD Upgrade Runbook - v.5.1.1 to 5.2.2
 
+Table of Content
+- [Upgrade documentation](#Upgrade documentation)
+
+
 ## Upgrade documentation
 
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
