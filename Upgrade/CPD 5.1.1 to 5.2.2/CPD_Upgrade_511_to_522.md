@@ -102,13 +102,13 @@ oc version
 **NOTE:**
 <br>If the version doesn't match the OpenShift cluster version, update it accordingly. -->
 
-### 1.2 Update Environment Variables for the upgrade to Version 5.2.1
+#### 1.2 Update Environment Variables for the upgrade to Version 5.2.2
 
 1. Locate the VERSION entry and update the environment variable for VERSION.
 
 ```bash
 vi cpd_vars.sh
-export VERSION=5.2.1
+export VERSION=5.2.2
 ```
 
 2. Locate the COMPONENTS entry and confirm the COMPONENTS entry is accurate.
@@ -131,7 +131,7 @@ bash ./cpd_vars.sh
 source cpd_vars.sh
 ```
 
-### 1.3 Ensure the cpd-cli manage plug-in the latest version of the olm-utils image
+#### 1.3 Ensure the cpd-cli manage plug-in the latest version of the olm-utils image
 
 1. Run the following command to ensure that the cpd-cli is installed and running and that the cpd-cli manage plug-in has the latest version of the olm-utils image.
 
@@ -145,7 +145,7 @@ cpd-cli manage restart-container
 podman ps | grep olm-utils-v3
 ```
 
-### 1.4 Health Check
+#### 1.4 Health Check
 
 1. Check OCP status
 
