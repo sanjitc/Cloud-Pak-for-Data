@@ -519,36 +519,8 @@ oc patch wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS} --type=merge -p '{"spec":{"w
 
 ```
 
-#### 2.2.2 Upgrading MANTA service
-```
-export COMPONENTS=mantaflow
-
-```
-
-- Run the cpd-cli manage login-to-ocp command to log in to the cluster.
-
-```
-${CPDM_OC_LOGIN}
-```
-
-- Run the command for upgrading MANTA service.
-
-```
-cpd-cli manage apply-cr \
---components=mantaflow \
---release=${VERSION} \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---license_acceptance=true \
---upgrade=true
-```
-
-Validating the upgrade.
-```
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=mantaflow
-```
-
-#### 2.2.3 Upgrading Analytics Engine service
-##### 2.2.3.1 Upgrading the service
+### 3.2 Upgrading Analytics Engine service
+#### 3.2.1 Upgrading the service
 
 Check the Analytics Engine service version and status. 
 ```
@@ -575,7 +547,7 @@ Validate the service upgrade status.
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
 ```
 
-##### 2.2.3.2 Upgrading the service instances
+#### 3.2.2 Upgrading the service instances
 
 **Note:**  cpd profile api key may expire after upgrade. If we are not able to list the instances, should be attempted once the Custom route is created so that the Admin can login. 
 <br>
@@ -598,7 +570,8 @@ cpd-cli service-instance list \
 --service-type=spark \
 --profile=${CPD_PROFILE_NAME}
 ```
-#### 2.2.4 Upgrading Watson Studio, Watson Studio Runtimes, Watson Machine Learning and OpenScale
+
+### 3.3 Upgrading Watson Studio, Watson Studio Runtimes, Watson Machine Learning and OpenScale
 ```
 export COMPONENTS=ws,ws_runtimes,wml,openscale
 ```
@@ -623,7 +596,7 @@ Validate the service upgrade status.
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
 ```
 
-#### 2.2.5 Upgrading Db2 Warehouse
+### 3.4 Upgrading Db2 Warehouse
 ```
 export COMPONENTS=db2wh
 ```
