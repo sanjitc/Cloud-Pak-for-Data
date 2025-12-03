@@ -35,7 +35,7 @@ From
 OCP: 4.16
 CPD: 5.1.1
 Storage: Fusion 2.9.0
-Componenets: cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow, dp
+Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
 To
@@ -43,7 +43,7 @@ To
 OCP: 4.16
 CPD: 5.2.2
 Storage: Fusion 2.9.0
-Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,ws,ws_runtimes,datarefinery,wml,datastage_ent,datastage_ent_plus,dmc,wkc,analyticsengine,openscale,ws_pipelines,db2aaservice,db2oltp,db2wh,match360,mantaflow,dp
+Componenets: ibm-ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
 ## 1. Set up client workstation
