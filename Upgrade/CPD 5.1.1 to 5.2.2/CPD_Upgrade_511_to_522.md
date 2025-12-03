@@ -418,9 +418,9 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 
 
-#### 2.2.1 Upgrading IBM Knowledge Catalog service and apply customizations
+### 3.1 Upgrading IBM Knowledge Catalog service and apply customizations
 Check if the IBM Knowledge Catalog service was installed with the custom install options. 
-##### 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
+#### 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
 Specify the following options in the `install-options.yml` file in the `work` directory. Create the `install-options.yml` file if it doesn't exist in the `work` directory.
 
 ```
@@ -453,7 +453,7 @@ The `Source` property value in the output is the location of the `work` folder.
 2)Make sure the `useFDB` is set to be `True` in the install-options.yml file.
 <br>
 
-##### 2.Upgrade WKC with custom installation
+#### 2.Upgrade WKC with custom installation
 
 Run the cpd-cli manage login-to-ocp command to log in to the cluster.
 
@@ -472,12 +472,12 @@ cpd-cli manage apply-cr \
 --upgrade=true
 ```
 
-##### 3.Validate the upgrade
+#### 3.Validate the upgrade
 ```
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-##### 4.Apply the customizations 
+#### 4.Apply the customizations 
 **1).Apply the change for supporting CyberArk Vault with a private CA signed certificate**: <br>
 
 ```
