@@ -209,7 +209,7 @@ podman login --username $PRIVATE_REGISTRY_PULL_USER --password $PRIVATE_REGISTRY
 curl -k -u ${PRIVATE_REGISTRY_PULL_USER}:${PRIVATE_REGISTRY_PULL_PASSWORD} https://${PRIVATE_REGISTRY_LOCATION}/v2/_catalog?n=6000 | jq .
 ```
 
-## 2. Preparing the cluster
+## Part 2: Upgrade
 
 ### 2.1 Upgrading prerequisite software
 
