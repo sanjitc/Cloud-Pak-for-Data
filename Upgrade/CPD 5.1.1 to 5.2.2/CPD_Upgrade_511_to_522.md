@@ -1,6 +1,6 @@
 # CPD Upgrade Runbook - v.5.1.1 to 5.2.2
 
-## Part 1: Preface
+## Preface
 ### Upgrade documentation
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
 
@@ -41,10 +41,10 @@ Storage: Fusion 2.9.0
 Componenets: ibm-ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
-## Part 2: Pre-upgrade
-### 2.1. Set up client workstation
+## Part 1: Pre-upgrade
+### 1. Set up client workstation
 
-#### 2.1.1 Prepare the client workstation
+#### 1.1 Prepare the client workstation
 1. Prepare a RHEL 9 machine with internet 
 
 * 1.1 Download the cpd-cli for 5.2.1.
