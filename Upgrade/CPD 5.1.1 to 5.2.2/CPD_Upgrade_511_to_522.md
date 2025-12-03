@@ -1,20 +1,10 @@
 # CPD Upgrade Runbook - v.5.1.1 to 5.2.2
 
-
-Preface
-
-1.1. [Upgrade documentation](#upgrade-documentation)
-
-1.2. [CPD/Services Installed on v.5.1.1](#cpdservices-installed-on-v511)
-
-1.3. [Upgrade context](#upgrade-context)
-
 ## Part 1: Preface
-### 1.1. Upgrade documentation
-
+### Upgrade documentation
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
 
-### 1.2. CPD/Services Installed on v.5.1.1
+### CPD/Services Installed on v.5.1.1
 Components|CR Kind|CR Name|Namespace|Expected Version|Reconciled Version|Progress|Status
 ---------------|--------------|----------------------|-----------|------------------|------------------|----------|-------------
 datalineage|DataLineage|datalineage-cr|dev|5.1.1|5.1.1|100%|InMaintenance
@@ -33,7 +23,7 @@ ws_runtimes|NotebookRuntime|ibm-cpd-ws-runtime-241-py|dev|10.1.0|10.1.0|100%|Com
 db2aaservice|Db2aaserviceService|db2aaservice-cr|dev|5.1.0|5.1.0+11.5.9.0-cn3+2667|N/A|Completed
 match360|MasterData Management|mdm-cr|dev|4.4.21|4.4.21|100%|Completed
 
-### 1.3. Upgrade context
+### Upgrade context
 From
 
 ```
@@ -51,9 +41,10 @@ Storage: Fusion 2.9.0
 Componenets: ibm-ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
-## 1. Set up client workstation
+## Part 2: Pre-upgrade
+### 2.1. Set up client workstation
 
-### 1.1 Prepare the client workstation
+#### 2.1.1 Prepare the client workstation
 1. Prepare a RHEL 9 machine with internet 
 
 * 1.1 Download the cpd-cli for 5.2.1.
