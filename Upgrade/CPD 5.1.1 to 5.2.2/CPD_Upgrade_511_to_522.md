@@ -85,10 +85,10 @@ cpd-cli version
 
 ```bash
 cpd-cli
-        Version: 14.2.1
-        Build Date: 2025-08-26T13:36:37
-        Build Number: 2542
-        SWH Release Version: 5.2.1
+   	Version: 14.2.2
+   	Build Date: 2025-10-25T13:04:21
+   	Build Number: 2727
+   	SWH Release Version: 5.2.2
 ```
 
 <!-- 5. Update the OpenShift CLI
