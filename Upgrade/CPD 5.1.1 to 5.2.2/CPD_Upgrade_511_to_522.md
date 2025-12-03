@@ -416,7 +416,7 @@ oc get pods --namespace=${PROJECT_CPD_INST_OPERATORS}
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-6. Upgrading CDP Services to 5.2.1.
+6. Upgrading CDP Services to 5.2.2.
 
 * 6.1 Upgrading Watson Discovery.
 
