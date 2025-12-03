@@ -30,7 +30,7 @@ From
 OCP: 4.16
 CPD: 5.1.1
 Storage: Fusion 2.9.0
-Componenets: ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
+Componenets: ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
 To
@@ -38,7 +38,7 @@ To
 OCP: 4.16
 CPD: 5.2.2
 Storage: Fusion 2.9.0
-Componenets: ibm-ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
+Componenets: ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
 ## Part 1: Pre-upgrade
@@ -114,7 +114,7 @@ export VERSION=5.2.2
 2. Locate the COMPONENTS entry and confirm the COMPONENTS entry is accurate.
 
 ```bash
-COMPONENTS=ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,watson_assistant,watson_discovery
+COMPONENTS=ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
 3. Save the changes.
