@@ -2,6 +2,7 @@
 
 Table of Content
 - [Upgrade documentation](#upgrade-documentation)
+- [CPD/Services Installed on v.5.1.1](#cpdservices-installed-on-v511)
 - [Upgrade context](#upgrade-context)
 
 ## Upgrade documentation
