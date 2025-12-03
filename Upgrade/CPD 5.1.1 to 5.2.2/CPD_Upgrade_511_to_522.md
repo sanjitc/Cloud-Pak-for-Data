@@ -2,12 +2,30 @@
 
 Table of Content
 - [Upgrade documentation](#upgrade-documentation)
-
+- [Upgrade context](#upgrade-context)
 
 ## Upgrade documentation
 
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
 
+## CPD/Services Installed on v.5.1.1
+Components|CR Kind|CR Name|Namespace|Expected Version|Reconciled Version|Progress|Status
+---------------|--------------|----------------------|-----------|------------------|------------------|----------|-------------
+datalineage|DataLineage|datalineage-cr|gdev|5.1.1|5.1.1||100%|InMaintenance
+cpd_platform|Ibmcpd|ibmcpd-cr|gdev|5.1.1|5.1.1||100%|Completed
+wkc|WKC|gwkc-cr||dev|5.1.1|5.1.1||0%|InMaintenance
+zen|ZenService|lite-cr|gdev|6.1.1|6.1.1||100%|Completed
+db2wh|Db2whService|db2wh-cr|gdev|5.1.0|5.1.0+11.5.9.0-cn3+2667|N/A|Completed
+analyticsengine|AnalyticsEngine|analyticsengine-sample|dev|5.1.1|5.1.1|g100%|InMaintenance
+ws|WS|gws-cr||dev|10.1.0|10.1.0||100%|Completed
+ibm_redis_cp|Rediscp|mdm-redis-cp-1715194012081921|dev|1.2.5|1.2.5|g100%|Completed
+ccs|CCS|gccs-cr||dev|10.1.0|10.1.0||100%|Completed
+datastage_ent|DataStage|datastage|gdev|5.1.1|5.1.1||100%|Completed
+wml|WmlBase|wml-cr|gdev|5.1.1|5.1.1||100%|Completed
+openscale|WOService|aiopenscale|gdev|5.1.1|5.1.1||100%|Completed
+ws_runtimes|Notebook Runtime|ibm-cpd-ws-runtime-241-py|dev|10.1.0|10.1.0|g100%|Completed
+db2aaservice|Db2aaservice Service|db2aaservice-cr|dev|5.1.0|5.1.0+11.5.9.0-cn3+2667|N/A|Completed
+match360|MasterData Management|mdm-cr|gdev|4.4.21|4.4.21||100%|Completed
 
 ## Upgrade context
 From
