@@ -209,11 +209,9 @@ podman login --username $PRIVATE_REGISTRY_PULL_USER --password $PRIVATE_REGISTRY
 curl -k -u ${PRIVATE_REGISTRY_PULL_USER}:${PRIVATE_REGISTRY_PULL_PASSWORD} https://${PRIVATE_REGISTRY_LOCATION}/v2/_catalog?n=6000 | jq .
 ```
 
-## Part 2: Upgrade
+## Part 2: Upgrade prerequisite software
 
-### 2.1 Upgrading prerequisite software
-
-#### 2.1.1 Upgrading Red Hat OpenShift Serverless Knative Eventing
+### 2.1 Upgrading Red Hat OpenShift Serverless Knative Eventing
 
 1. Check the version of the Red Hat OpenShift Serverless Operator on your cluster
 
@@ -416,146 +414,286 @@ oc get pods --namespace=${PROJECT_CPD_INST_OPERATORS}
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-6. Upgrading CDP Services to 5.2.2.
+## Part 3: Upgrading CDP Services to 5.2.2.
 
-* 6.1 Upgrading Watson Discovery.
 
-```bash
+
+#### 2.2.1 Upgrading IBM Knowledge Catalog service and apply customizations
+Check if the IBM Knowledge Catalog service was installed with the custom install options. 
+##### 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
+Specify the following options in the `install-options.yml` file in the `work` directory. Create the `install-options.yml` file if it doesn't exist in the `work` directory.
+
+```
+################################################################################
+# IBM Knowledge Catalog parameters
+################################################################################
+custom_spec:
+  wkc:
+    enableKnowledgeGraph: True
+    enableDataQuality: True
+    useFDB: True
+```
+
+**Note:**
+<br>
+1)Make sure you edit or create the `install-options.yml` file in the right `work` folder. 
+
+<br>
+
+Identify the location of the `work` folder using below command.
+
+```
+podman inspect olm-utils-play-v3 | grep -i -A5  mounts
+```
+
+The `Source` property value in the output is the location of the `work` folder.
+
+<br>
+
+2)Make sure the `useFDB` is set to be `True` in the install-options.yml file.
+<br>
+
+##### 2.Upgrade WKC with custom installation
+
+Run the cpd-cli manage login-to-ocp command to log in to the cluster.
+
+```
+${CPDM_OC_LOGIN}
+```
+
+Update the custom resource for IBM Knowledge Catalog.
+```
 cpd-cli manage apply-cr \
+--components=wkc \
 --release=${VERSION} \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---components=watson_discovery \
---license_acceptance=true \
---upgrade=true
-```
-<!-- **NOTE:**
-<br>Review install-options.yml is configured properly for the service that it is going to be upgraded. -->
-
-* 6.2 Review installation progress.
-
-* 6.2.1 Find the pod of the service.
-
-```bash
-oc get pods -n ${PROJECT_CPD_INST_OPERATORS} | grep -i discovery
-```
-
-The output should be something like this:
-
-```bash
-oc get pods -n ${PROJECT_CPD_INST_OPERATORS} | grep -i discovery
-ibm-watson-discovery-operator-catalog-nfzg7                       1/1     Running     0               4h31m
-wd-discovery-operator-f4bd9688b-qg2j6                             1/1     Running     1 (4h16m ago)   4h19m
-```
-
-* 6.2.2 Review logs of the pod:
-
-```bash
-oc logs wd-discovery-operator-f4bd9688b-qg2j6 -n ${PROJECT_CPD_INST_OPERATORS}
-```
-
-* 6.2.3 Review the progress of the update.
-```bash
-watch 'oc get WatsonDiscovery wd -n ${PROJECT_CPD_INST_OPERANDS} --output jsonpath="{.status.progress} {.status.componentStatus.deployed} {.status.componentStatus.verified}"'
-```
-
-* 6.3 Validate the upgrade.
-
-```bash
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
-```
-
-Potential issue related to opensearch pods.
-
-```bash
-oc patch cm wd-discovery-opensearch-client-config -n ${PROJECT_CPD_INST_OPERANDS} --patch='{"data": {"forceEphemeral": "true"}}'
-oc patch cm wd-discovery-opensearch-data-config -n ${PROJECT_CPD_INST_OPERANDS} --patch='{"data": {"forceEphemeral": "true"}}'
-oc patch cm wd-discovery-opensearch-master-config -n ${PROJECT_CPD_INST_OPERANDS} --patch='{"data": {"forceEphemeral": "true"}}'
-```
-
-* 6.4 Upgrading Watson Assistant.
-
-```bash
-cpd-cli manage apply-cr \
---release=${VERSION} \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---components=watson_assistant \
---block_storage_class=${STG_CLASS_BLOCK} \
---file_storage_class=${STG_CLASS_FILE} \
+--param-file=/tmp/work/install-options.yml \
 --license_acceptance=true \
 --upgrade=true
 ```
 
-<!-- Defect:
-https://github.ibm.com/PrivateCloud-analytics/CPD-Quality/issues/42297 -->
-
-<!-- **NOTE:**
-<br>Review install-options.yml is configured properly for the service that it is going to be upgraded. -->
-
-* 6.5 Review installation progress.
-
-* 6.5.1 Find the pod of the service.
-
-```bash
-oc get pods -n ${PROJECT_CPD_INST_OPERATORS} | grep -i assistant
+##### 3.Validate the upgrade
 ```
-
-The output should be something like this:
-
-```bash
-oc get pods -n ${PROJECT_CPD_INST_OPERATORS} | grep -i assistant
-ibm-watson-assistant-operator-64f579c54-c2gtl                     1/1     Running     0               4h40m
-ibm-watson-assistant-operator-catalog-xcm6x                       1/1     Running     0               4h40m
-```
-
-* 6.5.2 Review logs of the pod:
-
-```bash
-oc logs ibm-watson-assistant-operator-64f579c54-c2gtl -n ${PROJECT_CPD_INST_OPERATORS}
-
-OR
-
-oc exec -it <watson-assistant-pod name> -n ${PROJECT_CPD_INST_OPERATORS} sh
-```
-* 6.5.3 When you connect to the pod:
-
-```bash
-tail -f watsonassistant.wa.log
-```
-
-* 6.5.4 Review the progress of the update.
-```bash
-watch 'oc get WatsonAssistant wa -n ${PROJECT_CPD_INST_OPERANDS} --output jsonpath="{.status.progress} {.status.componentStatus.deployed} {.status.componentStatus.verified}"'
-```
-
-* 6.6 Validate the upgrade.
-
-```bash
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-Potential issue related to `wa-data-governor` pods.
+##### 4.Apply the customizations 
+**1).Apply the change for supporting CyberArk Vault with a private CA signed certificate**: <br>
 
-```bash
-oc patch cm wa-data-governor-ibm-data-governor-all-search-config -n ${PROJECT_CPD_INST_OPERANDS} --patch='{"data": {"forceEphemeral": "true"}}'
+```
+oc patch ZenService lite-cr -n ${PROJECT_CPD_INST_OPERANDS} --type merge -p '{"spec":{"vault_bridge_tls_tolerate_private_ca": true}}'
 ```
 
-7. Enable `zen-rsi-evictor-cron-job`.
+**2)Combined CCS patch command** (Reducing the number of operator reconcilations): <br>
 
-```bash
-oc patch CronJob zen-rsi-evictor-cron-job \
---namespace=${PROJECT_CPD_INST_OPERANDS} \
---type=merge \
---patch='{"spec":{"suspend": false}}'
+- Configuring reporting settings for IBM Knowledge Catalog.
+
+```
+oc patch configmap ccs-features-configmap -n ${PROJECT_CPD_INST_OPERANDS} --type=json -p='[{"op": "replace", "path": "/data/enforceAuthorizeReporting", "value": "false"},{"op": "replace", "path": "/data/defaultAuthorizeReporting", "value": "true"}]'
 ```
 
-8. Apply RSI patches.
+- Apply the patch for 1)asset-files-api deployment tuning and 2)Couchdb search container resource tuning
 
-```bash
-cpd-cli manage apply-rsi-patches \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+oc patch ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS} --type=merge -p '{"spec":{"asset_files_call_socket_timeout_ms": 60000,"asset_files_api_resources": {"limits": {"cpu": "4", "memory": "32Gi", "ephemeral-storage": "1Gi"}, "requests": {"cpu": "200m", "memory": "256Mi", "ephemeral-storage": "10Mi"}}, "asset_files_api_replicas": 6,"asset_files_api_command":["/bin/bash"], "asset_files_api_args":["-c","cd /home/node/${MICROSERVICENAME}; source /scripts/exportSecrets.sh; export npm_config_cache=~node; node --max-old-space-size=12288 --max-http-header-size=32768 index.js"]}}'
 ```
 
-### 2.5 Updating cpdbr service
+**3)Combined WKC patch command** (Reducing the number of operator reconcilations): <br>
+
+- Figure out a proper PVC size for the PostgreSQL used by profiling migration.
+<br>
+Check the asset-files-api pvc size. Specify the same or a bigger storage size for preparing the postgresql with the proper storage size to accomendate the profiling migration.
+<br>
+Get the file-api-claim pvc size.
+
+```
+oc get pvc -n ${PROJECT_CPD_INST_OPERANDS} | grep file-api-claim | awk '{print $4}'
+```
+
+Specify the same or a bigger storage size for postgres storage accordingly in next step.
+
+- Patch the WKC : a)Setting a proper PVC size for PostgreSQL (profiling db) and b) WKC BI Data hotfix
+  
+```
+oc patch wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS} --type=merge -p '{"spec":{"wdp_profiling_edb_postgres_storage_size":"100Gi","image_digests":{"wkc_bi_data_service_image":"sha256:34d2c0977dfa7de1f8efed425eb2bca2ec2b4bd0188454c799b081013af4c34f"}}}'
+
+```
+
+#### 2.2.2 Upgrading MANTA service
+```
+export COMPONENTS=mantaflow
+
+```
+
+- Run the cpd-cli manage login-to-ocp command to log in to the cluster.
+
+```
+${CPDM_OC_LOGIN}
+```
+
+- Run the command for upgrading MANTA service.
+
+```
+cpd-cli manage apply-cr \
+--components=mantaflow \
+--release=${VERSION} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--license_acceptance=true \
+--upgrade=true
+```
+
+Validating the upgrade.
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=mantaflow
+```
+
+#### 2.2.3 Upgrading Analytics Engine service
+##### 2.2.3.1 Upgrading the service
+
+Check the Analytics Engine service version and status. 
+```
+export COMPONENTS=analyticsengine
+
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+```
+
+The Analytics Engine serive should have been upgraded as part of the WKC service upgrade. If the Analytics Engine service version is **not 5.1.1**, then run below commands for the upgrade. <br>
+
+Check if the Analytics Engine service was installed with the custom install options. <br>
+
+```
+cpd-cli manage apply-cr \
+--components=analyticsengine \
+--release=${VERSION} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--license_acceptance=true \
+--upgrade=true
+```
+
+Validate the service upgrade status.
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+```
+
+##### 2.2.3.2 Upgrading the service instances
+
+**Note:**  cpd profile api key may expire after upgrade. If we are not able to list the instances, should be attempted once the Custom route is created so that the Admin can login. 
+<br>
+Find the proper CPD user profile to use.
+```
+cpd-cli config profiles list
+```
+
+Upgrade the Spark service instance
+```
+cpd-cli service-instance upgrade \
+--service-type=spark \
+--profile=${CPD_PROFILE_NAME} \
+--all
+```
+
+Validate the service instance upgrade status.
+```
+cpd-cli service-instance list \
+--service-type=spark \
+--profile=${CPD_PROFILE_NAME}
+```
+#### 2.2.4 Upgrading Watson Studio, Watson Studio Runtimes, Watson Machine Learning and OpenScale
+```
+export COMPONENTS=ws,ws_runtimes,wml,openscale
+```
+Run the cpd-cli manage login-to-ocp command to log in to the cluster.
+
+```
+${CPDM_OC_LOGIN}
+```
+
+Run the upgrade command.
+```
+cpd-cli manage apply-cr \
+--components=${COMPONENTS}  \
+--release=${VERSION} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--license_acceptance=true \
+--upgrade=true
+```
+
+Validate the service upgrade status.
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+```
+
+#### 2.2.5 Upgrading Db2 Warehouse
+```
+export COMPONENTS=db2wh
+```
+Run the cpd-cli manage login-to-ocp command to log in to the cluster.
+
+```
+${CPDM_OC_LOGIN}
+```
+
+Run the upgrade command.
+```
+cpd-cli manage apply-cr \
+--components=db2wh \
+--release=${VERSION} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--license_acceptance=true \
+--upgrade=true
+```
+
+Validate the service upgrade status.
+```
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=${COMPONENTS}
+```
+
+Upgrading Db2 Warehouse service instances:
+<br>
+- Get a list of your Db2 Warehouse service instances
+
+```
+cpd-cli service-instance list \
+--service-type=db2wh \
+--profile=${CPD_PROFILE_NAME}
+```
+
+- Upgrade Db2 Warehouse service instances
+<br>
+Run the following command to check whether your Db2 Warehouse service instances is in running state(You can refer to the web console for getting the service instance name) :
+
+```
+cpd-cli service-instance status ${INSTANCE_NAME} \ 
+--profile=${CPD_PROFILE_NAME} \ 
+--service-type=db2wh
+```
+
+Upgrade the service instance:
+```
+cpd-cli service-instance upgrade --profile=${CPD_PROFILE_NAME} --instance-name=${INSTANCE_NAME} --service-type=${COMPONENTS}
+```
+
+Verifying the service instance upgrade
+
+```
+oc get db2ucluster <instance_id> -o jsonpath='{.status.state} {"\n"}'
+```
+
+Repeat the preceding steps to upgrade each service instance associated with this instance of IBM Software Hub.
+
+- Check the service instances have updated
+
+```
+cpd-cli service-instance list \ 
+--profile=${CPD_PROFILE_NAME} \
+--service-type=db2wh
+```
+
+
+
+
+
+### 3.5 Updating cpdbr service
 
 1. Upgrade the cpdbr-tenant component for the instance. 
 
