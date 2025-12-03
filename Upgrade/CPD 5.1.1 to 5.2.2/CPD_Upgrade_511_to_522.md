@@ -47,10 +47,10 @@ Componenets: ibm-ibm-cert-manager,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,da
 #### 1.1 Prepare the client workstation
 1. Prepare a RHEL 9 machine with internet 
 
-* 1.1 Download the cpd-cli for 5.2.1.
+* 1.1 Download the cpd-cli for 5.2.2.
 
 ```bash
-wget https://github.com/IBM/cpd-cli/releases/download/v14.2.1/cpd-cli-linux-EE-14.2.1.tgz
+wget https://github.com/IBM/cpd-cli/releases/download/v14.2.2/cpd-cli-linux-EE-14.2.2.tgz
 ```
 
 2. Install the tool.
@@ -58,7 +58,7 @@ wget https://github.com/IBM/cpd-cli/releases/download/v14.2.1/cpd-cli-linux-EE-1
 * 2.1 Untar content.
 
 ```bash
-tar xvf cpd-cli-linux-EE-14.2.1.tgz
+tar xvf cpd-cli-linux-EE-14.2.2.tgz
 ```
 
 * 2.2 Make cpd-cli utility executable anywhere.
