@@ -48,18 +48,18 @@ Componenets: ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,
 ```
 
 ### Requirements
-#### 1. Backup of the cluster is done.
-Backup your Cloud Pak for Data cluster before the upgrade.
+#### 1 Backup of the cluster is done.
+Backup your Cloud Pak for Data cluster before the upgrade. <br>
 **Note:**
 Make sure there are no scheduled backups conflicting with the scheduled upgrade.
 
-#### 2. Mirroring images directly to the private container registry
-1. Log in to the IBM Entitled Registry registry
+#### 2 Mirroring images directly to the private container registry
+2.1) Log in to the IBM Entitled Registry registry
 ```
 cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
 ```
 
-2. Log in to the private container registry
+2.2) Log in to the private container registry
 ```
 cpd-cli manage login-private-registry \
 ${PRIVATE_REGISTRY_LOCATION} \
@@ -67,7 +67,7 @@ ${PRIVATE_REGISTRY_PUSH_USER} \
 ${PRIVATE_REGISTRY_PUSH_PASSWORD}
 ```
 
-3. Download CASE packages from GitHub (github.com/IBM) and check for any errors
+2.3) Download CASE packages from GitHub (github.com/IBM) and check for any errors
 ```
 export COMPONENTS=<component-ID>
 export VERSION=5.2.2
@@ -80,7 +80,7 @@ cpd-cli manage list-images \
 grep "level=fatal" list_images.csv
 ```
 
-4. Mirror the images to the private container registry and check for any errors that occurred.
+2.4) Mirror the images to the private container registry and check for any errors that occurred.
 ```
 cpd-cli manage mirror-images \
 --components=${COMPONENTS} \
@@ -92,7 +92,7 @@ cpd-cli manage mirror-images \
 grep "error" mirror_*.log
 ```
 
-5. Confirm that the images were mirrored to the private container registry and check for any errors that occurred
+2.5) Confirm that the images were mirrored to the private container registry and check for any errors that occurred
 ```
 cpd-cli manage list-images \
 --components=${COMPONENTS} \
@@ -102,7 +102,7 @@ cpd-cli manage list-images \
 
 grep "level=fatal" list_images.csv
 ```
-#### 3. A pre-upgrade health check is made to ensure the cluster's readiness for upgrade.
+#### 3 A pre-upgrade health check is made to ensure the cluster's readiness for upgrade.
 - The OpenShift cluster, persistent storage and Cloud Pak for Data platform and services are in healthy status.
 
 
