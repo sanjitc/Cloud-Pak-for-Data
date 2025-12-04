@@ -1,5 +1,11 @@
 # CPD Upgrade Runbook - v.5.1.1 to 5.2.2
 
+Table of Content
+- [Preface](#preface)
+- [Part 1: Pre-upgrade](#part-1-pre-upgrade)
+- [Part 2: Upgrade prerequisite software](#part-2-upgrade-prerequisite-software)
+- []
+  
 ## Preface
 ### Upgrade documentation
 * [Upgrading from IBM Cloud Pak for Data Version 5.1.1 to Version 5.2.2](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-from-version-51)
@@ -414,7 +420,7 @@ oc get pods --namespace=${PROJECT_CPD_INST_OPERATORS}
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-## Part 3: Upgrading CDP Services to 5.2.2.
+## Part 3: Upgrading CDP Services
 
 
 
