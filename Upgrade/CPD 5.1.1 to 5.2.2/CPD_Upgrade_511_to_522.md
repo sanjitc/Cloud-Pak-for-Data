@@ -487,7 +487,7 @@ custom_spec:
   wkc:
     enableKnowledgeGraph: True
     enableDataQuality: True
-    useFDB: True
+    useFDB: False    
 ```
 
 **Note:**
@@ -504,9 +504,6 @@ podman inspect olm-utils-play-v3 | grep -i -A5  mounts
 
 The `Source` property value in the output is the location of the `work` folder.
 
-<br>
-
-2)Make sure the `useFDB` is set to be `True` in the install-options.yml file.
 <br>
 
 #### 2.Upgrade WKC with custom installation
@@ -530,7 +527,7 @@ cpd-cli manage apply-cr \
 
 #### 3.Validate the upgrade
 ```
-cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=wkc
 ```
 
 #### 4.Apply the customizations 
