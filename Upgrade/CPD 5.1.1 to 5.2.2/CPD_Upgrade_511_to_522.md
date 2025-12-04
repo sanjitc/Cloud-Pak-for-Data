@@ -134,13 +134,29 @@ oc get CCS ccs-cr -o yaml > ccs-cr.yaml
 
 oc get wkc wkc-cr -o yaml > wkc-cr.yaml
 
+oc get datalineage datalineage-cr -o yaml > datalineage-cr.yaml
+
 oc get analyticsengine analyticsengine-sample -o yaml > analyticsengine-cr.yaml
+
+oc get ibm_redis_cp -o yaml > mdm-redis-cp.yaml
+
+oc get db2aaservice db2aaservice-cr -o yaml > db2aaservice-cr.yaml
+
+oc get db2wh db2wh-cr -o yaml > db2wh-cr.yaml
 
 oc get DataStage datastage -o yaml > datastage-cr.yaml
 
-oc get mantaflow -o yaml > mantaflow-cr.yaml
-
 oc get db2ucluster db2oltp-wkc -o yaml > db2ucluster-db2oltp-wkc.yaml
+
+oc get ws ws-cr -o yaml > ws-cr.yaml
+
+oc get ws_runtimes -o yaml > ibm-cpd-ws-runtime.yaml
+
+oc get wml wml-cr -o yaml > wml-cr.yaml
+
+oc get openscale aiopenscale -o yaml > aiopenscale.yaml
+
+oc get match360 mdm-cr -o yaml > mdm-cr.yaml 
 
 for i in $(oc get crd | grep cpd.ibm.com | awk '{ print $1 }'); do echo "---------$i------------"; oc get $i $(oc get $i | grep -v "NAME" | awk '{ print $1 }') -o yaml > cr-$i.txt; if grep -q "image_digests" cr-$i.txt; then echo "Hot fix detected in cr-$i"; fi; done
 
