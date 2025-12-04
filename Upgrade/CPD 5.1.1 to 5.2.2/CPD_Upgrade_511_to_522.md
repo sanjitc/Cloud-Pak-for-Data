@@ -107,6 +107,63 @@ grep "level=fatal" list_images.csv
 
 
 ## Part 1: Pre-upgrade
+### 1. Backup before upgrade
+Note: Create a folder for 5.1.1 and maintain below created copies in that folder. <br>
+Login to the OCP cluster for cpd-cli utility.
+
+```
+cpd-cli manage login-to-ocp --username=${OCP_USERNAME} --password=${OCP_PASSWORD} --server=${OCP_URL}
+```
+
+Capture data for the CPD 5.1.1 environment. No sensitive information is collected. Only the operational state of the Kubernetes artifacts is collected.The output of the command is stored in a file named collect-state.tar.gz in the cpd-cli-workspace/olm-utils-workspace/work directory.
+
+```
+cpd-cli manage collect-state --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+
+Make a copy of existing custom resources (Recommended)
+
+```
+oc project ${PROJECT_CPD_INST_OPERANDS}
+
+oc get ibmcpd ibmcpd-cr -o yaml > ibmcpd-cr.yaml
+
+oc get zenservice lite-cr -o yaml > lite-cr.yaml
+
+oc get CCS ccs-cr -o yaml > ccs-cr.yaml
+
+oc get wkc wkc-cr -o yaml > wkc-cr.yaml
+
+oc get analyticsengine analyticsengine-sample -o yaml > analyticsengine-cr.yaml
+
+oc get DataStage datastage -o yaml > datastage-cr.yaml
+
+oc get mantaflow -o yaml > mantaflow-cr.yaml
+
+oc get db2ucluster db2oltp-wkc -o yaml > db2ucluster-db2oltp-wkc.yaml
+
+for i in $(oc get crd | grep cpd.ibm.com | awk '{ print $1 }'); do echo "---------$i------------"; oc get $i $(oc get $i | grep -v "NAME" | awk '{ print $1 }') -o yaml > cr-$i.txt; if grep -q "image_digests" cr-$i.txt; then echo "Hot fix detected in cr-$i"; fi; done
+
+```
+
+Backup the routes.
+
+```
+oc get routes -o yaml > routes.yaml
+```
+
+Backup the RSI patches.
+```
+cpd-cli manage get-rsi-patch-info \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--all
+```
+
+Backup the SSO configuration:
+```
+oc get configmap saml-configmap -o yaml > saml-configmap-cm.yaml
+```
+
 ### 1. Set up client workstation
 
 #### 1.1 Prepare the client workstation
