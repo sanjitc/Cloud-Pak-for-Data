@@ -47,6 +47,65 @@ Storage: Fusion 2.9.0
 Componenets: ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,wkc,datalineage,db2wh,analyticsengine,ws,ibm_redis_cp,datastage_ent,wml,openscale,ws_runtimes,db2aaservice,match360
 ```
 
+### Requirements
+#### 1. Backup of the cluster is done.
+Backup your Cloud Pak for Data cluster before the upgrade.
+**Note:**
+Make sure there are no scheduled backups conflicting with the scheduled upgrade.
+
+#### 2. Mirroring images directly to the private container registry
+1. Log in to the IBM Entitled Registry registry
+```
+cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
+```
+
+2. Log in to the private container registry
+```
+cpd-cli manage login-private-registry \
+${PRIVATE_REGISTRY_LOCATION} \
+${PRIVATE_REGISTRY_PUSH_USER} \
+${PRIVATE_REGISTRY_PUSH_PASSWORD}
+```
+
+3. Download CASE packages from GitHub (github.com/IBM) and check for any errors
+```
+export COMPONENTS=<component-ID>
+export VERSION=5.2.2
+
+cpd-cli manage list-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--inspect_source_registry=true
+
+grep "level=fatal" list_images.csv
+```
+
+4. Mirror the images to the private container registry and check for any errors that occurred.
+```
+cpd-cli manage mirror-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--target_registry=${PRIVATE_REGISTRY_LOCATION} \
+--arch=${IMAGE_ARCH} \
+--case_download=false
+
+grep "error" mirror_*.log
+```
+
+5. Confirm that the images were mirrored to the private container registry and check for any errors that occurred
+```
+cpd-cli manage list-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--target_registry=${PRIVATE_REGISTRY_LOCATION} \
+--case_download=false
+
+grep "level=fatal" list_images.csv
+```
+#### 3. A pre-upgrade health check is made to ensure the cluster's readiness for upgrade.
+- The OpenShift cluster, persistent storage and Cloud Pak for Data platform and services are in healthy status.
+
+
 ## Part 1: Pre-upgrade
 ### 1. Set up client workstation
 
@@ -151,57 +210,7 @@ cpd-cli manage restart-container
 podman ps | grep olm-utils-v3
 ```
 
-#### 1.4 Mirroring images directly to the private container registry
-1. Log in to the IBM Entitled Registry registry
-```
-cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
-```
-
-2. Log in to the private container registry
-```
-cpd-cli manage login-private-registry \
-${PRIVATE_REGISTRY_LOCATION} \
-${PRIVATE_REGISTRY_PUSH_USER} \
-${PRIVATE_REGISTRY_PUSH_PASSWORD}
-```
-
-3. Download CASE packages from GitHub (github.com/IBM) and check for any errors
-```
-export COMPONENTS=<component-ID>
-export VERSION=5.2.2
-
-cpd-cli manage list-images \
---components=${COMPONENTS} \
---release=${VERSION} \
---inspect_source_registry=true
-
-grep "level=fatal" list_images.csv
-```
-
-4. Mirror the images to the private container registry and check for any errors that occurred.
-```
-cpd-cli manage mirror-images \
---components=${COMPONENTS} \
---release=${VERSION} \
---target_registry=${PRIVATE_REGISTRY_LOCATION} \
---arch=${IMAGE_ARCH} \
---case_download=false
-
-grep "error" mirror_*.log
-```
-
-5. Confirm that the images were mirrored to the private container registry and check for any errors that occurred
-```
-cpd-cli manage list-images \
---components=${COMPONENTS} \
---release=${VERSION} \
---target_registry=${PRIVATE_REGISTRY_LOCATION} \
---case_download=false
-
-grep "level=fatal" list_images.csv
-```
-
-#### 1.5 Health Check
+#### 1.4 Health Check
 
 1. Check OCP status
 
@@ -472,11 +481,9 @@ cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 
 ## Part 3: Upgrading CDP Services
 
-
-
 ### 3.1 Upgrading IBM Knowledge Catalog service and apply customizations
 Check if the IBM Knowledge Catalog service was installed with the custom install options. 
-#### 1. For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
+#### 3.1.1 For custom installation, check the previous install-options.yaml or wkc-cr yaml, make sure to keep original custom settings
 Specify the following options in the `install-options.yml` file in the `work` directory. Create the `install-options.yml` file if it doesn't exist in the `work` directory.
 
 ```
@@ -506,7 +513,7 @@ The `Source` property value in the output is the location of the `work` folder.
 
 <br>
 
-#### 2.Upgrade WKC with custom installation
+#### 3.1.2 Upgrade WKC with custom installation
 
 Run the cpd-cli manage login-to-ocp command to log in to the cluster.
 
@@ -525,12 +532,12 @@ cpd-cli manage apply-cr \
 --upgrade=true
 ```
 
-#### 3.Validate the upgrade
+#### 3.1.3 Validate the upgrade
 ```
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --components=wkc
 ```
 
-#### 4.Apply the customizations 
+#### 3.1.4 Apply the customizations 
 **1).Apply the change for supporting CyberArk Vault with a private CA signed certificate**: <br>
 
 ```
