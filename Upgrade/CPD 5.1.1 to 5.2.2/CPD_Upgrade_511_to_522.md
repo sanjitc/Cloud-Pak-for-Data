@@ -48,6 +48,10 @@ Componenets: ibm-cert-manager,scheduler,ibm-licensing,cpfs,cpd_platform,zen,ccs,
 ```
 
 ### Requirements
+#### 1 Confirm hotfixes from 5.1.1 are coded in 5.2.2.
+
+#### 2 Verify if any custom configuration changes from 5.1.1 are still required in 5.2.2.
+
 #### 1 Backup of the cluster is done.
 Backup your Cloud Pak for Data cluster before the upgrade. <br>
 **Note:**
