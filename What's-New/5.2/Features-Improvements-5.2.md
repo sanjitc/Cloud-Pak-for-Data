@@ -4,7 +4,7 @@
 
 IBM Software Hub platform
 ----
-**1\.**    	**IBM Software Hub AI assistant**
+**1\.**    	**IBM Software Hub AI assistant** [Demo](https://www.youtube.com/watch?v=L1vab8CyspY&list=PLszsSZY88sojNBhgNCosHq10LYnWAlJkf&index=2)
 
 \[Premium\] The IBM Software Hub AI assistant is a specialized assistant that can help you use the platform more efficiently. The assistant can query your environment to answer questions such as:
 
@@ -23,7 +23,7 @@ o   Automatically scale resources based on your workload
 IBM Software Hub API keys do not expire by default. If you want to improve application security, you can configure API keys to automatically expire. You can choose how long API keys are valid after they are created based on your company's security policies.
 
  
-**3\.**    	**Monitor and manage internal certificate renewal**
+**3\.**    	**Monitor and manage internal certificate renewal** [Demo](https://www.youtube.com/watch?v=Ly6pm5ljw48&list=PLszsSZY88sojNBhgNCosHq10LYnWAlJkf&index=4)
 
 IBM Software Hub uses internal certificates to manage the communication between pods. In most cases, the certificates are renewed automatically. However, if the renewal occurs during peak business hours, it might cause service disruptions. To minimize the impact of certificate renewals, you can:
 
