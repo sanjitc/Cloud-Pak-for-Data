@@ -40,7 +40,7 @@ o   Change the scaling configuration of a service
 o   Shut down and restart services
 
    
-**5\.**    	**Simplified process for mirroring models and optional images**
+**5\.**    	**Simplified process for mirroring models and optional images** [Procedure](https://www.ibm.com/docs/en/software-hub/5.1.x?topic=manage-mirror-images#view-license__syntax__title__1)
 
 Previously, if you wanted to mirror models or optional images to a private container registry, you needed to mirror each image separately. Starting in IBM Software Hub Version 5.2.0, you can specify a comma-separated list of group names when you run the cpd-cli manage mirror-images command. With this change, you can mirror images in fewer steps.
 
