@@ -31,7 +31,7 @@ o   Monitor upcoming certificate renewals
 o   Change the renewal date for certificates
 
    
-**4\.**    	**Scale, shut down, and restart services from the web client**
+**4\.**    	**Scale, shut down, and restart services from the web client** [Demo](https://www.youtube.com/watch?v=fSP8VlAyBB4&list=PLszsSZY88sojNBhgNCosHq10LYnWAlJkf&index=1)
 
 Do you prefer a user interface to a command-line interface? You can now complete the following administrative tasks from the IBM Software Hub web client:
 
