@@ -18,7 +18,7 @@ o   Get notified when a service exceeds its quota
 o   Automatically scale resources based on your workload
 
    
-**2\.**    	**Configure API keys to expire automatically**
+**2\.**    	**Configure API keys to expire automatically** [Procedure](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=environment-configuring-api-key-expiration#taskapi-key-expiration__steps__1)
 
 IBM Software Hub API keys do not expire by default. If you want to improve application security, you can configure API keys to automatically expire. You can choose how long API keys are valid after they are created based on your company's security policies.
 
