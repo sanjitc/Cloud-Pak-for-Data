@@ -1,4 +1,4 @@
-### New features in CPD 5.2.0 and 5.2.1
+### New features in CPD 5.2.0, 5.2.1 and 5.2.2
 
  
 
