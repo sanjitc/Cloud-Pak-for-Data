@@ -62,7 +62,7 @@ kubectl logs <component name> -n instana-core
 ## Adjust log level for Instana Agent
 If you have an issue on the agent side, collect the agent debug logs for the Instana team for further investigation.
 Follow the steps to gather the Agent `DEBUG` logs that capture most details for diagnosis and then default `INFO` logs:
-- Stop the agent (`<instana_install_dir>/bin/stop`)
+- Stop the agent (`<instana_install_dir>/bin/stop` - i.e. `/opt/instana/agent/bin/stop`)
 - Wipe the logs (delete all files in `<instana_install_dir>/data/logs`)
 - Set log level to DEBUG (change the severity in the configuration file (`*instanaAgentDir*/etc/org.ops4j.pax.logging.cfg`)
 ```
