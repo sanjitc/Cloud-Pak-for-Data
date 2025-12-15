@@ -1,3 +1,38 @@
+# FAQ
+## How Reporting sync works?
+* When you enable a catalog (same for projects/categories), it will crawl through the catalog and sync all it's assets/artifacts.
+  * If sync fails for any asset - It is skipped and logged into __bidata_sync_errors__ table
+    * (It retries them __once__ at the end of crawl process again) 
+  * Then the catalog is marked as __ACTIVE__. 
+    * After that any change in any assets within the catalog is communicated to reporting through RMQ events 
+      * And, once it receives any event for any asset, it will __sync/re-sync that individual asset for delta change__. 
+  * If it encounters any rare scenario which is not handled by code. 
+     * It will re-try for 4 times at the interval of 15 minutes. 
+     * and will mark catalog as __FAILED , if the issue persists even after 4 retries__. 
+     * If it is marked as __FAILED__ 
+       * Will need to identify the cause, and fix it. 
+       * And need to initiate re-sync of that catalog - using UI option - __Update Reporting__
+
+## Will sync continue or start from beginning if it fails?
+If it has marked any catalog/projects as FAILED, then yes it will always start from beginning for that catalog
+
+## How often the sync runs? Is it always a full run or just delta?
+It crawls the enabled catalog/project once and then it's always running for any delta change
+
+## Can we force sync (full vs partial) manually?
+When you do "Update Reporting" from UI:
+* It gives you option to Sync
+  * Items In-queue and Failed - In this case it will do full sync of catalogs/projects which are in queue or in failed state
+  * All items - In this case it will do full sync of all the enabled catalogs/projects etc irrespective of its state.
+* We have also added an option to re-sync at individual catalog/projects which are already ACTIVE - in 5.2
+
+## Can we stop sync, exclude a catalog that is already in queue and resume the sync?
+Never stop sync - It will cleanup all the data and drop all the tables
+
+## Are there any ways to improve the sync performance?
+Yes, we can tune in resources, threads, pools for wkc-bi-data-service pods
+
+
 # Troubleshooting - WKC Reporting 
 ## Prods 
 
@@ -72,19 +107,7 @@ group by container_id;
 select * from wkc_reporting.bidata_sync_status where zone_id = '<catalog_id>'
 ```
 
-## How Reporting sync works?
-* When you enable a catalog (same for projects/categories), it will crawl through the catalog and sync all it's assets/artifacts.
-  * If sync fails for any asset - It is skipped and logged into __bidata_sync_errors__ table
-    * (It retries them __once__ at the end of crawl process again) 
-  * Then the catalog is marked as __ACTIVE__. 
-    * After that any change in any assets within the catalog is communicated to reporting through RMQ events 
-      * And, once it receives any event for any asset, it will __sync/re-sync that individual asset for delta change__. 
-  * If it encounters any rare scenario which is not handled by code. 
-     * It will re-try for 4 times at the interval of 15 minutes. 
-     * and will mark catalog as __FAILED , if the issue persists even after 4 retries__. 
-     * If it is marked as __FAILED__ 
-       * Will need to identify the cause, and fix it. 
-       * And need to initiate re-sync of that catalog - using UI option - __Update Reporting__ 
+
 
 ## Find reason for skipped assets
 ```
@@ -117,4 +140,3 @@ db2 "update BIOPSDB_icp4data.rpt_load_zone_queue set status = 1000"
 db2 "update BIOPSDB_icp4data.rpt_load_feature_status set status = 1000"
 ```
 2) Restarted wkc_bi_service pods.
-
