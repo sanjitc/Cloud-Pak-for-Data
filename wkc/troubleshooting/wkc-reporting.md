@@ -1,16 +1,16 @@
 # FAQ
 ## How Reporting sync works?
-* When you enable a catalog (same for projects/categories), it will crawl through the catalog and sync all it's assets/artifacts.
-  * If sync fails for any asset - It is skipped and logged into __bidata_sync_errors__ table
+When you enable a catalog (same for projects/categories), it will crawl through the catalog and sync all it's assets/artifacts.
+  * If sync fails for any asset - It is skipped and logged into __bidata_sync_errors__ table.
     * (It retries them __once__ at the end of crawl process again) 
   * Then the catalog is marked as __ACTIVE__. 
-    * After that any change in any assets within the catalog is communicated to reporting through RMQ events 
+    * After that, any change in any assets within the catalog is communicated to reporting through RMQ events. 
       * And, once it receives any event for any asset, it will __sync/re-sync that individual asset for delta change__. 
-  * If it encounters any rare scenario which is not handled by code. 
-     * It will re-try for 4 times at the interval of 15 minutes. 
-     * and will mark catalog as __FAILED , if the issue persists even after 4 retries__. 
+  * If it encounters any rare scenario that is not handled by code. 
+     * It will re-try 4 times at the interval of 15 minutes. 
+     * And will mark catalog as __FAILED , if the issue persists even after 4 retries__. 
      * If it is marked as __FAILED__ 
-       * Will need to identify the cause, and fix it. 
+       * Will need to identify the cause and fix it. 
        * And need to initiate re-sync of that catalog - using UI option - __Update Reporting__
 
 ## Will sync continue or start from beginning if it fails?
