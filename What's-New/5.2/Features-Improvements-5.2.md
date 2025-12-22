@@ -260,9 +260,9 @@ Watson Studio
 **1\.  Easily navigate through and view all job runs by using the updated jobs dashboard**  
 You can now use the jobs dashboard to view job runs across projects in more detail and with more flexibility. You can use the dashboard in the following ways:
 
-o   To view job runs grouped by folders  
-o   To filter runs by job type, run status, time range, and project or folder  
-o   To access job definitions, run details, and associated assets
+ - To view job runs grouped by folders
+ - To filter runs by job type, run status, time range, and project or folder
+ - To access job definitions, run details, and associated assets
 
    
 **2\.**    	**View failed-to-start jobs in the jobs dashboard**  
