@@ -69,7 +69,7 @@ Scheduling service
 The scheduling service now integrates with the IBM Software Hub audit logging service. Auditable events for the scheduling service are forwarded to the security information and event management (SIEM) solution that you integrate with.
 
 
-**2\.**    	**Schedule GPUs on remote physical locations**
+**2\.**    	**Schedule GPUs on remote physical locations** [Procedure](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=location-registering-remote-physical)
 
 \[Premium\] If you use remote physical locations to expand your IBM Software Hub deployment to remote clusters, you can now use the scheduling service to schedule NVIDIA GPUs on the remote physical locations.
 
