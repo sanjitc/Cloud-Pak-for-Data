@@ -214,27 +214,26 @@ You can now import lineage metadata from the Apache Hive data source. After the 
 **3\.**    	**Connect to new data sources by using the Manta agent**  
 You can now import lineage metadata from the following data sources by using an agent:
 
-·   	Amazon RDS for PostgreSQL  
-·   	Amazon Redshift  
-·   	Greenplum  
-·   	IBM Cloud Databases for PostgreSQL  
-·   	PostgreSQL  
+ - Amazon RDS for PostgreSQL
+ - Amazon Redshift
+ - Greenplum
+ - IBM Cloud Databases for PostgreSQL
+ - PostgreSQL  
 You can install a Manta agent on a system with direct access to a data source if connecting directly from IBM Cloud Pak for Data is not possible.
 
  
 **4\.**    	**Connect to Google BigQuery with Workload Identity Federation authentication methods**  
 When you import lineage metadata from a Google BigQuery data source, you can now use a connection with these authentication methods:
 
-·   	Workload Identity Federation with an access token
-
-·   	Workload Identity Federation with a token URL.
+ - Workload Identity Federation with an access token
+ - Workload Identity Federation with a token URL.
 
 These methods are used when authentication is solved by an external service.
 
 **5\.**    	**New data sources for lineage metadata import**  
 You can now import lineage metadata from the following additional data sources:  
-·   	Qlik Sense  
-·   	Teradata  
+ - Qlik Sense
+ - Teradata  
 After the data is imported, you can visualize it on a lineage graph.
  
 
@@ -249,11 +248,11 @@ You can now adjust the initial view of your lineage by using advanced filters. D
 
 **Updates**  
 The following updates were introduced in this release:  
-·   	Column-level lineage has been enhanced so that it is easier to follow the flow of data.  
-·   	When you view lineage for PostgreSQL assets, you can view the source code of the transformation asset to check the details of the transformation logic.  
-·   	MicroStrategy reports and dossiers that have prompts are now displayed on lineage.  
-·   	Lineage is now created for OpenLineage events that do not have input metadata defined, but have output and job metadata.  
-·   	You can now share a link to your lineage canvas with others by clicking **Copy shared link** in the **Share** panel.
+ - Column-level lineage has been enhanced so that it is easier to follow the flow of data.
+ - When you view lineage for PostgreSQL assets, you can view the source code of the transformation asset to check the details of the transformation logic.
+ - MicroStrategy reports and dossiers that have prompts are now displayed on lineage.
+ - Lineage is now created for OpenLineage events that do not have input metadata defined, but have output and job metadata.
+ - You can now share a link to your lineage canvas with others by clicking **Copy shared link** in the **Share** panel.
 
  
 Watson Studio
