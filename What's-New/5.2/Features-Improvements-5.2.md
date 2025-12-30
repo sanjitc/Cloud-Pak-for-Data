@@ -104,7 +104,7 @@ You can now enable the generative AI capabilities in IBM Knowledge Catalog Premi
 
 o   Use a Granite model that is started on the internal containers with CPUs for LLM-based enrichment.  
 o   Use local watsonx.ai inference foundation models (watsonx\_ai\_ifm) that require GPU for LLM-based enrichment, and term generation and assignment.  
-o   Work with external watsonx.ai models in an existing IBM watsonx.ai instance on a remote IBM Cloud Pak for Datacluster or in IBM watsonx as a Service for LLM-based enrichment, and term generation and assignment.
+o   Work with external watsonx.ai models in an existing IBM watsonx.ai instance on a remote IBM Cloud Pak for Datacluster or in IBM watsonx as a Service for LLM-based enrichment, and term generation and assignment [Procedure](https://www.ibm.com/docs/en/cloud-paks/cp-data/5.2.x?topic=catalog-connecting-remote-watsonxai-instance).
  
 
 **6\.**    	**Automate data quality analysis**
