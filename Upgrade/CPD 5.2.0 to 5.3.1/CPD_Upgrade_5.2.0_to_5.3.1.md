@@ -224,7 +224,53 @@ curl -k -u ${PRIVATE_REGISTRY_PULL_USER}:${PRIVATE_REGISTRY_PULL_PASSWORD} https
 
 # 2. Upgrade
 ## 2.1 Migrate to Red Hat OpenShift certificate manager
-Documentation links preserved.
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=upgrading-migrating-red-hat-openshift-certificate-manager
+
+The IBM Certificate Manager is deprecated.
+
+### 2.1.1. Backing up your existing certificates before migrating to Red Hat OpenShift certificate manager
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-backing-up-your-existing-certificates
+
+### 2.1.2. Uninstalling IBM Certificate manager
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-uninstalling-certificate
+
+### 2.1.3. Mirroring Red Hat OpenShift certificate manager images to a private container registry
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-mirroring-red-hat-openshift-certificate-images
+
+<b>Note:</b> Make sure you can obtain your Red Hat pull secret from the Red Hat OpenShift Cluster Manager.
+
+<b>Note:</b> Ensure that the oc-mirror plug-in V2 is installed on the client workstation. For more information, see Mirroring images for a disconnected installation by using the oc-mirror plugin v2 in the Red Hat OpenShift Container Platform documentation.
+
+### 2.1.4. Installing the Red Hat OpenShift Container Platform cert-manager Operator
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-installing-cert-operator
+
+<b>Installing the cert-manager Operator for Red Hat OpenShift</b>
+
+Log in to the OpenShift Container Platform web console.
+
+Navigate to Operators → OperatorHub.
+
+Enter `cert-manager` Operator for Red Hat OpenShift into the filter box.
+
+Select the cert-manager Operator for Red Hat OpenShift version from Version drop-down list, and click Install.
+
+On the Install Operator page:
+
+Update the Update channel, if necessary. The channel defaults to `stable-v1`, which installs the latest stable release of the cert-manager Operator for Red Hat OpenShift.
+
+Choose the Installed Namespace for the Operator. The default Operator namespace is `cert-manager-operator`.
+
+If the `cert-manager-operator` namespace does not exist, it is created for you.
+
+choose the `AllNamespaces` installation mode. 
+
+Select an Update approval strategy Automatic
+
+Verification
+
+Navigate to Operators → Installed Operators.
+
+Verify that cert-manager Operator for Red Hat OpenShift is listed with a Status of Succeeded in the cert-manager-operator namespace.
 
 ## 2.2 Upgrade shared cluster components
 ```
