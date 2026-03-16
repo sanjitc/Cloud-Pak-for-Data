@@ -24,14 +24,55 @@ cpd-cli health operands --control_plane_ns=${PROJECT_CPD_INST_OPERANDS}
 
 ## 1.2 Health check OCP & CPD
 ```
+${OC_LOGIN}
 oc get nodes,co,mcp
+
 ${CPDM_OC_LOGIN}
 cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 oc get po --no-headers --all-namespaces -o wide | grep -Ev '([[digit:]])/\1.*R' | grep -v 'Completed'
 ```
 
 ## 1.3 Backup before upgrade
-Backing up custom resources, routes, and RSI patches.
+Note: Create a folder for 5.2.0 and maintain below created copies in that folder.
+Login to the OCP cluster for cpd-cli utility.
+```
+cpd-cli manage login-to-ocp --username=${OCP_USERNAME} --password=${OCP_PASSWORD} --server=${OCP_URL}
+```
+### 1.3.1 Capture data for the CPD 5.2.0 instance. 
+No sensitive information is collected. Only the operational state of the Kubernetes artifacts is collected. The output of the command is stored in a file named collect-state.tar.gz in the cpd-cli-workspace/olm-utils-workspace/work directory.
+```
+cpd-cli manage collect-state --cpd_instance_ns=${PROJECT_CPD_INSTANCE}
+```
+### 1.3.2 Make a copy of existing custom resources (Recommended)
+```
+oc project ${PROJECT_CPD_INSTANCE}
+
+oc get ibmcpd ibmcpd-cr -o yaml > ibmcpd-cr.yaml
+
+oc get zenservice lite-cr -o yaml > lite-cr.yaml
+
+oc get CCS ccs-cr -o yaml > ccs-cr.yaml
+
+oc get wkc wkc-cr -o yaml > wkc-cr.yaml
+
+oc get analyticsengine analyticsengine-sample -o yaml > analyticsengine-cr.yaml
+
+oc get DataStage datastage -o yaml > datastage-cr.yaml
+
+oc get route -o yaml > cpd_routes.yaml
+```
+
+### 1.3.3 Backup the routes.
+```
+oc get routes -o yaml > routes.yaml
+```
+
+### 1.3.4 Backup the RSI patches.
+```
+cpd-cli manage get-rsi-patch-info \
+--cpd_instance_ns=${PROJECT_CPD_INSTANCE} \
+--all
+```
 
 ## 1.6 Update the cpd-cli utility
 ```
