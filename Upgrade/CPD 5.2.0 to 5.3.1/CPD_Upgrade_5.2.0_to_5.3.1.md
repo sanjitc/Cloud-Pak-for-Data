@@ -74,15 +74,21 @@ cpd-cli manage get-rsi-patch-info \
 --all
 ```
 
-## 1.6 Update the cpd-cli utility
+## 1.4 Update the cpd-cli utility
 ```
 wget https://github.com/IBM/cpd-cli/releases/download/v14.3.1/cpd-cli-linux-EE-14.3.1.tgz
 tar -xvf cpd-cli-linux-EE-14.3.1.tgz
-./cpd-cli manage restart-container
+```
+Ensure the cpd-cli manage plug-in has the latest olm-utils image.
+Check and confirm the olm-utils-v4 container is up and running.
+```
+cpd-cli manage restart-container
 podman ps | grep olm-utils-v4
 ```
 
-## 1.7 Install Helm CLI
+## 1.5 Install Helm CLI
+Install Helm by following the https://www.ibm.com/links?url=https%3A%2F%2Fhelm.sh%2Fdocs%2Fintro%2Finstall%2F
+
 ```
 sudo dnf install helm
 ```
