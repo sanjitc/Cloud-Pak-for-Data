@@ -149,7 +149,7 @@ podman push ${PRIVATE_REGISTRY_LOCATION}/ cp/cpd/olm-utils-premium-v4:${VERSION}
 --release=${VERSION}
 ```
 
-### 1.9.3 Mirroring images directly to the private container registry
+### 1.7.3 Mirroring images directly to the private container registry
 https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-directly-private-container-registry-1
 
 Log in to the IBM Entitled registry:
