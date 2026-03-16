@@ -423,17 +423,58 @@ cat $CPD_CLI_WORK_DIR/get_rsi_patch_info.log
 
 ## 2.6 Upgrade WKC
 ```
-./cpd-cli manage install-components --license_acceptance=true --components=ikc_premium --release=${VERSION} --upgrade=true
+./cpd-cli manage install-components \
+--license_acceptance=true \
+--components=ikc_premium \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
+--upgrade=true
+```
+Check ccs progress first:
+```
+watch oc get ccs 
+```
+Check WKC Premium progress:
+```
+oc get ikc_premium
 ```
 
 ## 2.7 Upgrade DataLineage
 ```
-./cpd-cli manage install-components --components=datalineage --upgrade=true
+./cpd-cli manage install-components \
+--license_acceptance=true \
+--components=datalineage \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
+--upgrade=true
 ```
+Check DataLineage progress:
+```
+oc get datalineage
+```
+
 
 ## 2.8 Upgrade DataStage
 ```
-./cpd-cli manage install-components --components=datastage_ent --upgrade=true
+./cpd-cli manage install-components \
+--license_acceptance=true \
+--components=datastage_ent \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
+--upgrade=true
+```
+Check DataStage progress
+```
+oc get DataStage
 ```
 
 # 3. Post-upgrade tasks
