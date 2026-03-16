@@ -173,6 +173,54 @@ ${PRIVATE_REGISTRY_PUSH_PASSWORD}
 --case_download=false
 ```
 
+## 1.8 Final checks before start the upgrade
+### 1.8.1 Pre-upgade check 
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=hub-upgrading-software
+
+### 1.8.2 Uninstall all hotfixes
+Needs to check all CRs for any custom image used.
+
+### 1.8.3 Backup the RSI patches
+```
+cpd-cli manage get-rsi-patch-info \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--all
+```
+### 1.8.4 Final health check OCP & CPD
+Check OCP status
+Log onto the bastion node, in the termial log into OCP and run this command.
+```
+oc get co
+```
+Make sure all the cluster operators are in AVAILABLE status. And not in PROGRESSING or DEGRADED status.
+Run this command and make sure all nodes are in Ready status.
+```
+oc get nodes
+```
+Run this command and make sure all the machine configuretion pool are in a healthy status.
+```
+oc get mcp
+```
+Check Cloud Pak for Data status
+Log onto the bastion node, and make sure the IBM Cloud Pak for Data command-line interface is installed properly.
+Run this command in the terminal and make sure the Lite and all the services' status are in Ready status.
+```
+${CPDM_OC_LOGIN}
+cpd-cli manage get-cr-status --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+Run this command and make sure all pods are healthy.
+```
+oc get po --no-headers --all-namespaces -o wide | grep -Ev '([[:digit:]])/\1.*R' | grep -v 'Completed'
+```
+Check the private container registry status if installed
+Log into bastion node, where the private container registry is usually installed, as root. Run this command in the terminal and make sure it succeeds.
+```
+podman login --username $PRIVATE_REGISTRY_PULL_USER --password $PRIVATE_REGISTRY_PULL_PASSWORD $PRIVATE_REGISTRY_LOCATION --tls-verify=false
+```
+You can run this command to verify the images are in the private container registry.
+```
+curl -k -u ${PRIVATE_REGISTRY_PULL_USER}:${PRIVATE_REGISTRY_PULL_PASSWORD} https://${PRIVATE_REGISTRY_LOCATION}/v2/_catalog?n=6000 | jq .
+```
 
 # 2. Upgrade
 ## 2.1 Migrate to Red Hat OpenShift certificate manager
