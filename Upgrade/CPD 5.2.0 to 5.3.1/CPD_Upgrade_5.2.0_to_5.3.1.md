@@ -273,19 +273,152 @@ Navigate to Operators → Installed Operators.
 Verify that cert-manager Operator for Red Hat OpenShift is listed with a Status of Succeeded in the cert-manager-operator namespace.
 
 ## 2.2 Upgrade shared cluster components
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=pyc-upgrading-shared-cluster-components
+
+### 2.2.1 If you're not sure which project the License Service is in, run the following command:
 ```
 oc get deployment -A | grep ibm-licensing-operator
-./cpd-cli manage apply-cluster-components --release=${VERSION} --license_acceptance=true --licensing_ns=${PROJECT_LICENSE_SERVICE}
+```
+If you're not sure whether the scheduling service is installed on the cluster, run the following command:
+```
+oc get scheduling -A
+```
+If the scheduling service is installed, ensure that the COMPONENTS variable in your environment variables script includes the scheduler component.
+
+### 2.2.2  Log in to the Red Hat OpenShift Container Platform cluster:
+```
+${CPDM_OC_LOGIN}
+```
+Verify install plans allow upgrade approval
+```
+ oc get ip -A
+```
+If approval is manual and approved is false, change approved to true to allow the upgrade.  One can change approved back to false after upgrade is completed.
+```
+oc patch installplan <installplan-name> -n <namespace> --type merge -p '{"spec":{"approved":true}}'
+```
+Run the cpd-cli manage login-to-ocp command to log in to the cluster
+```
+${CPDM_OC_LOGIN}
 ```
 
-## 2.4 Prepare to upgrade IBM Software Hub
+### 2.2.3 Upgrade the License Service.
+Confirm the project in which the License Service is running.
 ```
-./cpd-cli manage case-download --components=${COMPONENTS} --release=${VERSION} --operator_ns=${PROJECT_CPD_INST_OPERATORS} --cluster_resources=true
+oc get deployment -A |  grep ibm-licensing-operator
+```
+Make sure the project returned by the command matches the environment variable PROJECT_LICENSE_SERVICE in your environment variables script `cpd_vars_531.sh`.
+
+Upgrade the License Service.
+```
+./cpd-cli manage apply-cluster-components \
+--release=${VERSION} \
+--license_acceptance=true \
+--licensing_ns=${PROJECT_LICENSE_SERVICE}
+```
+
+### 2.2.4 Confirm that the License Service pods are Running or Completed:
+```
+oc get pods --namespace=${PROJECT_LICENSE_SERVICE}
+```
+
+## 2.3 Creating image pull secrets for an instance of IBM Software Hub (Upgrading from Version 5.2 to Version 5.3)
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=uish-creating-image-pull-secrets-instance-1
+
+Follow the steps from the above link. Consider the `Private container registry` option.
+
+## 2.4 Prepare to upgrade IBM Software Hub
+### 2.4.1 Run the cpd-cli manage login-to-ocp command to log in to the cluster
+```
+${CPDM_OC_LOGIN}
+```
+### 2.4.2 Updating the cluster-scoped resources for the platform and services
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=puish-updating-cluster-scoped-resources-instance
+```
+./cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--cluster_resources=true
+```
+Change to the work directory. The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
+```
+cd cpd-cli-workspace/olm-utils-workspace/work
+```
+Log in to Red Hat® OpenShift® Container Platform as a cluster administrator.
+```
+${OC_LOGIN}
+```
+Apply the cluster-scoped resources from the `cluster_scoped_resources.yaml` file.
+```
+oc apply -f cluster_scoped_resources.yaml \
+--server-side \
+--force-conflicts
+```
+Have a record of the resources that you generated.
+```
+mv cluster_scoped_resources.yaml ${VERSION}-${PROJECT_CPD_INST_OPERATORS}-cluster_scoped_resources.yaml
+```
+
+### 2.4.3 Applying your entitlements to monitor and report use against license terms
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=aye-applying-your-entitlements-without-node-pinning-1
+
+Applying your entitlements without node pinning
+```
+cpd-cli manage apply-entitlement \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--entitlement=cpd-enterprise
+
+cpd-cli manage apply-entitlement \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--entitlement=ikc-premium
+
+cpd-cli manage apply-entitlement \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--entitlement=data-lineage \
+--production=false
 ```
 
 ## 2.5 Upgrade IBM Software Hub
+### 2.5.1. Run the cpd-cli manage login-to-ocp command to log in to the cluster.
 ```
-./cpd-cli manage install-components --license_acceptance=true --components=cpd_platform --release=${VERSION} --operator_ns=${PROJECT_CPD_INST_OPERATORS} --instance_ns=${PROJECT_CPD_INST_OPERANDS} --upgrade=true
+${CPDM_OC_LOGIN}
+```
+### 2.5.2 Upgrade the required operators and custom resources for the instance.
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=uish-upgrading-software-hub
+
+See all available license URLs
+```
+cpd-cli manage get-license --release=${VERSION}
+
+
+./cpd-cli manage install-components \
+--license_acceptance=true \
+--components=cpd_platform \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
+--run_storage_tests=false \
+--upgrade=true
+```
+Once the above command `cpd-cli manage install-components` is complete, make sure the status of the IBM Software Hub is in 'Completed' status.
+```
+./cpd-cli manage get-cr-status \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \ 
+--components=cpd_platform
+```
+### 2.5.3 Apply the RSI patches
+Run the following command to re-apply your existing custom patches.
+```
+cpd-cli manage apply-rsi-patches --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+Check the RSI patches status again: 
+```
+cpd-cli manage get-rsi-patch-info --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} --all
+
+cat $CPD_CLI_WORK_DIR/get_rsi_patch_info.log
 ```
 
 ## 2.6 Upgrade WKC
