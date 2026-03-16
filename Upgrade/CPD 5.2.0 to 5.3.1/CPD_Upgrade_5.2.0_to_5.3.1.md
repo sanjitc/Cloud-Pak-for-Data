@@ -93,18 +93,86 @@ Install Helm by following the https://www.ibm.com/links?url=https%3A%2F%2Fhelm.s
 sudo dnf install helm
 ```
 
-## 1.8 Update environment variables
+## 1.6 Updating your environment variables script
+Make a copy of the environment variables script used by the existing 5.2.0 variables with the name like cpd_vars_531.sh.
+
+Update the environment variables script cpd_vars_531.sh as follows.
+```
+vi cpd_vars_531.sh
+```
+1. Locate the VERSION entry and update the environment variable for VERSION.
 ```
 export VERSION=5.3.1
-export COMPONENTS=ibm-licensing,cpfs,cpd_platform,wkc,datastage_ent,analyticsengine,datalineage,ikc_standard,ikc_premium,semantic_automation
+```
+2. Locate the COMPONENTS entry and confirm the COMPONENTS entry is accurate.
+```
+export COMPONENTS=ibm-licensing,cpfs,cpd_platform,wkc,datastage_ent, analyticsengine,datalineage,ikc_standard,ikc_premium,semantic_automation
+```
+3. Add a new section called Image pull configuration to your script and add the following environment variables
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=cri-updating-your-environment-variables-script
+```
 export IMAGE_PULL_SECRET=${IBM_ENTITLEMENT_KEY}
+export IMAGE_PULL_CREDENTIALS=$(echo -n "$PRIVATE_REGISTRY_PULL_USER:$PRIVATE_REGISTRY_PULL_PASSWORD" | base64 -w 0)
 export IMAGE_PULL_PREFIX=${PRIVATE_REGISTRY_LOCATION}
 ```
+4. Locate the OLM_UTILS_IMAGE entry and update the value
+```
+export OLM_UTILS_IMAGE=${PRIVATE_REGISTRY_LOCATION}/cpopen/cpd/olm-utils-v4:${VERSION}.amd64
+export OLM_UTILS_LAUNCH_ARGS=" --network=host"
+```
+5. Save the changes. 
 
-## 1.9 Mirror CPD 5.3.1 images
+6. Confirm that the script does not contain any errors.
+```
+bash ./cpd_vars_531.sh
+```
+7. Run this command to apply cpd_vars_531.sh
+```
+source ./cpd_vars_531.sh
+```
+
+## 1.7 Mirror CPD 5.3.1 images
+### 1.7.1 Obtaining the olm-utils-v4 image
 ```
 podman pull cp.icr.io/cp/cpd/olm-utils-premium-v4:${VERSION}.amd64 --tls-verify=false
+
+podman login ${PRIVATE_REGISTRY_LOCATION} -u ${PRIVATE_REGISTRY_PUSH_USER} -p ${PRIVATE_REGISTRY_PUSH_PASSWORD}
+
+podman tag cp.icr.io/cp/cpd/olm-utils-premium-v4:${VERSION}.amd64 ${PRIVATE_REGISTRY_LOCATION}/cp/cpd/olm-utils-premium-v4:${VERSION}.amd64 
+
+podman push ${PRIVATE_REGISTRY_LOCATION}/ cp/cpd/olm-utils-premium-v4:${VERSION}.amd64
 ```
+### 1.7.2 Downloading CASE packages 
+```
+./cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION}
+```
+
+### 1.9.3 Mirroring images directly to the private container registry
+https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-directly-private-container-registry-1
+
+Log in to the IBM Entitled registry:
+```
+./cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
+```
+Log in to the private container registry.
+
+The following command assumes that you are using a private container registry that is secured with credentials:
+```
+./cpd-cli manage login-private-registry \
+${PRIVATE_REGISTRY_LOCATION} \
+${PRIVATE_REGISTRY_PUSH_USER} \
+${PRIVATE_REGISTRY_PUSH_PASSWORD}
+
+./cpd-cli manage mirror-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--target_registry=${PRIVATE_REGISTRY_LOCATION} \
+--arch=${IMAGE_ARCH} \
+--case_download=false
+```
+
 
 # 2. Upgrade
 ## 2.1 Migrate to Red Hat OpenShift certificate manager
