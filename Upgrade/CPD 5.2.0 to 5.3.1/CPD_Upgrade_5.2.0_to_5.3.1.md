@@ -479,11 +479,14 @@ oc get ikc_premium
 
 ## 2.7 Upgrade DataLineage
 ```
-cpd-cli manage apply-cr \
+cpd-cli manage install-components \
+--license_acceptance=true \
 --components=datalineage \
 --release=${VERSION} \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---license_acceptance=true \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
 --upgrade=true
 ```
 Check DataLineage progress:
@@ -494,12 +497,14 @@ oc get datalineage
 
 ## 2.8 Upgrade DataStage
 ```
-cpd-cli manage apply-cr \
+cpd-cli manage install-components \
+--license_acceptance=true \
 --components=datastage_ent \
 --release=${VERSION} \
---license_acceptance=true \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
---license_acceptance=true \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
 --upgrade=true
 ```
 Check DataStage progress
