@@ -439,7 +439,7 @@ cat $CPD_CLI_WORK_DIR/get_rsi_patch_info.log
 
 ## 2.6 Upgrade WKC
 Create the install-options.yml file in the cpd-cli work directory (For example: cpd-cli-workspace/olm-utils-workspace/work)
-<b>These need to be checked</b>
+<br><b>These need to be checked</b>
 ```
 ---
 # ............................................................................
@@ -461,12 +461,16 @@ non_olm:
 
 Upgrade with the custom option
 ```
-cpd-cli manage apply-cr \
---components=ikc_premium \
+cpd-cli manage install-components \
+--license_acceptance=true \
+--components=${IKC_TYPE} \
 --release=${VERSION} \
---cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET} \
 --param-file=/tmp/work/install-options.yml \
---license_acceptance=true
+--upgrade=true
 ```
 Check ccs progress first:
 ```
