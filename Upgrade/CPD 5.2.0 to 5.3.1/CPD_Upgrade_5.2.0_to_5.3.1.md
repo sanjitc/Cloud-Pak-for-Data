@@ -59,7 +59,7 @@ oc get analyticsengine analyticsengine-sample -o yaml > analyticsengine-cr.yaml
 
 oc get DataStage datastage -o yaml > datastage-cr.yaml
 
-oc get route -o yaml > cpd_routes.yaml
+oc get datalineage -o yaml > datalineage-cr.yaml
 ```
 
 ### 1.3.3 Backup the routes.
