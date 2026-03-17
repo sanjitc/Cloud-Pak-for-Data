@@ -176,6 +176,18 @@ ${PRIVATE_REGISTRY_PUSH_PASSWORD}
 --arch=${IMAGE_ARCH} \
 --case_download=false
 ```
+Mirror the required vLLM images for Inference foundation models (ibm-watsonx-ai-ifm)
+```
+skopeo copy --all \
+--src-username cp \
+--src-password ${IBM_ENTITLEMENT_KEY} \
+--src-tls-verify=false \
+--dest-username ${PRIVATE_REGISTRY_PUSH_USER} \
+--dest-password ${PRIVATE_REGISTRY_PUSH_PASSWORD} \
+--dest-tls-verify=false \
+docker://cp.icr.io/cp/cpd/vllm@sha256:cc95bc7619549a5fb9342f8c41c613df5cd65b4e1f90b408db062559a2fdcff9 \
+docker://${PRIVATE_REGISTRY_LOCATION}/cp/cpd/vllm@sha256:cc95bc7619549a5fb9342f8c41c613df5cd65b4e1f90b408db062559a2fdcff9
+```
 
 ## 1.8 Final checks before start the upgrade
 ### 1.8.1 Pre-upgade check 
