@@ -148,7 +148,7 @@ podman push ${PRIVATE_REGISTRY_LOCATION}/ cp/cpd/olm-utils-premium-v4:${VERSION}
 ```
 ### 1.7.2 Downloading CASE packages 
 ```
-./cpd-cli manage case-download \
+cpd-cli manage case-download \
 --components=${COMPONENTS} \
 --release=${VERSION}
 ```
@@ -158,18 +158,18 @@ https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-dire
 
 Log in to the IBM Entitled registry:
 ```
-./cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
+cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
 ```
 Log in to the private container registry.
 
 The following command assumes that you are using a private container registry that is secured with credentials:
 ```
-./cpd-cli manage login-private-registry \
+cpd-cli manage login-private-registry \
 ${PRIVATE_REGISTRY_LOCATION} \
 ${PRIVATE_REGISTRY_PUSH_USER} \
 ${PRIVATE_REGISTRY_PUSH_PASSWORD}
 
-./cpd-cli manage mirror-images \
+cpd-cli manage mirror-images \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
@@ -327,7 +327,7 @@ Make sure the project returned by the command matches the environment variable P
 
 Upgrade the License Service.
 ```
-./cpd-cli manage apply-cluster-components \
+cpd-cli manage apply-cluster-components \
 --release=${VERSION} \
 --license_acceptance=true \
 --licensing_ns=${PROJECT_LICENSE_SERVICE}
@@ -351,7 +351,7 @@ ${CPDM_OC_LOGIN}
 ### 2.4.2 Updating the cluster-scoped resources for the platform and services
 https://www.ibm.com/docs/en/software-hub/5.3.x?topic=puish-updating-cluster-scoped-resources-instance
 ```
-./cpd-cli manage case-download \
+cpd-cli manage case-download \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --operator_ns=${PROJECT_CPD_INST_OPERATORS} \
@@ -408,7 +408,7 @@ See all available license URLs
 cpd-cli manage get-license --release=${VERSION}
 
 
-./cpd-cli manage install-components \
+cpd-cli manage install-components \
 --license_acceptance=true \
 --components=cpd_platform \
 --release=${VERSION} \
@@ -421,7 +421,7 @@ cpd-cli manage get-license --release=${VERSION}
 ```
 Once the above command `cpd-cli manage install-components` is complete, make sure the status of the IBM Software Hub is in 'Completed' status.
 ```
-./cpd-cli manage get-cr-status \
+cpd-cli manage get-cr-status \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \ 
 --components=cpd_platform
 ```
