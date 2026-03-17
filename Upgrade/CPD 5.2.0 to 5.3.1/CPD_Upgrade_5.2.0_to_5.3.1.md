@@ -60,6 +60,10 @@ oc get analyticsengine analyticsengine-sample -o yaml > analyticsengine-cr.yaml
 oc get DataStage datastage -o yaml > datastage-cr.yaml
 
 oc get datalineage -o yaml > datalineage-cr.yaml
+
+oc get watsonxai -o yaml > watsonxai-cr.yaml
+
+oc get watsonxaiifm -o yaml > watsonxaiifm-cr.yaml
 ```
 
 ### 1.3.3 Backup the routes.
