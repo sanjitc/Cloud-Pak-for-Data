@@ -70,9 +70,8 @@ oc get watsonxaiifm -o yaml > watsonxaiifm-cr.yaml
 ```
 oc get routes -o yaml > routes.yaml
 ```
-```diff
-- Lessons learned: Default CPD route must be "reencrypt" and not a "passthrough" termination.
-```
+> [!CAUTION]
+> Default CPD route must be "reencrypt" and not a "passthrough" termination.
 
 ### 1.3.4 Backup the RSI patches.
 ```
