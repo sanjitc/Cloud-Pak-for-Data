@@ -446,8 +446,14 @@ cat $CPD_CLI_WORK_DIR/get_rsi_patch_info.log
 ### 2.6.1 Mirroring Red Hat OpenShift AI images to a private container registry
 https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.25/html/installing_and_uninstalling_openshift_ai_self-managed_in_a_disconnected_environment/deploying-openshift-ai-in-a-disconnected-environment_install#mirroring-images-to-a-private-registry-for-a-disconnected-installation_install 
 
+Log in to Red Hat® OpenShift® Container Platform as a cluster administrator.
+```
+${OC_LOGIN}
+```
 Create an ImageSetConfiguration definition file named imageset-config.yaml
 ```
+export OPENSHIFT_VERSION=v4.16
+
 cat << EOF > ./imageset-config.yaml
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
@@ -507,6 +513,32 @@ mirror:
     - name: quay.io/modh/rocm-notebooks@sha256:f94702219419e651327636b390d1872c58fd7b8f9f6b16a02c958ffb918eded3
 EOF
 ```
+Download the specified image
+```
+oc mirror \
+-c imageset-config.yaml \
+--workspace file://${CLUSTER_CONFIGS_DIR} docker://${PRIVATE_REGISTRY_LOCATION} \
+--v2
+```
+Verify that the YAML files are present for the `ImageDigestMirrorSet` and `CatalogSource` resources
+```
+ls ${CLUSTER_CONFIGS_DIR}/working-dir/cluster-resources/
+```
+### 2.6.2 Install the generated resources into the cluster
+```
+oc apply -f ${CLUSTER_CONFIGS_DIR}/working-dir/cluster-resources
+```
+Verify that the CatalogSource and pod were created successfully. This should return at least one catalog and two pods.
+```
+$ oc get catalogsource,pod -n openshift-marketplace
+```
+### 2.6.3 Check that the Red Hat OpenShift AI Operator exists in the OperatorHub
+
+- Log in to the OpenShift web console.
+Click `Operators` >  `OperatorHub`
+- The `OperatorHub` page opens.
+- Confirm that the Red Hat OpenShift AI Operator is shown.
+
 
 ## 2.7 Upgrade WKC
 Create the install-options.yml file in the cpd-cli work directory (For example: cpd-cli-workspace/olm-utils-workspace/work)
