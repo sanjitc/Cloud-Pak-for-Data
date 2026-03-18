@@ -33,7 +33,9 @@ oc get po --no-headers --all-namespaces -o wide | grep -Ev '([[digit:]])/\1.*R' 
 ```
 
 ## 1.3 Backup before upgrade
-Note: Create a folder for 5.2.0 and maintain below created copies in that folder.
+> [!Note]
+> Create a folder for 5.2.0 and maintain below created copies in that folder.
+
 Login to the OCP cluster for cpd-cli utility.
 ```
 cpd-cli manage login-to-ocp --username=${OCP_USERNAME} --password=${OCP_PASSWORD} --server=${OCP_URL}
@@ -255,9 +257,11 @@ https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-uninstalling-certif
 ### 2.1.3. Mirroring Red Hat OpenShift certificate manager images to a private container registry
 https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-mirroring-red-hat-openshift-certificate-images
 
-<b>Note:</b> Make sure you can obtain your Red Hat pull secret from the Red Hat OpenShift Cluster Manager.
+> [!Note]
+> Make sure you can obtain your Red Hat pull secret from the Red Hat OpenShift Cluster Manager.
 
-<b>Note:</b> Ensure that the oc-mirror plug-in V2 is installed on the client workstation. For more information, see Mirroring images for a disconnected installation by using the oc-mirror plugin v2 in the Red Hat OpenShift Container Platform documentation.
+> [!Note]
+> Ensure that the oc-mirror plug-in V2 is installed on the client workstation. For more information, see Mirroring images for a disconnected installation by using the oc-mirror plugin v2 in the Red Hat OpenShift Container Platform documentation.
 
 ### 2.1.4. Installing the Red Hat OpenShift Container Platform cert-manager Operator
 https://www.ibm.com/docs/en/software-hub/5.3.x?topic=manager-installing-cert-operator
