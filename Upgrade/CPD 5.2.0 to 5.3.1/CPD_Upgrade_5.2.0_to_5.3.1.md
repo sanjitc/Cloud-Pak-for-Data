@@ -115,7 +115,7 @@ export COMPONENTS=ibm-licensing,cpfs,cpd_platform,wkc,datastage_ent, analyticsen
 3. Add a new section called Image pull configuration to your script and add the following environment variables
 https://www.ibm.com/docs/en/software-hub/5.3.x?topic=cri-updating-your-environment-variables-script
 ```
-export IMAGE_PULL_SECRET=${IBM_ENTITLEMENT_KEY}
+export IMAGE_PULL_SECRET=<hptv-pull-secret>
 export IMAGE_PULL_CREDENTIALS=$(echo -n "$PRIVATE_REGISTRY_PULL_USER:$PRIVATE_REGISTRY_PULL_PASSWORD" | base64 -w 0)
 export IMAGE_PULL_PREFIX=${PRIVATE_REGISTRY_LOCATION}
 ```
