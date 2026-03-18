@@ -444,7 +444,7 @@ cat $CPD_CLI_WORK_DIR/get_rsi_patch_info.log
 ```
 ## 2.6 Install Red Hat OpenShift AI
 ### 2.6.1 Mirroring Red Hat OpenShift AI images to a private container registry
-https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.25/html/installing_and_uninstalling_openshift_ai_self-managed_in_a_disconnected_environment/deploying-openshift-ai-in-a-disconnected-environment_install#mirroring-images-to-a-private-registry-for-a-disconnected-installation_install
+https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.25/html/installing_and_uninstalling_openshift_ai_self-managed_in_a_disconnected_environment/deploying-openshift-ai-in-a-disconnected-environment_install#mirroring-images-to-a-private-registry-for-a-disconnected-installation_install <br>
 Create an ImageSetConfiguration definition file named imageset-config.yaml
 ```
 cat << EOF > ./imageset-config.yaml
