@@ -542,7 +542,8 @@ Click `Operators` >  `OperatorHub`
 
 ## 2.7 Upgrade WKC
 Create the install-options.yml file in the cpd-cli work directory (For example: cpd-cli-workspace/olm-utils-workspace/work)
-<br><b>These need to be checked</b>
+> [!CAUTION]
+> An IKC Premium upgrade may fail when upgrading SemanticAutomation. The semanticautomation-cr resource has the autoscaleConfig value set as a string, but it should be a boolean. 
 ```
 ---
 # ............................................................................
