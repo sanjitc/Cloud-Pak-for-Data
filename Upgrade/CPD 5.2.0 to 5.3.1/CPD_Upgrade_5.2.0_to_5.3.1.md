@@ -565,7 +565,7 @@ Upgrade with the custom option
 ```
 cpd-cli manage install-components \
 --license_acceptance=true \
---components=${IKC_TYPE} \
+--components=ikc_premium \
 --release=${VERSION} \
 --operator_ns=${PROJECT_CPD_INST_OPERATORS} \
 --instance_ns=${PROJECT_CPD_INST_OPERANDS} \
@@ -583,7 +583,19 @@ Check WKC Premium progress:
 oc get ikc_premium
 ```
 > [!CAUTION]
-> An IKC Premium upgrade may fail when upgrading SemanticAutomation. The semanticautomation-cr resource has the autoscaleConfig value set as a string, but it should be a boolean. 
+> An IKC Premium upgrade may fail when upgrading SemanticAutomation. The semanticautomation-cr resource has the autoscaleConfig value set as a string, but it should be a boolean.
+
+> [!CAUTION]
+> IKC Premium upgrade may fail with error: 'Version mismatch, skipping reconcile. IKC Premium version: 5.2.0 is not managed by operator version: 5.3.1.'
+> You need to manually start the IKC Premium using `helm upgrade` command.
+> ```
+> podman ps
+> podman exec -it <contianer_id_for_the_olm-utils-play-v4> -n <your_cpd_namespace> /bin/bash
+>  ls -la /tmp/work/offline/5.3.1/.ibm-pak/data/cases/ibm-knowledgecatalog
+>  ls -la /tmp/work/olm-utils-ansible-log/
+> # Verify the ikc-premium chart location and override_file location according to the environment.
+>  helm upgrade --install --cpd-namespace <cpd namespace> /tmp/work/offline/5.3.1/.ibm-pak/data/cases/ibm-knowledge-catalog/5.3.1/charts/ikc-premium-5.3.1+20251203.214630.312.tgz --debug -f /tmp/work/olm-utils-ansible-log/override_file_1761662799.9491866.yaml --take-ownership
+> ```
 
 ## 2.8 Upgrade DataLineage
 ```
