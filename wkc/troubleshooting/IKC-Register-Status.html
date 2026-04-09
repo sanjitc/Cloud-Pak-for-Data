@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 90%; margin: auto; }
+        textarea { width: 100%; height: 150px; }
+        .tabs { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 5px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>JSON to HTML Formatter</h2>
+        <textarea id="jsonInput" placeholder="Paste JSON here..."></textarea>
+        <button onclick="formatJson()">Format</button>
+        <div id="summary"></div>
+        <div id="tabs">
+            <ul>
+                <li><a href="#global">Global</a></li>
+                <li><a href="#catalogs">Catalogs</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#awaiting">Awaiting Commit</a></li>
+            </ul>
+            <div id="global"></div>
+            <div id="catalogs"></div>
+            <div id="projects"></div>
+            <div id="categories"></div>
+            <div id="awaiting"></div>
+        </div>
+    </div>
+
+    <script>
+        $(function() { $("#tabs").tabs(); });
+
+        function formatJson() {
+            let jsonData;
+            try {
+                jsonData = JSON.parse(document.getElementById('jsonInput').value);
+            } catch (e) {
+                alert("Invalid JSON");
+                return;
+            }
+            
+            let summaryHtml = `
+                <p><b>Target data source:</b> Catalog ID: ${jsonData.platform_asset_catalog_id || 'N/A'}, Connection ID: ${jsonData.platform_asset_connection_id || 'N/A'}</p>
+                <p><b>Default reporting schema name:</b> ${jsonData.global_schema_name || 'N/A'}</p>
+                <p><b>Status:</b> ${jsonData.status || 'N/A'}</p>
+                <p><b>Sync/Crawl Status:</b> ${jsonData.init_sync_state?.status || 'N/A'} 
+				   - ${jsonData.init_sync_state?.percent !== undefined ? jsonData.init_sync_state?.percent : '0'}% 
+				   - ${jsonData.init_sync_state?.action_target_count !== undefined ? jsonData.init_sync_state?.action_target_count : '0'}
+				   / ${jsonData.init_sync_state?.action_target_total_count !== undefined ? jsonData.init_sync_state?.action_target_total_count : '0'}
+				   - ${jsonData.init_sync_state?.action_target_name || 'N/A'} (${jsonData.init_sync_state?.action_target_id || 'N/A'})
+				   - (Current re-try - ${jsonData.init_sync_state?.current_retry !== undefined ? jsonData.init_sync_state?.current_retry : '0'} / 4)
+				</p>`;
+            document.getElementById('summary').innerHTML = summaryHtml;
+            
+            function generateTable(data, headers) {
+                if (!Array.isArray(data)) return '<p>No data available</p>';
+                let table = '<table><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+                data.forEach(row => {
+                    table += '<tr>' + headers.map(h => `<td>${row[h] !== undefined ? row[h] : ''}</td>`).join('') + '</tr>';
+                });
+                table += '</table>';
+                return table;
+            }
+            
+			let global = [];
+            ["data_protection_rules", "workflows", "user_profiles"].forEach(key => {
+            let active = jsonData.global?.[key]?.active;
+            if (active) {
+              global.push({ ...active });
+            }
+            });
+			console.log("Global Data:", JSON.stringify(global, null, 2));
+            document.getElementById('global').innerHTML = generateTable(
+                global,
+                ['status', 'processed', 'skipped', 'wkc_count']
+            );
+            
+            let catalogs = [], projects = [], categories = [];
+            (jsonData.schema_zone_mapping?.active || []).forEach(schema => {
+                (schema.catalogs || []).forEach(c => catalogs.push({ schema_name: schema.schema_name, ...c }));
+                (schema.projects || []).forEach(p => projects.push({ schema_name: schema.schema_name, ...p }));
+                (schema.categories || []).forEach(cat => categories.push({ schema_name: schema.schema_name, ...cat }));
+            });
+            
+            catalogs.sort((a, b) => (b.status || '').localeCompare(a.status || ''));
+            document.getElementById('catalogs').innerHTML = generateTable(
+                catalogs,
+                ['schema_name', 'id', 'status', 'processed', 'skipped', 'wkc_count', 'count_updated_at']
+            );
+
+            projects.sort((a, b) => (b.status || '').localeCompare(a.status || ''));
+            document.getElementById('projects').innerHTML = generateTable(
+                projects,
+                ['schema_name', 'id', 'status', 'processed', 'skipped', 'wkc_count', 'count_updated_at']
+            );
+            
+            categories.sort((a, b) => (b.status || '').localeCompare(a.status || ''));
+            document.getElementById('categories').innerHTML = generateTable(
+                categories,
+                ['schema_name', 'id', 'status', 'processed', 'skipped', 'wkc_count', 'count_updated_at']
+            );
+            
+            let awaiting = [];
+            (jsonData.schema_zone_mapping?.awating_commit || []).forEach(schema => {
+                (schema.catalogs || []).forEach(c => awaiting.push({ schema_name: schema.schema_name, Type: 'Catalog', id: c.id }));
+                (schema.projects || []).forEach(p => awaiting.push({ schema_name: schema.schema_name, Type: 'Project', id: p.id }));
+                (schema.categories || []).forEach(cat => awaiting.push({ schema_name: schema.schema_name, Type: 'Category', id: cat.id }));
+            });
+            
+            document.getElementById('awaiting').innerHTML = generateTable(awaiting, ['schema_name', 'Type', 'id']);
+        }
+    </script>
+</body>
+</html>
