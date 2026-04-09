@@ -50,7 +50,7 @@ curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/bistatus?tenant_id=999&table_name=all"
 ```
 > [!Note]
-> Convert the **register** JSON output to [tabular format](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/troubleshooting/IKC-Register-Status.html)
+> Convert the **register** JSON output to [tabular format](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/troubleshooting/IKC-Register-Status.html). First, save the HTML file locally, load the HTML file in a browser, then paste the **register** API output in the <em>JSON to HTML formatter</em> section. 
 
 ## RMQ queues and consumer details
 ```
