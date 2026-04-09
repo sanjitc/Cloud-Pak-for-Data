@@ -49,7 +49,8 @@ curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/999/register"
 curl -i -k -H "content-type: application/json" -H "Authorization: bearer $Bearer_TOKEN" -X GET "https://$HOSTNAME/v3/reporting/bistatus?tenant_id=999&table_name=all"
 ```
-Convert the "register" JSON output to tabular format using https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/troubleshooting/IKC-Register-Status.html
+> [!Note]
+> Convert the "register" JSON output to tabular format using https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/wkc/troubleshooting/IKC-Register-Status.html
 
 ## RMQ queues and consumer details
 ```
