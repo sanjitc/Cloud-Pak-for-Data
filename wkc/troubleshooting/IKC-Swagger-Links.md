@@ -16,4 +16,5 @@
 |Jobs|[CPD URL]/v2/jobs/docs/swagger/|
 |Knowledge Accelerators|[CPD URL]/v1/knowledge_accelerators/api/explorer/#/|
 |Metadata Enrichment|[CPD URL]/v1/wkc-mde-service-manager/api/explorer/|
+|Semantic Automation|[CPD URL]/semantic_automation/v1/swagger-ui/index.html|
 |Workflow|[CPD URL]/v3/workflows/api/swagger-ui/swagger-ui/index.html|
