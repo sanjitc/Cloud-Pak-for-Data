@@ -5,6 +5,7 @@ Table of Content
 - [Part 1: Pre-upgrade](#part-1-pre-upgrade)
 - [Part 2: Upgrade prerequisite software](#part-2-upgrade-prerequisite-software)
 - [Part 3: Upgrading CDP services](#part-3-upgrading-cdp-services)
+- [Part 4: Post-upgrade clean up] ()
   
 ## Preface
 ### Upgrade documentation
@@ -833,3 +834,9 @@ cpd-cli oadp generate plan fusion parent-recipe \
 --log-level=debug \
 --verbose
 ```
+
+## Part 4: Post-upgrade clean up
+### 4.1 IKC data previously stored in DB2
+#### 4.1.1 [Db2 - Verifying successful data migration](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__verify-mig__title__1)
+#### 4.1.2 [Db2 - Cleaning up migration resources[(https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-mig-resources__title__1)
+#### 4.1.3 [Cleaning up Db2U resources](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-db2u__title__1)
