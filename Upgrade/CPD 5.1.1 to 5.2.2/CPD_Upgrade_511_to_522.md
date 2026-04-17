@@ -5,7 +5,7 @@ Table of Content
 - [Part 1: Pre-upgrade](#part-1-pre-upgrade)
 - [Part 2: Upgrade prerequisite software](#part-2-upgrade-prerequisite-software)
 - [Part 3: Upgrading CDP services](#part-3-upgrading-cdp-services)
-- [Part 4: Post-upgrade clean up] (#part-4-post-upgrade-clean-up)
+- [Part 4: Post-upgrade clean up](#part-4-post-upgrade-clean-up)
   
 ## Preface
 ### Upgrade documentation
