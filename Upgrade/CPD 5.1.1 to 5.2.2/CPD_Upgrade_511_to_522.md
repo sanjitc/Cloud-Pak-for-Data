@@ -5,7 +5,7 @@ Table of Content
 - [Part 1: Pre-upgrade](#part-1-pre-upgrade)
 - [Part 2: Upgrade prerequisite software](#part-2-upgrade-prerequisite-software)
 - [Part 3: Upgrading CDP services](#part-3-upgrading-cdp-services)
-- [Part 4: Post-upgrade clean up] ()
+- [Part 4: Post-upgrade clean up] (#part-4-post-upgrade-clean-up)
   
 ## Preface
 ### Upgrade documentation
@@ -838,5 +838,41 @@ cpd-cli oadp generate plan fusion parent-recipe \
 ## Part 4: Post-upgrade clean up
 ### 4.1 IKC data previously stored in DB2
 #### 4.1.1 [Db2 - Verifying successful data migration](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__verify-mig__title__1)
-#### 4.1.2 [Db2 - Cleaning up migration resources[(https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-mig-resources__title__1)
+
+#### 4.1.2 [Db2 - Cleaning up migration resources](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-mig-resources__title__1)
+
 #### 4.1.3 [Cleaning up Db2U resources](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-db2u__title__1)
+
+### 4.2 IKC data previously stored in CouchDB
+#### 4.2.1 CouchDB - Determine how many databases will be migrated.
+You must have captured this information as part of **pre-upgrade** checking process.
+```
+Set the INSTANCE_URL environment variable to the URL of IBM Software Hub:
+export INSTANCE_URL=<URL>
+
+Tip: To get the URL of the web client, run the following command:
+cpd-cli manage get-cpd-instance-details \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+
+Get the credentials for the wdp-service:
+TOKEN=$(oc get -n ${PROJECT_CPD_INST_OPERANDS} secrets wdp-service-id -o yaml | grep service-id-credentials | cut -d':' -f2- | sed -e 's/ //g' | base64 -d)
+
+Get the number of catalogs in the instance:
+curl -sk -X GET "https://${INSTANCE_URL}/v2/catalogs?limit=10001&skip=0&include=catalogs&bss_account_id=999" -H 'accept: application/json' -H "Authorization: Basic ${TOKEN}" | jq -r '.catalogs | length'
+
+Get the number of projects in the instance:
+curl -sk -X GET "https://${INSTANCE_URL}/v2/catalogs?limit=10001&skip=0&include=projects&bss_account_id=999" -H 'accept: application/json' -H "Authorization: Basic ${TOKEN}" | jq -r '.catalogs | length'
+
+Get the number of spaces in the instance:
+curl -sk -X GET "https://${INSTANCE_URL}/v2/catalogs?limit=10001&skip=0&include=spaces&bss_account_id=999" -H 'accept: application/json' -H "Authorization: Basic ${TOKEN}" | jq -r '.catalogs | length'
+```
+Add up the number of catalogs, projects, and spaces returned by the previous commands. 
+
+#### 4.2.2 [CouchDB - Collecting statistics about the migration](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=services-completing-catalog-api-migration#catalog-api-migration__stats__title__1)
+Compare the number of databases found in step **4.2.1** and **4.2.2**. Since env can be used while the cams migration is going on, the number of databases can increase or decrease.
+
+#### 4.2.3 [CouchDB - Backing up the PostgreSQL database](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=services-completing-catalog-api-migration#catalog-api-migration__backup__title__1) 
+
+#### 4.2.4 [CouchDB - Consolidating the PostgreSQL database](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=services-completing-catalog-api-migration#catalog-api-migration__backup__title__1)
+
+#### 4.2.2 CouchDB - Clenaup 
