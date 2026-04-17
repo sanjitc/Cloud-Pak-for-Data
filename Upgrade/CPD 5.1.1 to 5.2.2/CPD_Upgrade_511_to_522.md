@@ -877,4 +877,4 @@ Compare the number of databases found in step **4.2.1** and **4.2.2**. Since env
 
 #### 4.2.4 [CouchDB - Consolidating the PostgreSQL database](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=services-completing-catalog-api-migration#catalog-api-migration__backup__title__1)
 
-#### 4.2.2 CouchDB - Clenaup 
+#### 4.2.5 CouchDB - Clenaup 
