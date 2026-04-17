@@ -59,7 +59,7 @@ Backup your Cloud Pak for Data cluster before the upgrade. <br>
 Make sure there are no scheduled backups conflicting with the scheduled upgrade.
 
 #### 2 Mirroring images directly to the private container registry
-2.1) Log in to the IBM Entitled Registry registry
+2.1) Log in to the IBM Entitled Registry
 ```
 cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
 ```
@@ -837,11 +837,13 @@ cpd-cli oadp generate plan fusion parent-recipe \
 
 ## Part 4: Post-upgrade clean up
 ### 4.1 IKC data previously stored in DB2
+
 #### 4.1.1 [Db2 - Verifying successful data migration](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__verify-mig__title__1)
 
 #### 4.1.2 [Db2 - Cleaning up migration resources](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-mig-resources__title__1)
 
 #### 4.1.3 [Cleaning up Db2U resources](https://www.ibm.com/docs/en/software-hub/5.2.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__cleanup-db2u__title__1)
+
 
 ### 4.2 IKC data previously stored in CouchDB
 #### 4.2.1 CouchDB - Determine how many databases will be migrated.
