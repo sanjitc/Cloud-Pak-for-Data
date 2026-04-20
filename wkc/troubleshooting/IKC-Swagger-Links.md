@@ -7,6 +7,8 @@
 |Connection|[CPD URL]/v2/connections/api/explorer/|
 |Data Discovery|[CPD URL]/v2/data_discoveries/api/explorer/|
 |Data Flow|[CPD URL]/data_intg/v3/flows_runtime/api/explorer/#/|
+|Data Lineage Service|[CPD URL]/gov_lineage/v2/api/docs/static/index.html|
+|Data Lineage Scanner Service|[CPD URL]/gov_lineage/v2/scanner-service/api/docs/static/index.html|
 |Data Policy|[CPD URL]/v3/enforcement/policies/api/explorer|
 |Data Profile|[CPD URL]/v2/data_profiles/api/explorer/|
 |Data Quality|[CPD URL]/data_quality/v3/api/explorer/|
