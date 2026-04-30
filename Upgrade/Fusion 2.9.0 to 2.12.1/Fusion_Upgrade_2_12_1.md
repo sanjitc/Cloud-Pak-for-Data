@@ -14,6 +14,12 @@ Current version(2.9.0) > 2.9.1 > 2.10.0 > 2.11.0 > 2.12.0 > 2.12.1
 - [Upgrading IBM Storage Fusion to 2.12.1](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=fusion-upgrading)
 
 ### 1. Prerequisites for enterprise registry upgrade
+Configure common environment variables
+```
+export LOCAL_ISF_REGISTRY="<Your container registry host>:<port>"
+export LOCAL_ISF_REPOSITORY="<Your image path>"
+export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
+```
 #### 1.1.  [Mirror the 2.9.1 images to enterprise registry](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-prerequisites-enterprise-registry-upgrade)
 ##### 1.1.1. [Mirror IBM Fusion images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services).
 ##### 1.1.2. Mirror Backup & Restore images. 
