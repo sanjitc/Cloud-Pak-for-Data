@@ -19,6 +19,13 @@ Configure common environment variables
 export LOCAL_ISF_REGISTRY="<Your container registry host>:<port>"
 export LOCAL_ISF_REPOSITORY="<Your image path>"
 export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
+
+export OCP_VERSION=<your OCP version in X.Y format>
+export OCP_FULL_VERSION=<your OCP version in X.Y.Z format>
+export OCP_PLATFORM=<your OCP platform, i.e., x86_64>
+export PRODUCT_REPO="openshift-release-dev"
+export RELEASE_NAME="ocp-release"
+export OCP_RELEASE_IMAGE="quay.io/${PRODUCT_REPO}/${RELEASE_NAME}:${OCP_FULL_VERSION}-${OCP_PLATFORM}"
 ```
 #### 1.1.  [Mirror the 2.9.1 images to enterprise registry](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-prerequisites-enterprise-registry-upgrade)
 ##### 1.1.1. [Mirror IBM Fusion images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services).
