@@ -15,6 +15,10 @@ Current version(2.9.0) > 2.9.1 > 2.10.0 > 2.11.0 > 2.12.0 > 2.12.1
 
 ### 1. Prerequisites for enterprise registry upgrade
 #### 1.1.  [Mirror the 2.9.1 images to enterprise registry](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-prerequisites-enterprise-registry-upgrade)
+##### 1.1.1. [Mirror IBM Fusion images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services).
+##### 1.1.2. Mirror Backup & Restore images. 
+##### 1.1.3. Mirror IBM Storage Scale images.
+##### 1.1.4. Data Cataloging offline upgrade.
 
 ### 2. Before you begin
 #### 2.1. Ensure all compute nodes are in a ready state on OpenShift user interface.
