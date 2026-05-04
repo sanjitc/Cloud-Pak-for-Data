@@ -497,8 +497,401 @@ oc get packagemanifests | grep -iE 'fusion|oadp|amq|catalog|cas'
 oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{range .spec.containers[*]}{.image}{" "}{end}{"\n"}{end}' \
 | grep -E 'cp.icr.io|icr.io|quay.io|registry.redhat.io' || true
 ```
+---
+#### 1.3.  [Mirror the 2.11.1 images to enterprise registry: end-to-end mirroring](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=erfi-end-end-mirroring-fusion-its-services-images-enterprise-registry)
 
 
+##### 1.3.1. Verify Current Environment
+```bash
+# Check current IBM Fusion version
+oc get fusion -A
+
+# Verify cluster connectivity
+oc whoami
+oc cluster-info
+
+# Check available storage
+df -h
+```
+---
+##### 1.3.2. Backup Current Environment
+```bash
+# Backup current configurations
+oc get fusion -A -o yaml > fusion-backup-$(date +%Y%m%d).yaml
+oc get pods -A > pods-backup-$(date +%Y%m%d).txt
+```
+
+---
+
+##### 1.3.3. Define Environment Variables
+
+Set the following environment variables for your target container registry:
+
+```bash
+# Target registry configuration
+export LOCAL_ISF_REGISTRY="<Your container registry host name>"
+export LOCAL_ISF_REPOSITORY="<Your image path>"
+export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
+
+# Example:
+# export LOCAL_ISF_REGISTRY="registryhost.com:443"
+# export LOCAL_ISF_REPOSITORY="mirror/fusion-services-images"
+# export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
+```
+
+##### 1.3.4. Define IBM Fusion Version Variables
+
+```bash
+# IBM Fusion version configuration
+export CASE_NAME=ibm-spectrum-fusion-sds
+export CASE_VERSION=2.11.0
+```
+---
+
+##### 1.3.5. Verify Operator Packages
+
+Ensure that `redhat-oadp-operator` and `amq-streams` operator packages are present in your cluster:
+
+```bash
+# Check for required operators
+oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
+```
+
+**Important Notes:**
+- The `redhat-oadp-operator` and `amq-streams` operator packages are required only for Backup & Restore and IBM Data Cataloging services
+- If you have not mirrored these operators from Red Hat packages previously, follow the steps in the Mirroring Red Hat operator images documentation
+- Ensure you also add existing packages along with the `ImageSetConfiguration` file to avoid losing old packages from the Red Hat operator index image
+
+---
+
+## Mirroring Procedure
+
+### Step 1: Configure ibm-pak Plugin
+
+Configure the `ibm-pak` plugin to use the `oc mirror` command:
+
+```bash
+oc ibm-pak config mirror-tools -e oc-mirror
+```
+
+### Step 2: Download Mirroring Metadata
+
+Download the mirroring metadata from IBM's public CloudPak repository:
+
+```bash
+oc ibm-pak get --version "$CASE_VERSION" "$CASE_NAME"
+```
+
+**Expected Output:**
+```
+Downloading and extracting the CASE ...
+- Success
+Retrieving CASE version ...
+- Success
+Validating the CASE ...
+- Success
+Creating inventory ...
+- Success
+```
+
+### Step 3: Generate Mirror Manifests
+
+Run the `ibm-pak generate` command to generate the `oc mirror` configuration files specific to your environment:
+
+```bash
+oc ibm-pak generate mirror-manifests \
+  --version "$CASE_VERSION" \
+  "$CASE_NAME" \
+  $LOCAL_ISF_REGISTRY
+```
+
+**Expected Output:**
+```
+Generating mirror manifests...
+- Success
+Generated files:
+  - image-digest-mirror-set.yaml
+  - catalog-sources-linux-amd64.yaml
+```
+
+### Step 4: Review Generated Configuration
+
+Navigate to the directory containing the generated `image-set-config.yaml` file:
+
+```bash
+cd /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION
+ls -la
+```
+
+**Important:** Review the `image-set-config.yaml` file to understand what will be mirrored.
+
+### Step 5: Execute Mirroring - Curated Catalog
+
+Run the `oc mirror` command for the curated catalog:
+
+```bash
+oc mirror --config /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/image-set-config.yaml \
+  docker://$LOCAL_ISF_REGISTRY
+```
+
+**Expected Output:**
+```
+Writing image mapping to oc-mirror-workspace/results-*/mapping.txt
+Writing CatalogSource manifests to oc-mirror-workspace/results-*/
+Writing ICSP manifests to oc-mirror-workspace/results-*/
+```
+
+### Step 6: Execute Mirroring - Non-Curated Catalog (Optional)
+
+If you need to mirror the non-curated catalog:
+
+```bash
+oc mirror --config /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/image-set-config-non-curated.yaml \
+  docker://$LOCAL_ISF_REGISTRY
+```
+
+**Note:** Use the `--dest-tls-verify=false` parameter when mirroring images to a quay repository.
+
+### Step 7: Apply Generated Files to Cluster
+
+Navigate to the directory containing the generated files:
+
+```bash
+cd /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION
+```
+
+Apply the `image-digest-mirror-set.yaml` and `catalog-sources-linux-amd64.yaml` files:
+
+```bash
+oc apply -f image-digest-mirror-set.yaml
+oc apply -f catalog-sources-linux-amd64.yaml
+```
+
+### Step 8: Clean Up Unused Catalog Sources (Important)
+
+The `generate` command adds additional catalog sources to the generated `catalog-sources.yaml` file that are not used. To avoid confusion, delete these additional catalog sources:
+
+```bash
+oc delete catalogsource -n openshift-marketplace ibm-db2uoperator-catalog
+```
+
+**Important:** The process also creates a CAS catalogsource, and you must not delete it. The delete command also does not clean the CAS catalogsource.
+
+**Error Handling:**
+If you see "Error from server (NotFound)" messages, this indicates that the catalogs do not exist and the message can be ignored.
+
+---
+
+## Post-Mirroring Validation
+
+### Step 1: Verify Image Mirroring
+
+Check that images have been successfully mirrored:
+
+```bash
+# Verify ImageDigestMirrorSet
+oc get imagedigestmirrorset
+
+# Check catalog sources
+oc get catalogsource -n openshift-marketplace
+
+# Verify specific catalog sources
+oc get catalogsource -n openshift-marketplace | grep -E "ibm-spectrum-fusion|openshift-marketplace"
+```
+
+### Step 2: Verify Operator Availability
+
+```bash
+# Check available operators
+oc get packagemanifests -n openshift-marketplace | grep fusion
+
+# Verify operator catalog
+oc get pods -n openshift-marketplace
+```
+
+### Step 3: Test Image Pull
+
+Verify that images can be pulled from the mirrored registry:
+
+```bash
+# Test image pull (replace with actual image name)
+oc run test-pull --image=$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY/fusion-test:latest --restart=Never
+
+# Check pod status
+oc get pod test-pull
+
+# Clean up test pod
+oc delete pod test-pull
+```
+
+### Step 4: Verify Mirrored Content
+
+```bash
+# Check the oc-mirror workspace for results
+ls -la oc-mirror-workspace/results-*/
+
+# Review mapping file
+cat oc-mirror-workspace/results-*/mapping.txt
+
+# Verify catalog source manifests
+cat oc-mirror-workspace/results-*/catalogSource-*.yaml
+```
+
+### Step 5: Document Mirrored Images
+
+```bash
+# Save list of mirrored images
+cat oc-mirror-workspace/results-*/mapping.txt > mirrored-images-$(date +%Y%m%d).txt
+
+# Count mirrored images
+wc -l mirrored-images-$(date +%Y%m%d).txt
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues and Resolutions
+
+#### Issue 1: Mirror Command Fails with Authentication Error
+
+**Symptoms:**
+```
+Error: authentication required
+```
+
+**Resolution:**
+```bash
+# Re-authenticate to the registry
+oc registry login --registry $LOCAL_ISF_REGISTRY
+
+# Or use docker login
+docker login $LOCAL_ISF_REGISTRY
+```
+
+#### Issue 2: Insufficient Storage Space
+
+**Symptoms:**
+```
+Error: no space left on device
+```
+
+**Resolution:**
+```bash
+# Check available space
+df -h
+
+# Clean up old images
+docker system prune -a
+
+# Or increase storage allocation
+```
+
+#### Issue 3: Network Timeout During Mirroring
+
+**Symptoms:**
+```
+Error: context deadline exceeded
+```
+
+**Resolution:**
+```bash
+# Increase timeout values
+export OC_MIRROR_TIMEOUT=3600
+
+# Retry the mirror command
+oc mirror --config /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/image-set-config.yaml \
+  docker://$LOCAL_ISF_REGISTRY
+```
+
+#### Issue 4: Catalog Source Not Available
+
+**Symptoms:**
+```
+CatalogSource not found or not ready
+```
+
+**Resolution:**
+```bash
+# Check catalog source status
+oc get catalogsource -n openshift-marketplace
+
+# Check catalog source pods
+oc get pods -n openshift-marketplace
+
+# Review catalog source logs
+oc logs -n openshift-marketplace <catalog-pod-name>
+
+# Reapply catalog sources if needed
+oc apply -f catalog-sources-linux-amd64.yaml
+```
+
+#### Issue 5: Image Pull Errors After Mirroring
+
+**Symptoms:**
+```
+ImagePullBackOff or ErrImagePull
+```
+
+**Resolution:**
+```bash
+# Verify ImageDigestMirrorSet is applied
+oc get imagedigestmirrorset
+
+# Check image reference in the mirror mapping
+cat oc-mirror-workspace/results-*/mapping.txt | grep <image-name>
+
+# Verify registry credentials
+oc get secret -n openshift-config pull-secret -o yaml
+```
+
+### Getting Additional Help
+
+For additional troubleshooting steps, refer to:
+- Troubleshooting and known issues in offline mirroring documentation
+- IBM Support Portal
+- Red Hat Customer Portal
+
+---
+
+## Rollback Plan
+
+### Pre-Rollback Checklist
+- [ ] Verify backup files are available
+- [ ] Document current state before rollback
+- [ ] Notify stakeholders of rollback procedure
+
+### Rollback Steps
+
+#### Step 1: Remove New Catalog Sources
+```bash
+# Remove newly applied catalog sources
+oc delete -f catalog-sources-linux-amd64.yaml
+
+# Remove image digest mirror set
+oc delete -f image-digest-mirror-set.yaml
+```
+
+#### Step 2: Restore Previous Configuration
+```bash
+# Restore previous catalog sources (if backed up)
+oc apply -f catalog-sources-backup.yaml
+
+# Restore previous image digest mirror set (if backed up)
+oc apply -f image-digest-mirror-set-backup.yaml
+```
+
+#### Step 3: Verify Rollback
+```bash
+# Verify catalog sources
+oc get catalogsource -n openshift-marketplace
+
+# Verify image digest mirror sets
+oc get imagedigestmirrorset
+
+# Check operator availability
+oc get packagemanifests -n openshift-marketplace | grep fusion
+```
 
 ------------
 
