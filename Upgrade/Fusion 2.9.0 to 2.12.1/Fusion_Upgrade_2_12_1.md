@@ -270,9 +270,6 @@ oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadat
 
 ---
 
-##### 1.1.2. Mirror Backup & Restore images. 
-##### 1.1.3. Mirror IBM Storage Scale images.
-##### 1.1.4. Data Cataloging offline upgrade.
 
 ### 2. Before you begin
 #### 2.1. Ensure all compute nodes are in a ready state on OpenShift user interface.
