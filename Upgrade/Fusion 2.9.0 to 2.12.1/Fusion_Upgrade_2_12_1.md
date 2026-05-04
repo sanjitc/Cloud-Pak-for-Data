@@ -473,42 +473,31 @@ Do not remove the CAS catalog source.
 
 Run these checks before starting the Fusion upgrade.
 
-### Verify generated catalog sources
+##### Verify generated catalog sources
 
 ```bash
 oc get catalogsource -n openshift-marketplace
 ```
 
-### Verify image mirror set
+##### Verify image mirror set
 
 ```bash
 oc get imagedigestmirrorsets
 ```
 
-### Verify cluster can resolve required packages
+##### Verify cluster can resolve required packages
 
 ```bash
 oc get packagemanifests | grep -iE 'fusion|oadp|amq|catalog|cas'
 ```
 
-### Verify no public pull dependency remains for Fusion components
+##### Verify no public pull dependency remains for Fusion components
 
 ```bash
 oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{range .spec.containers[*]}{.image}{" "}{end}{"\n"}{end}' \
 | grep -E 'cp.icr.io|icr.io|quay.io|registry.redhat.io' || true
 ```
 
----
-
-##### 1.2.12. Operator notes for 2.9.1 → 2.10
-
-Compared with the earlier 2.9.x flow, the 2.10 page emphasizes:
-
-- mirroring IBM Fusion and services together
-- using [`CASE_NAME=ibm-spectrum-fusion-sds`](#2-set-fusion-case-variables)
-- using [`CASE_VERSION=2.10.1`](#2-set-fusion-case-variables)
-- ensuring [`redhat-oadp-operator`](#4-verify-red-hat-operators-if-needed) and [`amq-streams`](#4-verify-red-hat-operators-if-needed) exist when Backup & Restore / Data Cataloging are in use
-- preserving the CAS catalog source after manifest generation
 
 
 ------------
