@@ -550,9 +550,7 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 
 ---
 
-## Mirroring Procedure
-
-### Step 1: Configure ibm-pak Plugin
+##### 1.3.5. Configure ibm-pak Plugin
 
 Configure the `ibm-pak` plugin to use the `oc mirror` command:
 
@@ -560,7 +558,7 @@ Configure the `ibm-pak` plugin to use the `oc mirror` command:
 oc ibm-pak config mirror-tools -e oc-mirror
 ```
 
-### Step 2: Download Mirroring Metadata
+##### 1.3.6. Download Mirroring Metadata
 
 Download the mirroring metadata from IBM's public CloudPak repository:
 
@@ -568,19 +566,7 @@ Download the mirroring metadata from IBM's public CloudPak repository:
 oc ibm-pak get --version "$CASE_VERSION" "$CASE_NAME"
 ```
 
-**Expected Output:**
-```
-Downloading and extracting the CASE ...
-- Success
-Retrieving CASE version ...
-- Success
-Validating the CASE ...
-- Success
-Creating inventory ...
-- Success
-```
-
-### Step 3: Generate Mirror Manifests
+##### 1.3.7. Generate Mirror Manifests
 
 Run the `ibm-pak generate` command to generate the `oc mirror` configuration files specific to your environment:
 
@@ -591,16 +577,7 @@ oc ibm-pak generate mirror-manifests \
   $LOCAL_ISF_REGISTRY
 ```
 
-**Expected Output:**
-```
-Generating mirror manifests...
-- Success
-Generated files:
-  - image-digest-mirror-set.yaml
-  - catalog-sources-linux-amd64.yaml
-```
-
-### Step 4: Review Generated Configuration
+##### 1.3.8. Review Generated Configuration
 
 Navigate to the directory containing the generated `image-set-config.yaml` file:
 
@@ -611,7 +588,7 @@ ls -la
 
 **Important:** Review the `image-set-config.yaml` file to understand what will be mirrored.
 
-### Step 5: Execute Mirroring - Curated Catalog
+##### 1.3.8. Execute Mirroring - Curated Catalog
 
 Run the `oc mirror` command for the curated catalog:
 
@@ -620,14 +597,8 @@ oc mirror --config /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/image-set
   docker://$LOCAL_ISF_REGISTRY
 ```
 
-**Expected Output:**
-```
-Writing image mapping to oc-mirror-workspace/results-*/mapping.txt
-Writing CatalogSource manifests to oc-mirror-workspace/results-*/
-Writing ICSP manifests to oc-mirror-workspace/results-*/
-```
 
-### Step 6: Execute Mirroring - Non-Curated Catalog (Optional)
+##### 1.3.9. Execute Mirroring - Non-Curated Catalog (Optional)
 
 If you need to mirror the non-curated catalog:
 
@@ -638,7 +609,7 @@ oc mirror --config /root/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/image-set
 
 **Note:** Use the `--dest-tls-verify=false` parameter when mirroring images to a quay repository.
 
-### Step 7: Apply Generated Files to Cluster
+##### 1.3.10. Apply Generated Files to Cluster
 
 Navigate to the directory containing the generated files:
 
@@ -653,7 +624,7 @@ oc apply -f image-digest-mirror-set.yaml
 oc apply -f catalog-sources-linux-amd64.yaml
 ```
 
-### Step 8: Clean Up Unused Catalog Sources (Important)
+##### 1.3.11. Clean Up Unused Catalog Sources (Important)
 
 The `generate` command adds additional catalog sources to the generated `catalog-sources.yaml` file that are not used. To avoid confusion, delete these additional catalog sources:
 
@@ -668,9 +639,7 @@ If you see "Error from server (NotFound)" messages, this indicates that the cata
 
 ---
 
-## Post-Mirroring Validation
-
-### Step 1: Verify Image Mirroring
+##### 1.3.12. Post-Mirroring Validation
 
 Check that images have been successfully mirrored:
 
@@ -685,7 +654,7 @@ oc get catalogsource -n openshift-marketplace
 oc get catalogsource -n openshift-marketplace | grep -E "ibm-spectrum-fusion|openshift-marketplace"
 ```
 
-### Step 2: Verify Operator Availability
+##### 1.3.13. Verify Operator Availability
 
 ```bash
 # Check available operators
@@ -695,7 +664,7 @@ oc get packagemanifests -n openshift-marketplace | grep fusion
 oc get pods -n openshift-marketplace
 ```
 
-### Step 3: Test Image Pull
+##### 1.3.14. Test Image Pull
 
 Verify that images can be pulled from the mirrored registry:
 
@@ -710,7 +679,7 @@ oc get pod test-pull
 oc delete pod test-pull
 ```
 
-### Step 4: Verify Mirrored Content
+##### 1.3.15. Verify Mirrored Content
 
 ```bash
 # Check the oc-mirror workspace for results
@@ -723,7 +692,7 @@ cat oc-mirror-workspace/results-*/mapping.txt
 cat oc-mirror-workspace/results-*/catalogSource-*.yaml
 ```
 
-### Step 5: Document Mirrored Images
+##### 1.3.16. Document Mirrored Images
 
 ```bash
 # Save list of mirrored images
@@ -735,7 +704,6 @@ wc -l mirrored-images-$(date +%Y%m%d).txt
 
 ---
 
-------------
 
 ### 2. Before you begin
 #### 2.1. Ensure all compute nodes are in a ready state on OpenShift user interface.
