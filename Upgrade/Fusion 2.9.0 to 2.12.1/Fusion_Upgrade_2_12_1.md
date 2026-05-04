@@ -500,21 +500,7 @@ oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadat
 ---
 #### 1.3.  [Mirror the 2.11.1 images to enterprise registry: end-to-end mirroring](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=erfi-end-end-mirroring-fusion-its-services-images-enterprise-registry)
 
-
-##### 1.3.1. Verify Current Environment
-```bash
-# Check current IBM Fusion version
-oc get fusion -A
-
-# Verify cluster connectivity
-oc whoami
-oc cluster-info
-
-# Check available storage
-df -h
-```
----
-##### 1.3.2. Backup Current Environment
+##### 1.3.1. Backup Current Environment
 ```bash
 # Backup current configurations
 oc get fusion -A -o yaml > fusion-backup-$(date +%Y%m%d).yaml
@@ -523,7 +509,7 @@ oc get pods -A > pods-backup-$(date +%Y%m%d).txt
 
 ---
 
-##### 1.3.3. Define Environment Variables
+##### 1.3.2. Define Environment Variables
 
 Set the following environment variables for your target container registry:
 
@@ -539,7 +525,7 @@ export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
 # export TARGET_PATH="$LOCAL_ISF_REGISTRY/$LOCAL_ISF_REPOSITORY"
 ```
 
-##### 1.3.4. Define IBM Fusion Version Variables
+##### 1.3.3. Define IBM Fusion Version Variables
 
 ```bash
 # IBM Fusion version configuration
@@ -548,7 +534,7 @@ export CASE_VERSION=2.11.0
 ```
 ---
 
-##### 1.3.5. Verify Operator Packages
+##### 1.3.4. Verify Operator Packages
 
 Ensure that `redhat-oadp-operator` and `amq-streams` operator packages are present in your cluster:
 
