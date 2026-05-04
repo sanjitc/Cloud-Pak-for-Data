@@ -136,12 +136,12 @@ mirror:
   additionalImages:
     - name: ${OCP_RELEASE_IMAGE}
   operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.15
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v${OCP_VERSION}
       full: true
       packages:
         - name: amq-streams
         - name: redhat-oadp-operator
-    - catalog: icr.io/cpopen/isf-data-foundation-catalog:latest
+    - catalog: icr.io/cpopen/isf-data-foundation-catalog:v${OCP_VERSION}
       full: true
 ```
 
@@ -269,110 +269,6 @@ oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadat
 ```
 
 ---
-
-##### 1.1.10. Upgrade preparation checklist
-
-Run these checks before the upgrade:
-
-```bash
-echo "Checklist:"
-echo "1. Private registry reachable from all cluster nodes"
-echo "2. Cluster pull secret contains private registry auth"
-echo "3. OpenShift release image mirrored"
-echo "4. Fusion Data Foundation dependencies mirrored"
-echo "5. IBM Fusion 2.9.1 images mirrored"
-echo "6. Backup & Restore / Data Cataloging images mirrored if installed"
-echo "7. Storage Scale images mirrored if required"
-echo "8. Catalog sources updated to disconnected registry"
-echo "9. No remaining public registry dependencies"
-```
-
----
-
-
-##### Notes
-
-- Replace placeholder values before use.
-- Verify the exact IBM case name and generated manifest paths in your environment.
-- If your existing 2.9 environment already mirrors some dependencies, still validate that the **2.9.1** catalogs and images are present before upgrading.
-- If you want stricter compatibility, pin operator catalog tags exactly as documented for your OpenShift/Fusion combination.
-
--------
-
-
-
-##### 1.1.1. [Mirror IBM Fusion images](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services).
-
-**a) Mirror Fusion Data Foundation and related OpenShift dependencies.**
-Create the following ImageSetConfiguration file to mirror OpenShift and Fusion Data Foundation. 
-For 4.16:
-```
-
-cat << EOF > imageset-config-ocp-rh.yaml
-kind: ImageSetConfiguration
-apiVersion: mirror.openshift.io/v1alpha2
-storageConfig:
-  registry:
-    imageURL: "${TARGET_PATH}/isf-df-metadata:latest"
-    skipTLS: true
-mirror:
-  additionalImages:
-    - name: ${OCP_RELEASE_IMAGE}
-  operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v${OCP_VERSION}
-      packages:
-        - name: "redhat-oadp-operator"
-        - name: "amq-streams"
-    - catalog: icr.io/cpopen/isf-data-foundation-catalog:v${OCP_VERSION}
-    packages:
-      - name: "mcg-operator"
-      - name: "ocs-operator"
-      - name: "odf-csi-addons-operator"
-      - name: "odf-multicluster-orchestrator"
-      - name: "odf-operator" 
-      - name: "odr-cluster-operator"    
-      - name: "odr-hub-operator"
-      - name: "ocs-client-operator"
-      - name: "odf-prometheus-operator"
-      - name: "recipe"
-      - name: "rook-ceph-operator"
-EOF
-```
-Run the following OC command to mirror OpenShift and Fusion Data Foundation images:
-```
-oc mirror --config imageset-config-ocp-rh.yaml docker://${TARGET_PATH} --dest-skip-tls --ignore-history
-```
-Apply the created files.
-
-**b) Mirror IBM Fusion and related services.**
-Define the following environment variables for 2.9.1
-```
-export CASE_NAME=ibm-spectrum-fusion-sds
-export CASE_VERSION=2.9.1
-```
-Configure the ibm-pak plugin to use the oc mirror command:
-```
-oc ibm-pak config mirror-tools -e oc-mirror
-```
-
-Use the ibm-pak get command to download the mirroring metadata from the public CloudPak repo of IBM:
-```
-oc ibm-pak get --version "${CASE_VERSION}" "${CASE_NAME}"
-```
-
-Run the ibm-pak generate command to generate the oc mirror configuration files specific to your environment:
-```
-oc ibm-pak generate mirror-manifests --version "${CASE_VERSION}" "${CASE_NAME}" "${TARGET_PATH}"
-```
-
-The generate command adds additional catalog sources to the generated catalog-sources.yaml file that is not used. To avoid confusion, it is best to delete these additional catalog sources:
-```
-cd /root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION}/
-oc apply -f image-digest-mirror-set.yaml
-oc apply -f catalog-sources.yaml
-
-oc delete catalogsource -n openshift-marketplace ibm-db2uoperator-catalog ibm-fusion-bnr-catalog ibm-spectrum-discover-catalog
-```
 
 ##### 1.1.2. Mirror Backup & Restore images. 
 ##### 1.1.3. Mirror IBM Storage Scale images.
