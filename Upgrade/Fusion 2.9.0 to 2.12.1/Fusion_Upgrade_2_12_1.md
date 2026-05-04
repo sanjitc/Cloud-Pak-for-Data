@@ -269,7 +269,249 @@ oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadat
 ```
 
 ---
+#### 1.2.  [Mirror the 2.9.1 images to enterprise registry: end-to-end mirroring](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=installation-end-end-mirroring-fusion-its-services)
 
+
+##### 1.2.1. Set common environment variables
+
+Update these values for your registry.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+export LOCAL_ISF_REGISTRY="registry.example.com:443"
+export LOCAL_ISF_REPOSITORY="mirror-fusion-services-images"
+export TARGET_PATH="${LOCAL_ISF_REGISTRY}/${LOCAL_ISF_REPOSITORY}"
+
+# Optional auth file location
+export REGISTRY_AUTH_FILE="${HOME}/.docker/config.json"
+
+# Working directory
+export WORKDIR="${HOME}/fusion-2.10-mirror"
+mkdir -p "${WORKDIR}"
+cd "${WORKDIR}"
+```
+
+Example values in the IBM doc follow this same pattern:
+
+```bash
+export LOCAL_ISF_REGISTRY="registryhost.com:443"
+export LOCAL_ISF_REPOSITORY="mirror-fusion-services-images"
+export TARGET_PATH="${LOCAL_ISF_REGISTRY}/${LOCAL_ISF_REPOSITORY}"
+```
+
+Log in to the private registry:
+
+```bash
+podman login "${LOCAL_ISF_REGISTRY}"
+```
+
+---
+
+##### 1.2.2. Set Fusion case variables
+
+The 2.10 doc shows these case values:
+
+```bash
+export CASE_NAME="ibm-spectrum-fusion-sds"
+export CASE_VERSION="2.10.1"
+```
+
+If your organization pins a later 2.10.z level, replace only the version after validating supportability.
+
+---
+
+#####  1.2.3. Install or verify prerequisites
+
+Verify the required tools are installed:
+
+- [`oc`](https://docs.openshift.com/)
+- [`oc mirror`](https://docs.openshift.com/container-platform/latest/disconnected_install/about-installing-oc-mirror-v2.html)
+- [`oc ibm-pak`](https://github.com/IBM/cloud-pak-cli)
+
+Example:
+
+```bash
+oc version
+oc ibm-pak version
+oc mirror --help >/dev/null
+```
+
+If needed, log in to the cluster:
+
+```bash
+oc login --token='<token>' --server='https://api.cluster.example.com:6443'
+```
+
+---
+
+#####  1.2.4. Verify Red Hat operators if needed
+
+The 2.10 doc says [`redhat-oadp-operator`](#4-verify-red-hat-operators-if-needed) and [`amq-streams`](#4-verify-red-hat-operators-if-needed) are required only for:
+
+- Backup & Restore
+- IBM Data Cataloging
+
+Check whether they are already available:
+
+```bash
+oc get packagemanifests | grep -iE 'oadp|amq|streams'
+```
+
+If they are not mirrored yet, mirror them first using your normal Red Hat operator mirroring process.
+
+If you already mirrored them earlier for 2.9.x and they remain available in-cluster, you do not need to mirror them separately again.
+
+---
+
+##### 1.2.5. Configure [`ibm-pak`](oc%20ibm-pak%20config%20mirror-tools():1) to use [`oc mirror`](oc%20mirror:1)
+
+The 2.10 doc explicitly configures the plugin like this:
+
+```bash
+oc ibm-pak config mirror-tools -e oc-mirror
+```
+
+---
+
+##### 1.2.6. Download Fusion 2.10 mirroring metadata
+
+Use [`oc ibm-pak get`](oc%20ibm-pak%20get:1) to pull metadata from IBM’s public repository:
+
+```bash
+oc ibm-pak get --version "${CASE_VERSION}" "${CASE_NAME}"
+```
+
+---
+
+##### 1.2.7. Generate mirror manifests
+
+Generate the [`oc mirror`](oc%20mirror:1) configuration files for your target registry:
+
+```bash
+oc ibm-pak generate mirror-manifests \
+  --version "${CASE_VERSION}" \
+  "${CASE_NAME}" \
+  "${TARGET_PATH}"
+```
+
+This generates the files needed for mirroring and cluster configuration, typically under a path like:
+
+[`/root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION}`](/root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION})
+
+---
+
+##### 1.2.8. Run [`oc mirror`](oc%20mirror:1)
+
+The IBM doc says to run [`oc mirror`](oc%20mirror:1) with the non-curated catalog config generated in the previous step.
+
+Example pattern:
+
+```bash
+oc mirror --config /root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION}/image-set-config.yaml docker://${TARGET_PATH}
+```
+
+If your environment requires skipping TLS verification for a Quay registry, use:
+
+```bash
+oc mirror --config /root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION}/image-set-config.yaml docker://${TARGET_PATH} --dest-tls-verify=false
+```
+
+Wait for successful completion. The IBM doc indicates successful output includes messages like:
+
+- writing image mappings
+- writing CatalogSource manifests
+- writing ICSP/IDMS manifests
+
+---
+
+##### 1.2.9. Apply the generated cluster manifests
+
+Change into the generated directory:
+
+```bash
+cd /root/.ibm-pak/data/mirror/${CASE_NAME}/${CASE_VERSION}
+```
+
+Apply the generated mirror objects to the cluster.
+
+For [`amd64`](amd64:1), the doc shows:
+
+```bash
+oc apply -f image-digest-mirror-set.yaml
+oc apply -f catalog-sources-linux-amd64.yaml
+```
+
+If your platform differs, use the matching generated catalog-source file.
+
+---
+
+##### 1.2.10. Delete extra catalog sources you do not use
+
+The 2.10 doc states the generate step can add additional catalog sources to the generated [`catalog-sources.yaml`](catalog-sources.yaml) file that are not used.
+
+Delete the additional unused catalog sources to reduce confusion.
+
+Example from the doc:
+
+```bash
+oc delete catalogsource -n openshift-marketplace ibm-db2uoperator-catalog
+```
+
+If you get `NotFound`, that can be ignored.
+
+##### Important
+
+The doc explicitly warns that a **CAS catalog source is also created and must not be deleted**.
+
+Do not remove the CAS catalog source.
+
+---
+
+##### 1.2.11. Validate the disconnected configuration
+
+Run these checks before starting the Fusion upgrade.
+
+### Verify generated catalog sources
+
+```bash
+oc get catalogsource -n openshift-marketplace
+```
+
+### Verify image mirror set
+
+```bash
+oc get imagedigestmirrorsets
+```
+
+### Verify cluster can resolve required packages
+
+```bash
+oc get packagemanifests | grep -iE 'fusion|oadp|amq|catalog|cas'
+```
+
+### Verify no public pull dependency remains for Fusion components
+
+```bash
+oc get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{range .spec.containers[*]}{.image}{" "}{end}{"\n"}{end}' \
+| grep -E 'cp.icr.io|icr.io|quay.io|registry.redhat.io' || true
+```
+
+---
+
+##### 1.2.12. Operator notes for 2.9.1 → 2.10
+
+Compared with the earlier 2.9.x flow, the 2.10 page emphasizes:
+
+- mirroring IBM Fusion and services together
+- using [`CASE_NAME=ibm-spectrum-fusion-sds`](#2-set-fusion-case-variables)
+- using [`CASE_VERSION=2.10.1`](#2-set-fusion-case-variables)
+- ensuring [`redhat-oadp-operator`](#4-verify-red-hat-operators-if-needed) and [`amq-streams`](#4-verify-red-hat-operators-if-needed) exist when Backup & Restore / Data Cataloging are in use
+- preserving the CAS catalog source after manifest generation
+
+
+------------
 
 ### 2. Before you begin
 #### 2.1. Ensure all compute nodes are in a ready state on OpenShift user interface.
