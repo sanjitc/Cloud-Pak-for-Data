@@ -18,7 +18,7 @@ Current version(2.9.0) > 2.9.1 > 2.10.0 > 2.11.0 > 2.12.0 > 2.12.1
 - Mirror the 2.10.1 images to enterprise registry: end-to-end mirroring
 - Mirror the 2.11.1 images to enterprise registry: end-to-end mirroring
 - Mirror the 2.12.0. images to enterprise registry: end-to-end mirroring
-- 
+  
 Configure common environment variables
 ```
 export LOCAL_ISF_REGISTRY="<Your container registry host>:<port>"
