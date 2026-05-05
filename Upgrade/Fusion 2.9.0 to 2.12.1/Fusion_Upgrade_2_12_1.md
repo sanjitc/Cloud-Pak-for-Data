@@ -14,10 +14,7 @@ Current version(2.9.0) > 2.9.1 > 2.10.0 > 2.11.0 > 2.12.0 > 2.12.1
 - [Upgrading IBM Storage Fusion to 2.12.1](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=fusion-upgrading)
 
 ### 1. Prerequisites for enterprise registry upgrade
-- Mirror the 2.9.1 images to enterprise registry: end-to-end mirroring
-- Mirror the 2.10.1 images to enterprise registry: end-to-end mirroring
-- Mirror the 2.11.1 images to enterprise registry: end-to-end mirroring
-- Mirror the 2.12.0. images to enterprise registry: end-to-end mirroring
+
   
 Configure common environment variables
 ```
@@ -32,6 +29,14 @@ export PRODUCT_REPO="openshift-release-dev"
 export RELEASE_NAME="ocp-release"
 export OCP_RELEASE_IMAGE="quay.io/${PRODUCT_REPO}/${RELEASE_NAME}:${OCP_FULL_VERSION}-${OCP_PLATFORM}"
 ```
+---
+- Mirror the 2.9.1 images to enterprise registry: end-to-end mirroring
+- Mirror the 2.10.1 images to enterprise registry: end-to-end mirroring
+- Mirror the 2.11.1 images to enterprise registry: end-to-end mirroring
+- Mirror the 2.12.0. images to enterprise registry: end-to-end mirroring
+
+---
+
 #### 1.1.  [Mirror the 2.9.1 images to enterprise registry: end-to-end mirroring](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=installation-end-end-mirroring-fusion-its-services)
 
 ##### Purpose
