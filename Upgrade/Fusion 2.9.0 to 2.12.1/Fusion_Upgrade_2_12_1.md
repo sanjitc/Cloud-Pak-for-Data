@@ -842,7 +842,7 @@ If you use IBM Fusion to back up and restore your IBM® Software Hub deployment,
 <img width="904" height="448" alt="image" src="https://github.com/user-attachments/assets/f86fb4e1-dbb1-4780-9f14-fbabc411a49e" />
 
 #### 3.2. [Upgrading IBM Fusion services](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion-services)
-From the IBM Fusion user interface (**Settings** > **Upgrades** page), upgrade the IBM Fusion services, namely Data Foundation, ~~Global Data Platform, and Data Cataloging~~. 
+From the IBM Fusion user interface (**Settings** > **Upgrades** page), upgrade the IBM Fusion services, namely Data Foundation, ~~Global Data Platform~~, and Data Cataloging. 
 The Backup & Restore service auto upgrades based on availability and you can monitor the progress.
 
 **View the availability of an upgrade**
@@ -855,7 +855,10 @@ Fix the warnings to prevent any potential impacts on the system during the upgra
 ##### 3.2.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
 <img width="879" height="317" alt="image" src="https://github.com/user-attachments/assets/0eb5fd9e-9e74-44ce-8110-c7556bfbbcae" />
 
-##### 3.2.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrading-backup-restore-service) 
+##### 3.2.2. [Upgrade Data cataloging](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrade-data-cataloging)
+<img width="886" height="186" alt="image" src="https://github.com/user-attachments/assets/5d5e6be3-2e34-4bae-931d-da6117be9bfa" />
+
+##### 3.2.3. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrading-backup-restore-service) 
 After the IBM Fusion operator upgrade, if a Backup & Restore upgrade is available, IBM Fusion automatically initiates prechecks and then proceeds with the upgrade.
 To view the status of the upgrade, go to **Settings > Upgrade** or the Services page.
 
