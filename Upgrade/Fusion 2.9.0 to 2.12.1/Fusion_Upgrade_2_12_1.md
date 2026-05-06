@@ -867,6 +867,17 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 ### 4. Upgrading IBM Fusion 2.9.1 to 2.10.0
 #### 4.1. Go to [Git repository csv_resources script](https://www.ibm.com/links?url=https%3A%2F%2Fgithub.com%2FIBM%2Fstorage-fusion%2Fblob%2Fmaster%2Finstall%2F2.10Scripts%2Fresources%2Fcsv_resources.sh) and run this script with command ./csv_resources.sh. You must run this script so that the CPU and memory limits of the pods deployed by the Fusion operator are preserved post upgrade.
 
-#### 4.2. Upgrading IBM Fusion is same as Step 3.1.
+#### 4.2. [Upgrading IBM Fusion](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=fusion-upgrading#tasksf_sds_upgrade__steps__1) is same as Step 3.1.
+
+#### 4.3. [Upgrading IBM Fusion services](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=fusion-upgrading-services). Same as Step 3.2.
+
+##### 4.3.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
+Same as Step 3.2.1.
+
+##### 4.3.2. [Upgrade Data cataloging](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrade-data-cataloging)
+Same as Step 3.2.2.
+
+##### 4.3.3. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrading-backup-restore-service) 
+Same as Step 3.2.3.
 
 
