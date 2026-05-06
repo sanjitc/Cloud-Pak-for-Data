@@ -4,7 +4,7 @@
 Current version(2.9.0) > 2.9.1 > 2.10.0 > 2.11.0 > 2.12.0 > 2.12.1
 ### Component to upgrade
 - Fusion services,
-- IBM Storage Fusion management software,
+- ~~IBM Storage Fusion management software~~,
 - Red Hat OpenShift Container Platform
 
 ### Documentation
