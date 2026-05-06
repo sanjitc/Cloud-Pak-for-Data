@@ -827,8 +827,11 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 ---
 
 ### 2. Before you begin
-#### 2.1. Ensure all compute nodes are in a ready state on OpenShift user interface.
-#### 2.2. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
+#### 2.1. Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion. This needs to be addressed before start the upgrade.
+[Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion](https://www.ibm.com/support/pages/node/7173499)
+
+#### 2.2. Ensure all compute nodes are in a ready state on OpenShift user interface.
+#### 2.3. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
 
 Updating the cpdbr service
 If you use IBM Fusion to back up and restore your IBM® Software Hub deployment, you must upgrade the cpdbr service after you upgrade IBM Cloud Pak® for Data Version 4.8 to IBM Software Hub Version 5.1.
