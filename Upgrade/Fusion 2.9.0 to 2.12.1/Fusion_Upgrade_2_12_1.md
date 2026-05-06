@@ -862,6 +862,11 @@ Fix the warnings to prevent any potential impacts on the system during the upgra
 After the IBM Fusion operator upgrade, if a Backup & Restore upgrade is available, IBM Fusion automatically initiates prechecks and then proceeds with the upgrade.
 To view the status of the upgrade, go to **Settings > Upgrade** or the Services page.
 
+---
 
+### 4. Upgrading IBM Fusion 2.9.1 to 2.10.0
+#### 4.1. Go to [Git repository csv_resources script](https://www.ibm.com/links?url=https%3A%2F%2Fgithub.com%2FIBM%2Fstorage-fusion%2Fblob%2Fmaster%2Finstall%2F2.10Scripts%2Fresources%2Fcsv_resources.sh) and run this script with command ./csv_resources.sh. You must run this script so that the CPU and memory limits of the pods deployed by the Fusion operator are preserved post upgrade.
+
+#### 4.2. Upgrading IBM Fusion is same as Step 3.1.
 
 
