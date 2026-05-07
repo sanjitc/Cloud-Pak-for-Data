@@ -885,3 +885,16 @@ Same as Step 3.2.1.
 
 ##### 5.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrading-backup-restore-service) 
 Same as Step 3.2.2.
+
+---
+
+### 6. Upgrading IBM Fusion 2.11.0 to 2.12.0
+#### 6.1. [Upgrading IBM Fusion](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=fusion-upgrading#tasksf_sds_upgrade__steps__1) is same as Step 3.1.
+
+#### 6.2. [Upgrading IBM Fusion services](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=fusion-upgrading-services). Same as Step 3.2.
+
+##### 6.2.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
+Same as Step 3.2.1.
+
+##### 6.2.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=services-upgrading-backup-restore-service) 
+Same as Step 3.2.2.
