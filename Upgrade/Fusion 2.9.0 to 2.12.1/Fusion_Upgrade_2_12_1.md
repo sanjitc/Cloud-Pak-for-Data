@@ -872,6 +872,6 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 Same as Step 3.2.1.
 
 ##### 4.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrading-backup-restore-service) 
-Same as Step 3.2.3.
+Same as Step 3.2.2.
 
 
