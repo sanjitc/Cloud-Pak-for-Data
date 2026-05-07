@@ -833,9 +833,6 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 #### 2.2. Ensure all compute nodes are in a ready state on OpenShift user interface.
 #### 2.3. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
 
-Updating the cpdbr service
-If you use IBM Fusion to back up and restore your IBM® Software Hub deployment, you must upgrade the cpdbr service after you upgrade IBM Cloud Pak® for Data Version 4.8 to IBM Software Hub Version 5.1.
-
 ---
 ### 3. Upgrading IBM Fusion 2.9.0 to 2.9.1
 #### 3.1. [Upgrading IBM Fusion](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion#tasksf_sds_upgrade__steps__1)
