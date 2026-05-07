@@ -871,4 +871,17 @@ Same as Step 3.2.1.
 ##### 4.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrading-backup-restore-service) 
 Same as Step 3.2.2.
 
+---
 
+### 5. Upgrading IBM Fusion 2.10.0 to 2.11.0
+#### 5.1. When you upgrade IBM Fusion version 2.10.0 to 2.11.0 by using the ibm-operator-catalog, you might notice that the upgrade process skips version 2.11 and upgrades directly to 2.12, even if the subscription approval is set to Manual. To avoid this issue and for the resolution steps, see the [Hotfix page](https://www.ibm.com/support/pages/node/7259486).
+
+#### 5.2. [Upgrading IBM Fusion](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=fusion-upgrading#tasksf_sds_upgrade__steps__1) is same as Step 3.1.
+
+#### 5.3. [Upgrading IBM Fusion services](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=fusion-upgrading-services). Same as Step 3.2.
+
+##### 5.3.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
+Same as Step 3.2.1.
+
+##### 5.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrading-backup-restore-service) 
+Same as Step 3.2.2.
