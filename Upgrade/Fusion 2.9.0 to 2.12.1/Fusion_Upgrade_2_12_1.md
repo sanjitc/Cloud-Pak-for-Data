@@ -828,7 +828,8 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 
 ### 2. Before you begin
 #### 2.1. Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion. This needs to be addressed before start the upgrade.
-> [!CAUTION] - This must be completed before upgrading to each hop.
+> [!CAUTION]
+> This must be completed before upgrading to each hop.
 > [Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion](https://www.ibm.com/support/pages/node/7173499)
 
 #### 2.2. Ensure all compute nodes are in a ready state on OpenShift user interface.
