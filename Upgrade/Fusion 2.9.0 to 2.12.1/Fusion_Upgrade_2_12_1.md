@@ -839,7 +839,7 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 <img width="904" height="448" alt="image" src="https://github.com/user-attachments/assets/f86fb4e1-dbb1-4780-9f14-fbabc411a49e" />
 
 #### 3.2. [Upgrading IBM Fusion services](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion-services)
-From the IBM Fusion user interface (**Settings** > **Upgrades** page), upgrade the IBM Fusion services, namely Data Foundation, ~~Global Data Platform~~, and Data Cataloging. 
+From the IBM Fusion user interface (**Settings** > **Upgrades** page), upgrade the IBM Fusion services, namely Data Foundation, ~~Global Data Platform, and Data Cataloging~~. 
 The Backup & Restore service auto upgrades based on availability and you can monitor the progress.
 
 **View the availability of an upgrade**
