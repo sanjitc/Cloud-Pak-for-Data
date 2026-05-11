@@ -833,11 +833,13 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 > [Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion](https://www.ibm.com/support/pages/node/7173499)
 
 #### 2.2. The Backup and Restore service can be upgraded only once, at the final upgrade hop.
-> [!TIP] Disabled the auto-upgrade for backup and restore service from the Fusion UI.
-2.2.1. Log in to IBM Fusion user interface.
-2.2.2. Click **Services** menu to go to the Services page.
-2.2.3. In the **Installed** section of the Services page, click the ellipsis menu of backup & restore service.
-2.2.4. Click **Disable automatic updates** option. 
+> [!TIP]
+> Disabled the auto-upgrade for backup and restore service from the Fusion UI.
+
+2.2.1. Log in to IBM Fusion user interface.<br>
+2.2.2. Click **Services** menu to go to the Services page.<br>
+2.2.3. In the **Installed** section of the Services page, click the ellipsis menu of backup & restore service.<br>
+2.2.4. Click **Disable automatic updates** option. <br>
 
 #### 2.3. Ensure all compute nodes are in a ready state on OpenShift user interface.
 #### 2.4. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
@@ -861,9 +863,9 @@ Fix the warnings to prevent any potential impacts on the system during the upgra
 ##### 3.2.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
 <img width="879" height="317" alt="image" src="https://github.com/user-attachments/assets/0eb5fd9e-9e74-44ce-8110-c7556bfbbcae" />
 
-##### 3.2.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrading-backup-restore-service) 
+~~##### 3.2.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=services-upgrading-backup-restore-service) 
 After the IBM Fusion operator upgrade, if a Backup & Restore upgrade is available, IBM Fusion automatically initiates prechecks and then proceeds with the upgrade.
-To view the status of the upgrade, go to **Settings > Upgrade** or the Services page.
+To view the status of the upgrade, go to **Settings > Upgrade** or the Services page.~~
 
 ---
 
@@ -877,8 +879,8 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 ##### 4.3.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
 Same as Step 3.2.1.
 
-##### 4.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrading-backup-restore-service) 
-Same as Step 3.2.2.
+~~##### 4.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.10.x?topic=services-upgrading-backup-restore-service) 
+Same as Step 3.2.2.~~
 
 ---
 
@@ -892,8 +894,8 @@ Same as Step 3.2.2.
 ##### 5.3.1. [Upgrade Fusion Data Foundation service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrade-fusion-data-foundation-service#tasksf_sds_fdf_upgrade__steps__1) 
 Same as Step 3.2.1.
 
-##### 5.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrading-backup-restore-service) 
-Same as Step 3.2.2.
+~~##### 5.3.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.11.0?topic=services-upgrading-backup-restore-service) 
+Same as Step 3.2.2.~~
 
 ---
 
