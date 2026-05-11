@@ -832,8 +832,15 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 > This must be completed before upgrading to each hop.
 > [Operator upgrade can get stuck for IBM Fusion HCI and IBM Fusion](https://www.ibm.com/support/pages/node/7173499)
 
-#### 2.2. Ensure all compute nodes are in a ready state on OpenShift user interface.
-#### 2.3. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
+#### 2.2. The Backup and Restore service can be upgraded only once, at the final upgrade hop.
+> [!TIP] Disabled the auto-upgrade for backup and restore service from the Fusion UI.
+2.2.1. Log in to IBM Fusion user interface.
+2.2.2. Click **Services** menu to go to the Services page.
+2.2.3. In the **Installed** section of the Services page, click the ellipsis menu of backup & restore service.
+2.2.4. Click **Disable automatic updates** option. 
+
+#### 2.3. Ensure all compute nodes are in a ready state on OpenShift user interface.
+#### 2.4. Download the logs that you collected by using IBM Fusion. The Collect logs user interface page gets deleted after the upgrade process completes.
 
 ---
 ### 3. Upgrading IBM Fusion 2.9.0 to 2.9.1
