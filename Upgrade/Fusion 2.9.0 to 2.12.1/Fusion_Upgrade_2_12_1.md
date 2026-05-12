@@ -846,6 +846,9 @@ oc get packagemanifests | grep -E "redhat-oadp-operator|amq-streams"
 
 ---
 ### 3. Upgrading IBM Fusion 2.9.0 to 2.9.1
+> [!CAUTION]
+> Update the Fusion CatalogSource and align the operator version with the target upgrade version. This step must be completed before each upgrade hop.
+> 
 #### 3.1. [Upgrading IBM Fusion](https://www.ibm.com/docs/en/fusion-software/2.9.x?topic=components-upgrading-fusion#tasksf_sds_upgrade__steps__1)
 <img width="904" height="448" alt="image" src="https://github.com/user-attachments/assets/f86fb4e1-dbb1-4780-9f14-fbabc411a49e" />
 
