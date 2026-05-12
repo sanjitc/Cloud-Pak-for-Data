@@ -911,4 +911,5 @@ Same as Step 3.2.2.~~
 Same as Step 3.2.1.
 
 ##### 6.2.2. [Upgrading Backup & Restore service](https://www.ibm.com/docs/en/fusion-software/2.12.x?topic=services-upgrading-backup-restore-service) 
-Same as Step 3.2.2.
+After the IBM Fusion operator upgrade, if a Backup & Restore upgrade is available, IBM Fusion automatically initiates prechecks and then proceeds with the upgrade.
+To view the status of the upgrade, go to **Settings > Upgrade** or the Services page.
