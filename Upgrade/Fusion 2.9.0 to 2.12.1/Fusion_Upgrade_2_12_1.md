@@ -916,3 +916,42 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 
 ##### 6.2.3. Apply hotfix
 https://github.com/IBM/storage-fusion/tree/master/backup-restore/hotfixes/2.12.2
+
+---
+
+**Problem 1**
+The Backup and Restore service upgrade is failing. We perform this upgrade once, at the end of the Fusion upgrade to version 2.12.2.
+
+Error:
+```
+error validating existing CRs against new CRD's schema for "migrateapps.data-protection.isf.ibm.com":
+error validating data-protection.isf.ibm.com/v1alpha1, Kind=MigrateApp
+"ibm-spectrum-fusion-ns/ma-certmanager":
+updated validation is too restrictive:
+[].status.assignments.ibm-cert-manager-cert-manager-policy.recipe: Required value
+```
+This appears to be very old configuration data. The migrateapps.data-protection.isf.ibm.com CRs were used only for migrations from SPP. Therefore, it should be safe to delete these CRs at this stage.
+
+Recommended action:
+Delete all migrateapps.data-protection.isf.ibm.com CRs from all namespaces.
+
+
+**Problem 2**
+The CSV guardian-dp-operator.v2.12.2 is stuck in a Pending state. The operator reports the following error:
+
+Error:
+```
+a unique replacement chain within a channel is required to determine the relative order between channel entries,
+but 2 replacement chains were found in channel "" of package "guardian-dp-operator":
+guardian-dp-operator.v2.12.2, guardian-dp-operator.v2.9.0
+```
+
+Suspected Cause:
+This issue is consistent with the behavior described here: [https://access.redhat.com/solutions/6997586](https://access.redhat.com/solutions/6997586)
+
+Recommended Action:
+Restart the Operator Lifecycle Manager pods using the following command:
+```
+oc delete pod -n openshift-operator-lifecycle-manager --all
+```
+
