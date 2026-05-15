@@ -918,7 +918,7 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 https://github.com/IBM/storage-fusion/tree/master/backup-restore/hotfixes/2.12.2
 
 ---
-
+### 7. Lessons learned 
 **Problem 1**
 The Backup and Restore service upgrade is failing. We perform this upgrade once, at the end of the Fusion upgrade to version 2.12.2.
 
@@ -935,7 +935,7 @@ This appears to be very old configuration data. The migrateapps.data-protection.
 Recommended action:
 Delete all migrateapps.data-protection.isf.ibm.com CRs from all namespaces.
 
-
+---
 **Problem 2**
 The CSV guardian-dp-operator.v2.12.2 is stuck in a Pending state. The operator reports the following error:
 
