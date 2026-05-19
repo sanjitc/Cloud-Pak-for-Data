@@ -398,7 +398,7 @@ cpd-cli manage list-images \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
---case_download=false
+--case_download=false --patch_id=4
 ```
 
 The output is saved to the `list_images.csv` file in the `work/offline/${VERSION}` directory. Run below command by detecting images that are missing or that cannot be inspected.
