@@ -338,7 +338,7 @@ Reference: [Updating your environment variables script](https://www.ibm.com/docs
 ```
 cpd-cli manage case-download \
 --components=${COMPONENTS} \
---release=${VERSION}
+--release=${VERSION} --patch_id=4
 ```
 
 ### 1.5.2 Downloading the cluster-scoped resources for the platform and services
@@ -350,7 +350,7 @@ cpd-cli manage case-download \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --operator_ns=${PROJECT_CPD_INST_OPERATORS} \
---cluster_resources=true
+--cluster_resources=true --patch_id=4
 ```
 
 Rename the `cluster_scoped_resources.yaml`.
@@ -463,7 +463,7 @@ cpd-cli manage case-download \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --operator_ns=${PROJECT_CPD_INST_OPERATORS} \
---cluster_resources=true
+--cluster_resources=true --patch_id=4
 ```
 
 2.Change to the `work` directory. 
