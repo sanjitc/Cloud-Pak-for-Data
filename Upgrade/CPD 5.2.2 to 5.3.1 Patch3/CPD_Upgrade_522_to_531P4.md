@@ -384,7 +384,7 @@ cpd-cli manage mirror-images \
 --release=${VERSION} \
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
 --arch=${IMAGE_ARCH} \
---case_download=false
+--case_download=false --patch_id=4
 ```
 
 For each component, the command generates a log file in the work directory.Run the following command to print out any errors in the log files:
@@ -443,7 +443,7 @@ ${CPDM_OC_LOGIN}
 cpd-cli manage apply-cluster-components \
 --release=${VERSION} \
 --license_acceptance=true \
---licensing_ns=${PROJECT_LICENSE_SERVICE}
+--licensing_ns=${PROJECT_LICENSE_SERVICE} --patch_id=4
 ```
 Confirm that the License Service pods are Running or Completed:
 
@@ -537,7 +537,7 @@ cpd-cli manage install-components \
 --image_pull_prefix=${IMAGE_PULL_PREFIX} \
 --image_pull_secret=${IMAGE_PULL_SECRET} \
 --run_storage_tests=false \
---upgrade=true
+--upgrade=true --patch_id=4
 ```
 
 Once the above command `cpd-cli manage install-components` is completed, make sure the status of the IBM Software Hub is in 'Completed' status.
@@ -582,7 +582,7 @@ cpd-cli manage install-components \
 --instance_ns=${PROJECT_CPD_INST_OPERANDS} \
 --image_pull_prefix=${IMAGE_PULL_PREFIX} \
 --image_pull_secret=${IMAGE_PULL_SECRET} \
---upgrade=true
+--upgrade=true --patch_id=4
 ```
 
 Once the above command `cpd-cli manage install-components` completed successfully, you can run the `cpd-cli manage get-cr-status` command for the validation.
@@ -611,7 +611,7 @@ cpd-cli manage install-components \
 --instance_ns=${PROJECT_CPD_INST_OPERANDS} \
 --image_pull_prefix=${IMAGE_PULL_PREFIX} \
 --image_pull_secret=${IMAGE_PULL_SECRET} \
---upgrade=true
+--upgrade=true --patch_id=4
 ```
 
 Once the above command `cpd-cli manage install-components` completed successfully, run the `cpd-cli manage get-cr-status` command for the validation.
@@ -638,7 +638,7 @@ cpd-cli manage install-components \
 --instance_ns=${PROJECT_CPD_INST_OPERANDS} \
 --image_pull_prefix=${IMAGE_PULL_PREFIX} \
 --image_pull_secret=${IMAGE_PULL_SECRET} \
---upgrade=true
+--upgrade=true --patch_id=4
 ```
 
 Once the above command `cpd-cli manage install-components` completed successfully, run the `cpd-cli manage get-cr-status` command for the validation.
@@ -666,7 +666,7 @@ cpd-cli manage install-components \
 --instance_ns=${PROJECT_CPD_INST_OPERANDS} \
 --image_pull_prefix=${IMAGE_PULL_PREFIX} \
 --image_pull_secret=${IMAGE_PULL_SECRET} \
---upgrade=true
+--upgrade=true --patch_id=4
 ```
 
 Once the above command `cpd-cli manage install-components` completed successfully, run the `cpd-cli manage get-cr-status` command for the validation.
