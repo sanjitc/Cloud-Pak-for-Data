@@ -249,6 +249,10 @@ Sample output
 | 7431     | 
 +----------+ 
 ```
+> [!NOTE] - Neo4j database structure changed in IKC 5.3.x. Run the following query to get overall count. 
+> ```
+> MATCH (n:Asset) WHERE n.lineageType  IN ["Custom Script", "Custom Query", "Custom Transformation", "Function", "Procedure","CreateViewScript", "Package", "Trigger", "BigQuery Script", "BigQuery Job Script", "Cobol Program", "JCL Job", "JCL Procedure", "Databricks SQL Scripts", "DB2 Script", "Hive Script", "MSSQL Script", "Netezza Script", "PLSQL Script", "PLSQL Package", "PostgreSQL Script", "SAPHana Script", "SAS Program", "Snowflake Script", "Snowflake Pipe", "Task", "BTEQ Script", "TPT Script", "Report", "Azure Data Factory Mapping Dataflow", "DataStage Parallel Job", "DataStage Sequence Job", "DataStage Server Job", "Fivetran Source Connector", "IFPC Session", "Matillion Orchestration Job", "Matillion Transformation Job", "MicroStrategy Dossier", "MicroStrategy Report", "ODI Mapping", "Load Script", "Sheet", "SSIS SqlTask", "SSIS BulkInsertTask", "SSIS FileSystemTask", "SSIS DataFlowTask", "StreamSets Pipeline", "Tableau Workbook", "Talend Job", "Dimension", "Logical System", "Logical Model File", "Excel Workbook", "Analysis", "Logical Model", "Conceptual Model", "PigLatin Script", "PigLatin Macro", "Sqoop Script"] RETURN count(n);
+> ```
 
 #### Getting detailed script count by asset type 
 ```
