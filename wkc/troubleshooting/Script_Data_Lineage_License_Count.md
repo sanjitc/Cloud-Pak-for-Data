@@ -66,23 +66,23 @@ All objects having one of asset_type below are considered a script from licensin
 • Sqoop Script 
 ```
 
-## Page 3
-
-Option 1 – API 
+## Option 1 – API 
 Method: 
-https://cloud.ibm.com/apidocs/data-lineage-cpd/data-lineage-cpd-5.1.2#search-lineage-
-assets 
+https://cloud.ibm.com/apidocs/data-lineage-cpd/data-lineage-cpd-5.1.2#search-lineage-assets 
+
 Request: 
+```
 POST /gov_lineage/v2/search_lineage_assets 
-{"query":"","filters":[{"type":"asset_type","values":["specific 
-asset type"]}],"limit":1} 
+{"query":"","filters":[{"type":"asset_type","values":["specific asset type"]}],"limit":1}
+```
 Sample response:  
-{ "lineage_assets": [...], "total_count": 2, "offset": 0, 
-"limit": 1 } 
-The API call may take up to several minutes to complete, please make sure that the timeout 
-set for response and/or any gateway/firewall timeouts are set to 30+minutes. 
-Usage 
-Getting overall count 
+```
+{ "lineage_assets": [...], "total_count": 2, "offset": 0, "limit": 1 }
+```
+The API call may take up to several minutes to complete, please make sure that the timeout set for response and/or any gateway/firewall timeouts are set to 30+minutes. 
+
+### Usage 
+#### Getting overall count 
 To get an overall count of scripts consumed  
 1. call the API with the following parameters: 
 POST /gov_lineage/v2/search_lineage_assets 
