@@ -794,3 +794,25 @@ If IBM Fusion application in use, upgrade it before upgrading the cpdbr service.
 ## 3.5 Reconfigure the LDAP
 
 [Configure a connection to an existing identity provider](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=users-connecting-your-identity-provider)
+
+## 3.6 Update "VAULT_BRIDGE" parameters in ZenService CR
+Check if the flag is already set:
+```
+oc get zenservice lite-cr -n <cpd-instance-namespace> -o jsonpath='{.spec.vault_bridge_tls_tolerate_private_ca}{"\n"}'
+```
+If this returns empty or false, update it by running this command:
+```
+oc patch zenservice lite-cr -n <cpd-instance-namespace> --type=merge --patch '{"spec"{"vault_bridge_tls_tolerate_private_ca":true}}'
+```
+
+Wait 10 to 15 mins for ZenService to reconcile and reach Completed.
+
+Then verify the env vars on zen-core-api:
+```
+oc set env deployment/zen-core-api -n <cpd-instance-namespace> --list | grep VAULT_BRIDGE
+```
+You should see:
+```
+VAULT_BRIDGE_TLS_RENEGOTIATE=true
+VAULT_BRIDGE_TOLERATE_SELF_SIGNED=true
+```
