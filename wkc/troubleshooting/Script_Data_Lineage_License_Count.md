@@ -84,36 +84,15 @@ The API call may take up to several minutes to complete, please make sure that t
 ### Usage 
 #### Getting overall count 
 To get an overall count of scripts consumed  
-1. call the API with the following parameters: 
+1. call the API with the following parameters:
+```
 POST /gov_lineage/v2/search_lineage_assets 
-{"query":"","filters":[{"type":"asset_type","values”:["Cust
-om Script", "Custom Query", "Custom Transformation", 
-"Function", "Procedure", "CreateViewScript", "Package", 
-"Trigger", "BigQuery Script", "BigQuery Job Script", "Cobol 
-Program", "JCL Job", "JCL Procedure", "Databricks SQL 
-Scripts", "DB2 Script", "Hive Script", "MSSQL Script", 
-"Netezza Script", "PLSQL Script", "PLSQL Package", 
-"PostgreSQL Script", "SAPHana Script", "SAS Program", 
-"Snowflake Script", "Snowflake Pipe", "Task", "BTEQ 
-Script", "TPT Script", "Report", "Azure Data Factory 
-Mapping Dataflow", "DataStage Parallel Job", "DataStage 
-Sequence Job", "DataStage Server Job", "Fivetran Source 
-Connector", "IFPC Session", "Matillion Orchestration Job", 
-"Matillion Transformation Job", "MicroStrategy Dossier", 
-
-
-## Page 4
-
-"MicroStrategy Report", "ODI Mapping", "Load Script", 
-"Sheet", "SSIS SqlTask", "SSIS BulkInsertTask", "SSIS 
-FileSystemTask", "SSIS DataFlowTask", "StreamSets 
-Pipeline", "Tableau Workbook", "Talend Job", "Dimension", 
-"Logical System", "Logical Model File", "Excel Workbook", 
-"Analysis", "Logical Model", "Conceptual Model", "PigLatin 
-Script", "PigLatin Macro", "Sqoop Script"]}],"limit":1} 
+{"query":"","filters":[{"type":"asset_type","values”:["Custom Script", "Custom Query", "Custom Transformation", "Function", "Procedure", "CreateViewScript", "Package", "Trigger", "BigQuery Script", "BigQuery Job Script", "Cobol Program", "JCL Job", "JCL Procedure", "Databricks SQL Scripts", "DB2 Script", "Hive Script", "MSSQL Script", "Netezza Script", "PLSQL Script", "PLSQL Package", "PostgreSQL Script", "SAPHana Script", "SAS Program", "Snowflake Script", "Snowflake Pipe", "Task", "BTEQ Script", "TPT Script", "Report", "Azure Data Factory Mapping Dataflow", "DataStage Parallel Job", "DataStage Sequence Job", "DataStage Server Job", "Fivetran Source Connector", "IFPC Session", "Matillion Orchestration Job", "Matillion Transformation Job", "MicroStrategy Dossier", "MicroStrategy Report", "ODI Mapping", "Load Script", "Sheet", "SSIS SqlTask", "SSIS BulkInsertTask", "SSIS FileSystemTask", "SSIS DataFlowTask", "StreamSets Pipeline", "Tableau Workbook", "Talend Job", "Dimension", "Logical System", "Logical Model File", "Excel Workbook", "Analysis", "Logical Model", "Conceptual Model", "PigLatin Script", "PigLatin Macro", "Sqoop Script"]}],"limit":1}
+```
 2. The number of consumed scripts is value total_count in the response 
  
 Linux Bash script to automate counting: 
+```
 #!/bin/bash 
  
 # Ask for API base URL 
@@ -145,9 +124,6 @@ fi
 echo "Token received." 
  
 # Call the API using the Bearer token 
-
-
-## Page 5
 
 response=$(curl -s -X POST "$data_url" \ 
   -H "Content-Type: application/json" \ 
@@ -193,10 +169,6 @@ response=$(curl -s -X POST "$data_url" \
         "DataStage Server Job", 
         "Fivetran Source Connector", 
         "IFPC Session", 
-
-
-## Page 6
-
         "Matillion Orchestration Job", 
         "Matillion Transformation Job", 
         "MicroStrategy Dossier", 
@@ -231,27 +203,29 @@ response=$(curl -s -X POST "$data_url" \
 total_count=$(echo "$response" | jq '.total_count') 
  
 # Display the result 
-echo "IBM UL Total Script Count: $total_count" 
-Getting detailed script count by asset type 
- To get a more detailed information about number of scripts consumed per asset type   
-1. iterate over the list of asset types and for each of them 
+echo "IBM UL Total Script Count: $total_count"
+```
+
+#### Getting detailed script count by asset type 
+To get a more detailed information about number of scripts consumed per asset type iterate over the list of asset types and for each of them 
 1. call the API with the asset type 
 2. collect the total_count from the response 
 3. print asset_type and total_count 
 
-
-## Page 7
-
-Other LineageAssetFilter such as filtering by Technology can be used to get more 
+Other `LineageAssetFilter` such as filtering by Technology can be used to get more 
 detailed per-technology script count utilization. 
-Option 2 – Neo4j database query 
+
+## Option 2 – Neo4j database query 
 Connect to Neo4j server pod 
-oc -n ${PROJECT_CPD_INST_OPERANDS} exec -it data-lineage-neo4j-server1-0 – 
-bash 
+```
+oc -n ${PROJECT_CPD_INST_OPERANDS} exec -it data-lineage-neo4j-server1-0 – bash
+```
 Connect to Neo4j database, to be able to run Cypher query commands 
-cypher-shell -a "neo4j+ssc://localhost:7687" -u neo4j -p "$(cat 
-/config/neo4j-auth/NEO4J_AUTH | cut -d/ -f2)" 
+```
+cypher-shell -a "neo4j+ssc://localhost:7687" -u neo4j -p "$(cat /config/neo4j-auth/NEO4J_AUTH | cut -d/ -f2)"
+```
 Getting overall count 
+```
 MATCH (n:Asset)-[:HAS_ASSET_TYPE]->(t:AssetType) WHERE t.name IN ["Custom 
 Script", "Custom Query", "Custom Transformation", "Function", "Procedure", 
 "CreateViewScript", "Package", "Trigger", "BigQuery Script", "BigQuery Job 
@@ -274,14 +248,15 @@ Sample output
 +----------+ 
 | 7431     | 
 +----------+ 
+```
 
-
-## Page 8
-
-Getting detailed script count by asset type 
+#### Getting detailed script count by asset type 
+```
 MATCH (n:Asset)-[:HAS_ASSET_TYPE]->(t:AssetType) RETURN t.name, count(n) 
-ORDER BY count(n) DESC; 
+ORDER BY count(n) DESC;
+```
 Sample output 
+```
 +-------------------------------------+ 
 | t.name                   | count(n) | 
 +-------------------------------------+ 
@@ -290,4 +265,5 @@ Sample output
 | "View"                   | 5620     | 
 | "CreateViewScript"       | 5489     | 
 | "CreateView"             | 5487     | 
-... 
+...
+```
