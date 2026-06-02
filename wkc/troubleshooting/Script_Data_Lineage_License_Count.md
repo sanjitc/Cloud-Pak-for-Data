@@ -1,16 +1,10 @@
-# Script Counting on Unified Lineage
+# Script counting for licensing on Unified lineage 
+## Concept 
+Get number of objects using specific asset_types considered as script for licensing purposes. 
 
-
-## Page 1
-
-Verizon – script counting for licensing on 
-Unified lineage 
-Concept 
-Get number of objects using specific asset_types considered as script for licensing 
-purposes. 
-Asset Types considered as scripts for licensing purposes 
-All objects having one of asset_type below are considered a script from licensing 
-perspective. 
+## Asset Types considered as scripts for licensing purposes 
+All objects having one of asset_type below are considered a script from licensing perspective. 
+```
 • Custom Script 
 • Custom Query 
 • Custom Transformation 
@@ -35,10 +29,6 @@ perspective.
 • SAPHana Script 
 • SAS Program 
 • Snowflake Script 
-
-
-## Page 2
-
 • Snowflake Pipe 
 • Task 
 • BTEQ Script 
@@ -74,7 +64,7 @@ perspective.
 • PigLatin Script 
 • PigLatin Macro 
 • Sqoop Script 
-
+```
 
 ## Page 3
 
