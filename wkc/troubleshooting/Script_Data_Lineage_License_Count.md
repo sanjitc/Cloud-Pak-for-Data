@@ -222,7 +222,7 @@ oc -n ${PROJECT_CPD_INST_OPERANDS} exec -it data-lineage-neo4j-server1-0 – bas
 ```
 Connect to Neo4j database, to be able to run Cypher query commands 
 ```
-cypher-shell -a "neo4j+ssc://localhost:7687" -u neo4j -p "$(cat /config/neo4j-auth/NEO4J_AUTH | cut -d/ -f2)"
+cypher-shell -a "neo4j+ssc://localhost:7687" -u neo4j -p "$(cat /config/neo4j-auth/NEO4J_AUTH | cut -d/ -f2)" --transaction-timeout 1h
 ```
 Getting overall count 
 ```
