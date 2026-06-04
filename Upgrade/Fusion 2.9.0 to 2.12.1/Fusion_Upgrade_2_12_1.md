@@ -917,6 +917,13 @@ To view the status of the upgrade, go to **Settings > Upgrade** or the Services 
 ##### 6.2.3. Apply hotfix
 https://github.com/IBM/storage-fusion/tree/master/backup-restore/hotfixes/2.12.2
 
+##### 6.2.4 Adjust and restore resources
+a. Velero pod resource Changes  
+b. DPAgent resources (DataMover and Maintenance pod resources) 
+c. Recreated CM db2u-aux-br-cm and db2u-aux-ckpt-cm with new images 
+d. Edited the cm ibm-cpfs-operator-br-cm and ibm-cpfs-operator-ckpt-cm with new cpfs-utils image 
+e. Updated the job-manager timeout to 10hr
+
 ---
 ### 7. Lessons learned 
 **Problem 1**
