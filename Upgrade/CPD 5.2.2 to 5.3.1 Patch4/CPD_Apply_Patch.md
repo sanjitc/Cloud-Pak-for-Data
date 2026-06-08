@@ -28,3 +28,9 @@ cpd-cli manage list-deployed-components \
 --all=true
 ```
 
+### 4. Checking for new patches
+```
+cpd-cli manage restart-container
+cpd-cli manage list-patch
+```
+
