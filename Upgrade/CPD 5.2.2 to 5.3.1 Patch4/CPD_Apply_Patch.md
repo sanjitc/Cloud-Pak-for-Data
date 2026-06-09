@@ -60,6 +60,7 @@ ws_runtimes                   12.1.1    12.1.3
 Current patch id : 3
 Available patch ids : 4,5,6
 ```
+
 ### 5 Updating your environment variables script
 Update the environment variables script `cpd_vars_531.sh` as follows.
 ```
@@ -126,18 +127,31 @@ ${PRIVATE_REGISTRY_LOCATION} \
 ${PRIVATE_REGISTRY_PUSH_USER} \
 ${PRIVATE_REGISTRY_PUSH_PASSWORD}
 ```
+Confirm that you have access to the images that you want to mirror from the IBM Entitled Registry
+```
+cpd-cli manage list-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--patch_id=${PATCH_ID} \
+--inspect_source_registry=true
+```
+The output is saved to the list_images.csv file in the work/offline/${VERSION} directory. Check the output for errors:
+```
+grep "level=fatal" list_images.csv
+```
 
 Mirror the images to the private container registry.
 ```
 cpd-cli manage mirror-images \
 --components=${COMPONENTS} \
 --release=${VERSION} \
+--patch_id=${PATCH_ID} \
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
 --arch=${IMAGE_ARCH} \
---case_download=false --patch_id=4
+--case_download=false
 ```
 
-For each component, the command generates a log file in the work directory.Run the following command to print out any errors in the log files:
+For each component, the command generates a log file in the work directory. Run the following command to print out any errors in the log files:
 ```
 grep "error" mirror_*.log
 ```
@@ -147,8 +161,9 @@ Confirm by inspecting the contents of the private container registry:
 cpd-cli manage list-images \
 --components=${COMPONENTS} \
 --release=${VERSION} \
+--patch_id=${PATCH_ID}
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
---case_download=false --patch_id=${PATCH_ID}
+--case_download=false
 ```
 
 The output is saved to the `list_images.csv` file in the `work/offline/${VERSION}` directory. Run below command by detecting images that are missing or that cannot be inspected.
