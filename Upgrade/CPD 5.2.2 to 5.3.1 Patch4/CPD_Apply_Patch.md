@@ -60,4 +60,118 @@ ws_runtimes                   12.1.1    12.1.3
 Current patch id : 3
 Available patch ids : 4,5,6
 ```
+### 5 Updating your environment variables script
+Update the environment variables script `cpd_vars_531.sh` as follows.
+```
+vi cpd_vars_531.sh
+```
+1. Locate the VERSION entry and update the environment variable for VERSION.
+```
+export VERSION=5.3.1
+```
+2. Locate the COMPONENTS entry and confirm the COMPONENTS entry is accurate.
+```
+export COMPONENTS=cpd_platform,wkc,analyticsengine,datalineage,ws,ws_runtimes,wml,openscale,db2wh,match360
+```
+3. Add a new section called Image pull configuration to your script and add the following environment variables
+```
+export IMAGE_PULL_SECRET=<the name of the namespace-scoped pull secret that will contain the base64 encoded credentials for pulling images>
+export IMAGE_PULL_CREDENTIALS=$(echo -n "$PRIVATE_REGISTRY_PULL_USER:$PRIVATE_REGISTRY_PULL_PASSWORD" | base64 -w 0)
+export IMAGE_PULL_PREFIX=${PRIVATE_REGISTRY_LOCATION}
+```
+4. Locate the OLM_UTILS_IMAGE entry and update the value
+```
+export OLM_UTILS_IMAGE=${PRIVATE_REGISTRY_LOCATION}/cpopen/cpd/olm-utils-v4:${VERSION}.amd64
+export OLM_UTILS_LAUNCH_ARGS=" --network=host"
+```
+5. Save the changes. 
+
+6. Confirm that the script does not contain any errors.
+```
+bash ./cpd_vars_531.sh
+```
+7. Run this command to apply cpd_vars_531.sh
+```
+source ./cpd_vars_531.sh
+```
+
+Reference: [Updating your environment variables script](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=information-updating-your-environment-variables-script)
+
+### 6 Downloading CASE packages and cluster-scoped resource files 
+
+#### 6.1 Downloading CASE packages
+
+```
+cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION} --patch_id=4
+```
+
+#### 6.2 Downloading the cluster-scoped resources for the platform and services
+
+Download from GitHub.
+
+```
+cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--cluster_resources=true --patch_id=4
+```
+
+Rename the `cluster_scoped_resources.yaml`.
+
+```
+mv cluster_scoped_resources.yaml ${VERSION}-${PROJECT_CPD_INST_OPERATORS}-cluster_scoped_resources.yaml
+```
+
+### 7 Mirroring images
+
+### 7.1 Mirroring IBM Software Hub images directly to the private container registry
+
+Log in to the IBM Entitled registry:
+```
+cpd-cli manage login-entitled-registry ${IBM_ENTITLEMENT_KEY}
+```
+Log in to the private container registry.
+
+The following command assumes that you are using a private container registry that is secured with credentials:
+```
+cpd-cli manage login-private-registry \
+${PRIVATE_REGISTRY_LOCATION} \
+${PRIVATE_REGISTRY_PUSH_USER} \
+${PRIVATE_REGISTRY_PUSH_PASSWORD}
+```
+
+Mirror the images to the private container registry.
+```
+cpd-cli manage mirror-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--target_registry=${PRIVATE_REGISTRY_LOCATION} \
+--arch=${IMAGE_ARCH} \
+--case_download=false --patch_id=4
+```
+
+For each component, the command generates a log file in the work directory.Run the following command to print out any errors in the log files:
+```
+grep "error" mirror_*.log
+```
+
+Confirm by inspecting the contents of the private container registry:
+```
+cpd-cli manage list-images \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--target_registry=${PRIVATE_REGISTRY_LOCATION} \
+--case_download=false --patch_id=4
+```
+
+The output is saved to the `list_images.csv` file in the `work/offline/${VERSION}` directory. Run below command by detecting images that are missing or that cannot be inspected.
+
+```
+grep "level=fatal" list_images.csv
+```
+
+[Mirroring images directly to the private container registry](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-directly-private-container-registry-1)
 
