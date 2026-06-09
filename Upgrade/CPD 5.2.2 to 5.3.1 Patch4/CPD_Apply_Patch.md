@@ -111,8 +111,7 @@ cpd-cli manage case-download \
 ```
 
 ### 7 Mirroring images
-
-### 7.1 Mirroring IBM Software Hub images directly to the private container registry
+Mirroring IBM Software Hub images directly to the private container registry
 
 Log in to the IBM Entitled registry:
 ```
@@ -149,7 +148,7 @@ cpd-cli manage list-images \
 --components=${COMPONENTS} \
 --release=${VERSION} \
 --target_registry=${PRIVATE_REGISTRY_LOCATION} \
---case_download=false --patch_id=4
+--case_download=false --patch_id=${PATCH_ID}
 ```
 
 The output is saved to the `list_images.csv` file in the `work/offline/${VERSION}` directory. Run below command by detecting images that are missing or that cannot be inspected.
