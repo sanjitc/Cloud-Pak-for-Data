@@ -132,7 +132,7 @@ Rename the `cluster_scoped_resources.yaml`.
 mv cluster_scoped_resources.yaml ${VERSION}-${PROJECT_CPD_INST_OPERATORS}-cluster_scoped_resources.yaml
 ```
 
-### 7 Mirroring images
+### 7. Mirroring images
 Mirroring IBM Software Hub images directly to the private container registry
 
 Log in to the IBM Entitled registry:
