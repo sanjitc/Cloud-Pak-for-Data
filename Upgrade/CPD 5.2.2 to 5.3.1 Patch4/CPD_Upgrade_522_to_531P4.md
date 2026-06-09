@@ -199,7 +199,7 @@ wkc_gov_ui_resources:
     memory: 1024Mi
     ephemeral-storage: 1Gi
 ```
-Remove the `wdp_profiling_flight_enabled` variable from the CR. 
+Remove the `wdp_profiling_flight_enabled` variable from the CR. Mentioned in Step 3.7 also.
 
 ### 1.1.5 Take the DataLineage service out of maintenance mode
 
