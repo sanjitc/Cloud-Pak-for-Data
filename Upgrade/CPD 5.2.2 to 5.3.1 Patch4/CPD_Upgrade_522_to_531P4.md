@@ -746,7 +746,7 @@ oc cnp status ccs-cams-postgres
 
 Put CCS into maintenance mode.
 ```
-oc patch -n wkc ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}'
+oc patch -n ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}'
 ```
 
 ### 3.2.2 Recreate missing CAMS Postgres indexes
