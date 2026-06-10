@@ -126,6 +126,9 @@ cpd-cli manage case-download \
 --patch_id=${PATCH_ID}
 ```
 
+Change to the work directory.
+The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
+
 Rename the `cluster_scoped_resources.yaml`.
 
 ```
@@ -195,3 +198,37 @@ grep "level=fatal" list_images.csv
 
 [Mirroring images directly to the private container registry](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-directly-private-container-registry-1)
 
+### 8. Updating the cluster-scoped resources for the instance that you plan to patch
+
+1.Generate cluster-scoped resources for platform and services
+<br>
+
+```
+cpd-cli manage case-download \
+--components=${COMPONENTS} \
+--release=${VERSION} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--case_download=false \
+--cluster_resources=true \
+--patch_id=${PATCH_ID}
+```
+
+2.Change to the `work` directory. 
+<br>
+The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
+
+```
+cd cpd-cli-workspace/olm-utils-workspace/work
+```
+
+3.Log in to Red Hat® OpenShift® Container Platform as a cluster administrator
+```
+${OC_LOGIN}
+```
+
+4.Apply the cluster-scoped resources for the from the cluster_scoped_resources.yaml file
+```
+oc apply -f cluster_scoped_resources.yaml \
+--server-side \
+--force-conflicts
+```
