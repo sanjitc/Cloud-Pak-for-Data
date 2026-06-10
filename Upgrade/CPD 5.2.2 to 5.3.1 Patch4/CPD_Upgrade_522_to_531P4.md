@@ -767,8 +767,7 @@ CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_active_archive_order_idx ON cams
      
 CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bss_uid_state_idx ON cams.catalog(bss_account, uid, state);   
       
-CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bucket_lookup_idx ON cams.catalog(version, state) INCLUDE (id, bucket_container_ids, bucket_states) WHERE bucket_container_ids IS NOT NULL
- AND bucket_states IS NOT NULL;
+CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bucket_lookup_idx ON cams.catalog(version, state) INCLUDE (id, bucket_container_ids, bucket_states) WHERE bucket_container_ids IS NOT NULL AND bucket_states IS NOT NULL;
       
 -- Asset type indexes 
 CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_active_id_order_idx ON cams.asset_type(id) WHERE asset_type_state_state IN ('CREATED', 'PROCESSING');  
@@ -781,7 +780,7 @@ CREATE INDEX asset_catalog_id_name ON cams.asset (catalog_id, name NULLS FIRST)
 
 CREATE INDEX asset_catalog_id_name_set_id ON cams.asset (catalog_id, name, set_id) WHERE set_id IS NOT NULL;
 
-CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_catalog_state_id_pagination_idx ON cams.asset(catalog_id, state, id NULLS FIRST) WHERE is_revision = false AND model_version < 3.0 
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_catalog_state_id_pagination_idx ON cams.asset(catalog_id, state, id NULLS FIRST) WHERE is_revision = false AND model_version < 3.0; 
 ```
 
 ## 3.3 Post-upgrade of Db2Wh
