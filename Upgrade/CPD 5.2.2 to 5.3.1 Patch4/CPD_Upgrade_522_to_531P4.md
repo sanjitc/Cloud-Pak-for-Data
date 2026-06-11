@@ -851,7 +851,7 @@ oc patch ccs ccs-cr \
   }'
 ```
 
-3. Install pg_buffer_cache, pg_stat_statment extensions install_pg_extensions.sh.txt for future diagnostics.
+3. Install pg_buffer_cache, pg_stat_statment extensions [install_pg_extensions.sh.txt](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%205.2.2%20to%205.3.1%20Patch4/install_pg_extensions.sh.txt) for future diagnostics.
 
 4. Change ccs-cams-postgres parameters, to enable pg_stat_statement and adjust other resource parameters:
 ```
