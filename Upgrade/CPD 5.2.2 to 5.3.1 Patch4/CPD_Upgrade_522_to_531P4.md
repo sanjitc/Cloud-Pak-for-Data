@@ -819,6 +819,7 @@ VAULT_BRIDGE_TOLERATE_SELF_SIGNED=true
 ## 3.7 Update WKC CR 
 Remove the `wdp_profiling_flight_enabled` variable from the CR. Default value is `true`. Don't need this value to be set in WKC CR.
 
+
 > [!IMPORTANT]
 > Additional tuning for performance optimization
 ## 3.8 Day 0 tuning list:
@@ -880,6 +881,14 @@ SHOW shared_preload_libraries;
 ```
 
 5. Add list of indexes to camsdb
+
+Connect to the ccs-cams-postgres database.
+```
+oc -n ${PROJECT_CPD_INST_OPERANDS} exec -it ccs-cams-postgres-1 sh
+sh-5.1$psql -h ccs-cams-postgres-rw -p 5432 -U cams_user -d camsdb
+```
+
+Create Indexes:
 ```
 CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_asset_default_index_text_gin_trgm 
 ON cams.asset USING gin (default_index_text gin_trgm_ops);
