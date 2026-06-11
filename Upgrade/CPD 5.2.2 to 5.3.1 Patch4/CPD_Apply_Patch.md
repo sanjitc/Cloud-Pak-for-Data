@@ -232,3 +232,31 @@ oc apply -f cluster_scoped_resources.yaml \
 --server-side \
 --force-conflicts
 ```
+
+### 9. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch (????)
+
+### 10. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
+
+### 11. Applying the patch to an instance of IBM Software Hub
+1. If your client workstation pulls images from a private container registry, ensure that the client workstation has the latest version of the olm-utils-v4 image:
+```
+cpd-cli manage restart-container
+```
+2. Apply the patch to the instance (Instances without tethered projects):
+```
+cpd-cli manage apply-patch \
+--release=5.3.1 \
+--patch_id=${PATCH_ID} \
+--operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--image_pull_prefix=${IMAGE_PULL_PREFIX} \
+--image_pull_secret=${IMAGE_PULL_SECRET}
+```
+3. Confirm that the status of the operands is Completed:
+```
+cpd-cli manage get-cr-status \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+```
+
+### 12. Updating service instances after applying the patch (????)
+
