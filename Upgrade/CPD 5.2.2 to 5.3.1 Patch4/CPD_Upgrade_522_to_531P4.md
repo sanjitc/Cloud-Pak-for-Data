@@ -823,7 +823,7 @@ Remove the `wdp_profiling_flight_enabled` variable from the CR. Default value is
 > Additional tuning for performance optimization
 ## 3.8 Day 0 tuning list:
 
-1. Enable GS filter for portal catalog: []
+1. [Enable GS filter for portal catalog](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%205.2.2%20to%205.3.1%20Patch4/UPDATE_CONFIGMAP_INSTRUCTIONS-CATALOG_FILTERS_FROM_GLOBAL_SEARCH.md)
 
 2. Increase cams postgres resources and set ccs in maintenance mode
 ```
@@ -852,7 +852,7 @@ oc patch ccs ccs-cr \
 
 3. Install pg_buffer_cache, pg_stat_statment extensions install_pg_extensions.sh.txt for future diagnostics.
 
-4.a. Change ccs-cams-postgres parameters, to enable pg_stat_statement and adjust other resource parameters.
+4. Change ccs-cams-postgres parameters, to enable pg_stat_statement and adjust other resource parameters:
 ```
 oc patch \
   -n ${PROJECT_CPD_INST_OPERANDS} \
@@ -871,7 +871,7 @@ spec:
       max_parallel_workers_per_gather: "8"
 ```
 
-4.b. Verify these parameters are added to the cluster by running from inside the cams postgres pod:
+Verify these parameters are added to the cluster by running from inside the cams postgres pod:
 ```
 SHOW work_mem; 
 SHOW max_parallel_workers_per_gather; 
