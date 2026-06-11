@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# Script to install and configure PostgreSQL extensions for troubleshooting
+# Includes proper permissions for cams_user
+
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Check if PROJECT_CPD_INST_OPERANDS is set
+if [ -z "${PROJECT_CPD_INST_OPERANDS}" ]; then
+    echo -e "${RED}ERROR: Environment variable PROJECT_CPD_INST_OPERANDS is not set.${NC}"
+    exit 1
+fi
+
+# Get primary pod name
+POSTGRES_POD=$(oc get pods -n ${PROJECT_CPD_INST_OPERANDS} -l app=ccs-cams-postgres,role=primary -o jsonpath='{.items[0].metadata.name}')
+if [ -z "${POSTGRES_POD}" ]; then
+    echo -e "${RED}ERROR: Could not find primary PostgreSQL pod${NC}"
+    exit 1
+fi
+
+# Get superuser credentials
+POSTGRES_USER=$(oc get secret ccs-cams-postgres-superuser -n ${PROJECT_CPD_INST_OPERANDS} -o jsonpath='{.data.username}' | base64 -d)
+POSTGRES_PASSWORD=$(oc get secret ccs-cams-postgres-superuser -n ${PROJECT_CPD_INST_OPERANDS} -o jsonpath='{.data.password}' | base64 -d)
+
+if [ -z "${POSTGRES_USER}" ] || [ -z "${POSTGRES_PASSWORD}" ]; then
+    echo -e "${RED}ERROR: Could not retrieve superuser credentials${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Installing PostgreSQL extensions for troubleshooting...${NC}"
+echo ""
+
+# Create SQL script for all extensions
+cat > /tmp/install_extensions.sql << 'EOSQL'
+-- Connect to camsdb
+\c camsdb
+
+-- 1. pg_stat_statements (already installed, but ensure permissions)
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+GRANT SELECT ON pg_stat_statements TO cams_user;
+
+-- 2. pg_buffercache
+CREATE EXTENSION IF NOT EXISTS pg_buffercache;
+GRANT SELECT ON pg_buffercache TO cams_user;
+GRANT EXECUTE ON FUNCTION pg_buffercache_pages() TO cams_user;
+
+-- 3. pgstattuple
+CREATE EXTENSION IF NOT EXISTS pgstattuple;
+GRANT EXECUTE ON FUNCTION pgstattuple(regclass) TO cams_user;
+GRANT EXECUTE ON FUNCTION pgstattuple(text) TO cams_user;
+GRANT EXECUTE ON FUNCTION pgstatindex(regclass) TO cams_user;
+GRANT EXECUTE ON FUNCTION pgstatindex(text) TO cams_user;
+GRANT EXECUTE ON FUNCTION pg_relpages(regclass) TO cams_user;
+GRANT EXECUTE ON FUNCTION pg_relpages(text) TO cams_user;
+GRANT EXECUTE ON FUNCTION pgstatginindex(regclass) TO cams_user;
+
+-- 4. pg_trgm (for text search optimization)
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+-- Verify all extensions
+SELECT 
+    extname,
+    extversion,
+    (SELECT nspname FROM pg_namespace WHERE oid = extnamespace) as schema
+FROM pg_extension
+WHERE extname IN ('pg_stat_statements', 'pg_buffercache', 'pgstattuple', 'pg_trgm')
+ORDER BY extname;
+
+-- Show message
+\echo 'All extensions installed successfully!'
+EOSQL
+
+# Copy SQL script to pod
+echo "Step 1: Copying SQL script to pod..."
+oc cp /tmp/install_extensions.sql ${PROJECT_CPD_INST_OPERANDS}/${POSTGRES_POD}:/var/lib/postgresql/data/install_extensions.sql
+
+# Execute SQL script
+echo "Step 2: Installing extensions..."
+oc exec -n ${PROJECT_CPD_INST_OPERANDS} ${POSTGRES_POD} -- bash -c "PGPASSWORD='${POSTGRES_PASSWORD}' psql -U ${POSTGRES_USER} -f /var/lib/postgresql/data/install_extensions.sql"
+
+# Clean up
+rm /tmp/install_extensions.sql
+oc exec -n ${PROJECT_CPD_INST_OPERANDS} ${POSTGRES_POD} -- rm /var/lib/postgresql/data/install_extensions.sql
+
+echo ""
+echo -e "${GREEN}========================================${NC}"
+echo -e "${GREEN}✅ All extensions installed!${NC}"
+echo -e "${GREEN}========================================${NC}"
+echo ""
+echo "Installed extensions:"
+echo "  1. pg_stat_statements - Query performance tracking"
+echo "  2. pg_buffercache - Buffer cache inspection"
+echo "  3. pgstattuple - Table/index bloat analysis"
+echo "  4. pg_trgm - Text search optimization"
+echo ""
+echo "Test pg_buffercache with cams_user:"
+echo ""
+echo -e "${YELLOW}oc exec -n ${PROJECT_CPD_INST_OPERANDS} ${POSTGRES_POD} -- bash -c \"PGPASSWORD='<cams_password>' psql -U cams_user -d camsdb -c 'SELECT count(*) FROM pg_buffercache;'\"${NC}"
