@@ -720,8 +720,9 @@ cpd-cli service-instance list \
 --profile=${CPD_PROFILE_NAME}
 ```
 
-### Apply the patch for ccs-cams-postgres to improve the performance
-
+### 3.2.2 Apply the patch for ccs-cams-postgres to improve the performance
+> [!NOTE]
+> These parameters were introduced in CCS CR as part of Patch 6. There is no need to apply these changes if you are upgrading to version 5.3.1 Patch 6.
 ```
  oc patch clusters.postgresql.k8s.enterprisedb.io ccs-cams-postgres \
   -n ${PROJECT_CPD_INST_OPERANDS} \
@@ -749,7 +750,7 @@ Put CCS into maintenance mode.
 oc patch -n ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}'
 ```
 
-### 3.2.2 Recreate missing CAMS Postgres indexes
+### 3.2.3 Recreate missing CAMS Postgres indexes
 Connect to the ccs-cams-postgres database.
 
 ```
