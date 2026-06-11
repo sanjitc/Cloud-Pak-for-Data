@@ -818,3 +818,96 @@ VAULT_BRIDGE_TOLERATE_SELF_SIGNED=true
 ```
 ## 3.7 Update WKC CR 
 Remove the `wdp_profiling_flight_enabled` variable from the CR. Default value is `true`. Don't need this value to be set in WKC CR.
+
+> [!IMPORTANT]
+> Additional tuning for performance optimization
+## 3.8 Day 0 tuning list:
+
+1. Enable GS filter for portal catalog: []
+
+2. Increase cams postgres resources and set ccs in maintenance mode
+```
+oc patch ccs ccs-cr \
+  -n ${PROJECT_CPD_INST_OPERANDS} \
+  --type merge \
+  --patch '{
+    "spec": {
+      "cams_postgres_resources": {
+        "requests": {
+          "cpu": "100m",
+          "memory": "24Gi",
+          "ephemeral-storage": "128Mi"
+        },
+        "limits": {
+          "cpu": "8",
+          "memory": "96Gi",
+          "ephemeral-storage": "10Gi"
+        }
+      },
+      "cams_postgres_sql_param_shared_buffers": "24GB",
+      "ignoreForMaintenance": true
+    }
+  }'
+```
+
+3. Install pg_buffer_cache, pg_stat_statment extensions install_pg_extensions.sh.txt for future diagnostics.
+
+4.a. Change ccs-cams-postgres parameters, to enable pg_stat_statement and adjust other resource parameters.
+```
+oc patch \
+  -n ${PROJECT_CPD_INST_OPERANDS} \
+  clusters.postgresql.k8s.enterprisedb.io ccs-cams-postgres \
+  --type merge \
+  --patch '
+spec:
+  postgresql:
+    parameters:
+      shared_preload_libraries: "pg_stat_statements"
+      pg_stat_statements.track: "all"
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track_utility: "on"
+      work_mem: "120MB"
+      maintenance_work_mem: "256MB"
+      max_parallel_workers_per_gather: "8"
+```
+
+4.b. Verify these parameters are added to the cluster by running from inside the cams postgres pod:
+```
+SHOW work_mem; 
+SHOW max_parallel_workers_per_gather; 
+SHOW maintenance_work_mem; 
+SHOW shared_preload_libraries;
+```
+
+5. Add list of indexes to camsdb
+```
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_asset_default_index_text_gin_trgm 
+ON cams.asset USING gin (default_index_text gin_trgm_ops);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_asset_query_covering 
+ON cams.asset USING btree (catalog_id, state, is_revision, model_version, id, set_id) 
+INCLUDE (unshared_attributes, attributes, mode, member_and_owner_user_ids, member_and_owner_group_ids, 
+         project_id, asset_category, asset_type, description, sub_container_id) 
+WHERE is_revision = false 
+  AND model_version < 3.0 
+  AND project_id IS NULL 
+  AND sub_container_id IS NULL 
+  AND state = 'available';
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_search_untyped_idx 
+ON cams.asset USING btree (catalog_id, state, is_revision, project_id, mode, created_at);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bss_subtype_state_idx 
+ON cams.catalog(bss_account, subtype, state, is_public, is_consolidated_db) 
+WHERE bss_account IS NOT NULL;
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_catalog_id_name 
+ON cams.asset (catalog_id, name NULLS FIRST);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_catalog_id_name_set_id 
+ON cams.asset (catalog_id, name, set_id) 
+WHERE set_id IS NOT NULL;
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_state_id_idx 
+ON cams.asset_type(asset_type_state_state, id);
+```
