@@ -228,7 +228,7 @@ oc get cluster.postgresql
 ### 11. Updating the cluster-scoped resources for the instance that you plan to patch
 
 1. Generate cluster-scoped resources for platform and services
-<br>
+
 ```
 cpd-cli manage case-download \
 --components=${COMPONENTS} \
@@ -240,7 +240,7 @@ cpd-cli manage case-download \
 ```
 
 2. Change to the `work` directory. 
-<br>
+
 The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
 
 ```
