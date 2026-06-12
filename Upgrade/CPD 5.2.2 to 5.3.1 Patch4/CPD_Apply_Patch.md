@@ -234,9 +234,9 @@ cpd-cli health operands --control_plane_ns=${PROJECT_CPD_INST_OPERANDS}
 oc get cluster.postgresql
 ```
 
-### 8. Updating the cluster-scoped resources for the instance that you plan to patch
+### 10. Updating the cluster-scoped resources for the instance that you plan to patch
 
-1.Generate cluster-scoped resources for platform and services
+1. Generate cluster-scoped resources for platform and services
 <br>
 
 ```
@@ -249,7 +249,7 @@ cpd-cli manage case-download \
 --patch_id=${PATCH_ID}
 ```
 
-2.Change to the `work` directory. 
+2. Change to the `work` directory. 
 <br>
 The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
 
@@ -257,19 +257,19 @@ The default location of the work directory is `cpd-cli-workspace/olm-utils-works
 cd cpd-cli-workspace/olm-utils-workspace/work
 ```
 
-3.Log in to Red Hat® OpenShift® Container Platform as a cluster administrator
+3. Log in to Red Hat® OpenShift® Container Platform as a cluster administrator
 ```
 ${OC_LOGIN}
 ```
 
-4.Apply the cluster-scoped resources for the from the cluster_scoped_resources.yaml file
+4. Apply the cluster-scoped resources for the from the cluster_scoped_resources.yaml file
 ```
-oc apply -f cluster_scoped_resources.yaml \
---server-side \
---force-conflicts
+oc apply -f ${WORK_DIR}/cluster_scoped_resources.yaml \
+  --server-side \
+  --force-conflicts
 ```
 
-### 9. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
+### 11. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
 Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of reauthorization.
 ```
 # oc get role nss-managed-role-from-${PROJECT_CPD_INST_OPERATORS} \
@@ -279,10 +279,10 @@ Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of
 true
 ```
 
-### 10. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
+### 12. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
 If you gave a user the `admin` role on the project (namespace), you can skip this task.
 
-### 11. Applying the patch to an instance of IBM Software Hub
+### 13. Applying the patch to an instance of IBM Software Hub
 1. If your client workstation pulls images from a private container registry, ensure that the client workstation has the latest version of the olm-utils-v4 image:
 ```
 cpd-cli manage restart-container
@@ -303,7 +303,7 @@ cpd-cli manage get-cr-status \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 12. [Updating service instances after applying the patch](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=patches-updating-service-instances) 
+### 14. [Updating service instances after applying the patch](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=patches-updating-service-instances) 
 ```
 # cpd-cli service-instance list \
 > --profile=${CPD_PROFILE_NAME}
