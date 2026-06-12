@@ -229,7 +229,6 @@ oc get cluster.postgresql
 
 1. Generate cluster-scoped resources for platform and services
 <br>
-
 ```
 cpd-cli manage case-download \
 --components=${COMPONENTS} \
