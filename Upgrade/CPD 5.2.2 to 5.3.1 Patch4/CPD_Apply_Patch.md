@@ -244,6 +244,7 @@ true
 ```
 
 ### 10. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
+If you gave a user the `admin` role on the project (namespace), you can skip this task.
 
 ### 11. Applying the patch to an instance of IBM Software Hub
 1. If your client workstation pulls images from a private container registry, ensure that the client workstation has the latest version of the olm-utils-v4 image:
