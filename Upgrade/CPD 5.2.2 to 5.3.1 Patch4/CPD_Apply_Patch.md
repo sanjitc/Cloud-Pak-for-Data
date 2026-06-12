@@ -269,7 +269,7 @@ cpd-cli manage get-cr-status \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 12. Updating service instances after applying the patch (????)
+### 12. [Updating service instances after applying the patch](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=patches-updating-service-instances) (Do we need to patch each PROVISIONED/UPFRADED service instance?)
 1. Find current service instances.
 ```
 # cpd-cli service-instance list \
