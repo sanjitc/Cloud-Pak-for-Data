@@ -233,7 +233,15 @@ oc apply -f cluster_scoped_resources.yaml \
 --force-conflicts
 ```
 
-### 9. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch (????)
+### 9. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
+Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of reauthorization.
+```
+# oc get role nss-managed-role-from-${PROJECT_CPD_INST_OPERATORS} \
+> -n ${PROJECT_CPD_INST_OPERATORS} \
+> -o json | jq 'any(.rules[].apiGroups[]; . == "*")'
+
+true
+```
 
 ### 10. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
 
