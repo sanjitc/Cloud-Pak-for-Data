@@ -198,6 +198,8 @@ grep "level=fatal" list_images.csv
 
 [Mirroring images directly to the private container registry](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=mipcr-mirroring-images-directly-private-container-registry-1)
 
+# Apply the patch
+
 ### 8. Updating the cluster-scoped resources for the instance that you plan to patch
 
 1.Generate cluster-scoped resources for platform and services
@@ -268,4 +270,21 @@ cpd-cli manage get-cr-status \
 ```
 
 ### 12. Updating service instances after applying the patch (????)
+1. Find current service instances.
+```
+# cpd-cli service-instance list \
+> --profile=${CPD_PROFILE_NAME}
 
+ Namespace           Service type        Version               ID                  Name                        Provision status        Upgrade version option
+ ---------           ------------        -------               --                  ----                        ----------------        ----------------------
+ dev                 volumes             -                     1779238252646760    dev::datarefinerylibvol     PROVISIONED             []
+ dev                 db2wh               11.5.8.0-cn2-x86_64   1685121215954518    Openscale23                 PROVISION_IN_PROGRESS   [12.1.3.0-cn3-amd64]
+ dev                 volumes             -                     1741104306006214    dev::ws-runtimes-libs       PROVISIONED             []
+ dev                 volumes             -                     1717610845425878    dev::iaewdpthirdpartylib    PROVISIONED             []
+ dev                 datastage           5.3.3                 1684426425868629    ds-px-default               PROVISIONED             []
+ dev                 aios                5.3.3                 1669908907351865    openscale-defaultinstance   PROVISIONED             []
+ dev                 volumes             -                     1685982241350076    dev::KCCHome                PROVISIONED             []
+ dev                 aios                5.3.3                 1681764623111257    vzopenscaledev              PROVISIONED             []
+ dev                 spark               5.3.4                 1663101682499321    ProfHbIntrnl                UPGRADED                []
+ dev                 volumes             -                     1663101675886414    dev::ProfStgIntrnl          PROVISIONED             []
+``` 
