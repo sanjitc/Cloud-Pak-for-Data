@@ -287,4 +287,13 @@ cpd-cli manage get-cr-status \
  dev                 aios                5.3.3                 1681764623111257    vzopenscaledev              PROVISIONED             []
  dev                 spark               5.3.4                 1663101682499321    ProfHbIntrnl                UPGRADED                []
  dev                 volumes             -                     1663101675886414    dev::ProfStgIntrnl          PROVISIONED             []
-``` 
+```
+
+2. Analytics Engine powered by Apache Spark
+```
+cpd-cli service-instance upgrade \
+  --service-type=spark \
+  --profile=${CPD_PROFILE_NAME} \
+  --all
+```
+
