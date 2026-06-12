@@ -146,16 +146,7 @@ cpd-cli manage case-download \
 --patch_id=${PATCH_ID}
 ```
 
-Change to the work directory.
-The default location of the work directory is `cpd-cli-workspace/olm-utils-workspace/work`.
-
-Rename the `cluster_scoped_resources.yaml`.
-
-```
-mv cluster_scoped_resources.yaml ${VERSION}-${PROJECT_CPD_INST_OPERATORS}-cluster_scoped_resources.yaml
-```
-
-### 8. Mirroring images
+### 9. Mirroring images
 Mirroring IBM Software Hub images directly to the private container registry
 
 Log in to the IBM Entitled registry:
@@ -220,7 +211,7 @@ grep "level=fatal" list_images.csv
 
 # Apply the patch
 
-### 9. Checking the health of your cluster
+### 10. Checking the health of your cluster
 ```
 ${OC_LOGIN}
 oc get nodes,co,mcp
@@ -234,7 +225,7 @@ cpd-cli health operands --control_plane_ns=${PROJECT_CPD_INST_OPERANDS}
 oc get cluster.postgresql
 ```
 
-### 10. Updating the cluster-scoped resources for the instance that you plan to patch
+### 11. Updating the cluster-scoped resources for the instance that you plan to patch
 
 1. Generate cluster-scoped resources for platform and services
 <br>
@@ -268,7 +259,14 @@ oc apply -f ${WORK_DIR}/cluster_scoped_resources.yaml \
   --server-side \
   --force-conflicts
 ```
-5. Verify the patch manifest.
+
+5. Rename the `cluster_scoped_resources.yaml`.
+
+```
+mv cluster_scoped_resources.yaml ${VERSION}-${PROJECT_CPD_INST_OPERATORS}-cluster_scoped_resources.yaml
+```
+
+6. Verify the patch manifest.
 Before running `apply-patch` command, confirm that the `patch-5.3.1.yaml` corresponds to the intended patch level. For Patch 6, you should see patch_id: 6.
 ```
 cat ${WORK_DIR}/offline/patch/patch-5.3.1.yaml
@@ -283,7 +281,7 @@ patch_components_meta:
 >[!WARNING]
 >If `patch_id` does not match the target patch level, do not run `apply-patch` with the wrong manifest.
 
-### 11. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
+### 12. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
 Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of reauthorization.
 ```
 # oc get role nss-managed-role-from-${PROJECT_CPD_INST_OPERATORS} \
@@ -293,10 +291,10 @@ Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of
 true
 ```
 
-### 12. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
+### 13. Reauthorizing an instance administrator with the minimum RBAC to apply the patch to an instance (????)
 If you gave a user the `admin` role on the project (namespace), you can skip this task.
 
-### 13. Applying the patch to an instance of IBM Software Hub
+### 14. Applying the patch to an instance of IBM Software Hub
 1. If your client workstation pulls images from a private container registry, ensure that the client workstation has the latest version of the olm-utils-v4 image:
 ```
 cpd-cli manage restart-container
@@ -317,7 +315,7 @@ cpd-cli manage get-cr-status \
 --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 14. [Updating service instances after applying the patch](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=patches-updating-service-instances) 
+### 15. [Updating service instances after applying the patch](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=patches-updating-service-instances) 
 ```
 # cpd-cli service-instance list \
 > --profile=${CPD_PROFILE_NAME}
