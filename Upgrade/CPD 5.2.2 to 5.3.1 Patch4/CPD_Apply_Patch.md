@@ -268,6 +268,20 @@ oc apply -f ${WORK_DIR}/cluster_scoped_resources.yaml \
   --server-side \
   --force-conflicts
 ```
+5. Verify the patch manifest.
+Before running `apply-patch` command, confirm that the `patch-5.3.1.yaml` corresponds to the intended patch level. For Patch 6, you should see patch_id: 6.
+```
+cat ${WORK_DIR}/offline/patch/patch-5.3.1.yaml
+```
+Expected output (excerpt) for Patch 6:
+```
+patch_components_meta:
+  patch_info:
+    patch_id: 6
+    patch_date: "2026-06-12"
+```
+>[!WARNING]
+>If `patch_id` does not match the target patch level, do not run `apply-patch` with the wrong manifest.
 
 ### 11. Reauthorizing the NamespaceScope operator with the minimum RBAC to apply the patch.
 Confirmed that the NamespaceScope operator is using the minimum RBAC. No need of reauthorization.
