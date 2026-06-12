@@ -879,6 +879,7 @@ SHOW work_mem;
 SHOW max_parallel_workers_per_gather; 
 SHOW maintenance_work_mem; 
 SHOW shared_preload_libraries;
+SHOW show shared_buffers;
 ```
 
 5. Add list of indexes to camsdb
@@ -920,4 +921,13 @@ WHERE set_id IS NOT NULL;
 
 CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_state_id_idx 
 ON cams.asset_type(asset_type_state_state, id);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_count_idx
+ ON cams.asset (catalog_id, state, is_revision, model_version, project_id, sub_container_id,
+   mode, asset_type, asset_category, id)
+ INCLUDE (name, description, member_and_owner_user_ids, member_and_owner_group_ids,
+  owner_user_group_and_profile_ids)
+ WHERE is_revision = false AND model_version < 3.0
+   AND project_id IS NULL AND sub_container_id IS NULL
+   AND state = 'available';
 ```
