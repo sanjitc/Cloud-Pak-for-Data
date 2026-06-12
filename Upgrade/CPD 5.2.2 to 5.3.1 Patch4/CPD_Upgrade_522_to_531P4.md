@@ -879,7 +879,7 @@ SHOW work_mem;
 SHOW max_parallel_workers_per_gather; 
 SHOW maintenance_work_mem; 
 SHOW shared_preload_libraries;
-SHOW show shared_buffers;
+SHOW shared_buffers;
 ```
 
 5. Add list of indexes to camsdb
