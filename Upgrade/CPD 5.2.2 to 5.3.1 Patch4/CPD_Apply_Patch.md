@@ -333,7 +333,7 @@ cpd-cli manage get-cr-status \
  dev                 volumes             -                     1663101675886414    dev::ProfStgIntrnl          PROVISIONED             []
 ```
 
-2. Analytics Engine powered by Apache Spark
+Analytics Engine powered by Apache Spark
 ```
 cpd-cli service-instance upgrade \
   --service-type=spark \
