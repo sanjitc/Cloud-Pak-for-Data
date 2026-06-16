@@ -930,4 +930,32 @@ CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_count_idx
  WHERE is_revision = false AND model_version < 3.0
    AND project_id IS NULL AND sub_container_id IS NULL
    AND state = 'available';
+
+----- Request from Krishna Sheth on 6/15 -----
+CREATE INDEX CONCURRENTLY asset_catalog_created_idx
+  ON cams.asset (catalog_id, created_at DESC NULLS LAST)
+  WHERE is_revision = false AND state = 'available' AND project_id IS NULL;
+-- This should already be there but just in case it was missed
+CREATE INDEX asset_search_typed_idx
+ON cams.asset USING btree (catalog_id, asset_type, state, is_revision, project_id, mode);
+
+----- Request from Krishna Sheth on 6/16 -----
+--- Index 1: account_asset_metric_stdpremium_idx 
+--- Not used by ui operations low priortiy but creating it to keep it in sync with ROKS
+CREATE INDEX account_asset_metric_stdpremium_idx ON cams.asset
+USING btree (id, catalog_id)
+WHERE ((attributes_and_asset_type && '{discovered_asset,ibm_bi_report,cobol_copybook}'::text[])
+  AND (is_revision = false) AND (asset_category <> 'SYSTEM'::text))
+
+-- Index2: account_asset_metric_trialessential_idx
+--- Not used by ui operations low priortiy but creating it to keep it in sync with ROKS
+CREATE INDEX account_asset_metric_trialessential_idx ON cams.asset
+USING btree (id, catalog_id)
+WHERE ((attributes_and_asset_type && '{discovered_asset}'::text[])
+  AND (is_revision = false) AND (asset_category <> 'SYSTEM'::text))
+
+-- Index3: asset_catalog_state_created_at_idx
+CREATE INDEX asset_catalog_state_created_at_idx ON cams.asset
+USING btree (catalog_id, is_revision, state, project_id, created_at DESC NULLS LAST)
+WHERE ((is_revision = false) AND (state = 'available'::text) AND (project_id IS NULL))
 ```
