@@ -15,7 +15,7 @@ IBM Software Hub supports the following versions of Red Hat® OpenShift® Contai
 [![Life Cycle Dates](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/ocp-suppot-date.png)](https://access.redhat.com/support/policy/updates/openshift#dates)
 
 ### 3. [What’s new in Red Hat OpenShift](https://www.redhat.com/en/whats-new-red-hat-openshift)
-[![OpenShift New Features](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/whats-new.png)](https://www.redhat.com/en/whats-new-red-hat-openshif)
+[![OpenShift New Features](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/whats-new.png)](https://www.redhat.com/en/whats-new-red-hat-openshift)
 
 ### 4. [Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_path)
 ![Update Path](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/images/ocp-upgrade-path.png)
