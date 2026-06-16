@@ -961,4 +961,45 @@ Restart the Operator Lifecycle Manager pods using the following command:
 ```
 oc delete pod -n openshift-operator-lifecycle-manager --all
 ```
-
+---
+**Problem 3**
+The Backup and Restore service upgrade was failing while upgrading at the end of the Fusion upgrade to version 2.12.2. The "dbr-controller" pod is failing with the following error.
+It seems the  ibm-backup-restore/guardian-kafka-cluster is missing the .spec.zookeeper section.
+```
+2026-06-01 21:26:04 WARN  KafkaAssemblyOperator:259 - Reconciliation #1(watch) Kafka(ibm-backup-restore/guardian-kafka-cluster): Support for ZooKeeper-based Apache Kafka clusters will be removed in the next Strimzi release (0.46.0). Please migrate to KRaft.
+2026-06-01 21:26:04 ERROR AbstractOperator:285 - Reconciliation #1(watch) Kafka(ibm-backup-restore/guardian-kafka-cluster): createOrUpdate failed
+io.strimzi.operator.common.model.InvalidResourceException: Kafka configuration is not valid: [The .spec.zookeeper section of the Kafka custom resource is missing. This section is required for a ZooKeeper-based cluster.]
+        at io.strimzi.operator.cluster.model.KRaftUtils.validateKafkaCrForZooKeeper(KRaftUtils.java:92) ~[io.strimzi.cluster-operator-0.45.0.redhat-00003.jar:0.45.0.redhat-00003]
+....
+```
+The kafka cluster status says following:
+```
+status:
+  clusterId: UL8ZbcuXQNyWJGIBnYQJpg
+  conditions:
+  - lastTransitionTime: "2026-06-01T21:06:55.474355516Z"
+    message: Support for ZooKeeper-based Apache Kafka clusters will be removed in
+      the next Strimzi release (0.46.0). Please migrate to KRaft.
+    reason: ZooKeeperRemoval
+    status: "True"
+    type: Warning
+  - lastTransitionTime: "2026-06-01T21:06:55.474730294Z"
+    message: 'Kafka configuration is not valid: [The .spec.zookeeper section of the
+      Kafka custom resource is missing. This section is required for a ZooKeeper-based
+      cluster.]'
+    reason: InvalidResourceException
+    status: "True"
+    type: NotReady
+  kafkaMetadataState: ZooKeeper
+  kafkaVersion: 3.9.0
+  observedGeneration: 2
+  operatorLastSuccessfulVersion: 0.45.0.redhat-00004
+  registeredNodeIds:
+  - 0
+  - 1
+  - 2
+```
+Recommended Action:
+Save a backup copy of the ibm-backup-restore/guardian-kafka CR and delete it.
+Edit the dataprotection CR, set "triggerupdate" to "true"
+Restart the ibm-dataprotection-service-control-manager pod. 
