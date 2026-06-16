@@ -926,7 +926,7 @@ e. Updated the job-manager timeout to 10hr
 
 ---
 ### 7. Lessons learned 
-**Problem 1**
+##### Problem 1:
 The Backup and Restore service upgrade is failing. We perform this upgrade once, at the end of the Fusion upgrade to version 2.12.2.
 
 Error:
@@ -943,7 +943,7 @@ Recommended action:
 Delete all migrateapps.data-protection.isf.ibm.com CRs from all namespaces.
 
 ---
-**Problem 2**
+##### Problem 2:
 The CSV guardian-dp-operator.v2.12.2 is stuck in a Pending state. The operator reports the following error:
 
 Error:
@@ -962,7 +962,7 @@ Restart the Operator Lifecycle Manager pods using the following command:
 oc delete pod -n openshift-operator-lifecycle-manager --all
 ```
 ---
-**Problem 3**
+##### Problem 3:
 The Backup and Restore service upgrade was failing while upgrading at the end of the Fusion upgrade to version 2.12.2. The "dbr-controller" pod is failing with the following error.
 It seems the  ibm-backup-restore/guardian-kafka-cluster is missing the .spec.zookeeper section.
 ```
