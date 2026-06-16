@@ -1000,6 +1000,6 @@ status:
   - 2
 ```
 Recommended Action:
-Save a backup copy of the ibm-backup-restore/guardian-kafka CR and delete it.
-Edit the dataprotection CR, set "triggerupdate" to "true"
-Restart the ibm-dataprotection-service-control-manager pod. 
+1. Save a backup copy of the ibm-backup-restore/guardian-kafka CR and delete it.
+2. Edit the dataprotection CR, set "triggerupdate" to "true"
+3. Restart the ibm-dataprotection-service-control-manager pod. 
