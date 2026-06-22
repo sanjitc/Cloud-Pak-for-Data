@@ -841,7 +841,7 @@ oc patch ccs ccs-cr \
           "ephemeral-storage": "128Mi"
         },
         "limits": {
-          "cpu": "8",
+          "cpu": "20",
           "memory": "96Gi",
           "ephemeral-storage": "10Gi"
         }
