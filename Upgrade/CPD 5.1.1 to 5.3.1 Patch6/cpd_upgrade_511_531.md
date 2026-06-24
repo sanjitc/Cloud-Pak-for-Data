@@ -1,3 +1,4 @@
+
 # CPD Upgrade From 5.1.1 to 5.3.1 Patch 6
 
 ## Upgrade Context
@@ -149,7 +150,7 @@ oc edit ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS}
       wdp_connect_flight_image: sha256:cda30760185008c723a87bd251f60cb6402f4814ee1523c99a167ad979c5919b
 ```
 
-2)Patch for the catalog-api migration
+2)Patch for the catalog-api migration (add under the spec section)
 ```
 use_semi_auto_catalog_api_migration: true
 catalog_api_postgres_migration_threads: 8
@@ -163,7 +164,20 @@ catalog_api_migration_job_resources:
     ephemeral-storage: 6Gi
     memory: 10Gi
 ```
-3)Remove from maintenance mode.
+3)Patch for addressing the OpenSearch legacy index ((add under the spec section)
+```
+"opensearch_specify_image": true
+"opensearch_base_image": "cp.icr.io/cp/opencontent-ibm-opensearch-base-9@sha256:90cf0fe4eae545a0edb7d9a7e1938ab8614878a6aae15e1c646d9889d9bb8e36"
+"opensearch_min_image": "cp.icr.io/cp/opencontent-ibm-opensearch-min-2.19.5@sha256:3727b0dbb62a45b23bf5ef1875e31fdd1703678d7d0cf98c33fd1140f0b8b122"
+"opensearch_plugins_image": "cp.icr.io/cp/opencontent-ibm-opensearch-plugins-2.19.5@sha256:13807cdfae122b69d05bb842cee75f481bab2b176db6c1fd34887e84ef51963b"
+"opensearch_knn_image": "cp.icr.io/cp/opencontent-ibm-opensearch-plugin-knn-2.19.5.0@sha256:63308f465cce0ab70fc7772630d40178a7b229d351a3bb705315af3f2e217858"
+"opensearch_security_image": "cp.icr.io/cp/opencontent-ibm-opensearch-plugin-security-2.19.5.0@sha256:6183b3387094aec682539e88e2ef501779cd2e2c9ce5bb1a911029d1972a180e"
+"opensearch_legacy_core_version": "2.19.5"
+"opensearch_legacy_plugin_version": "2.19.5.0"
+"opensearch_core_version": "2.19.5"
+"opensearch_plugin_version": "2.19.5.0"
+```
+4)Remove from maintenance mode.
 ```
     ignoreForMaintenance: false
 ```
@@ -265,7 +279,7 @@ Check whether the `image_digests` property exists in the custom resources of WKC
 
 ```
 for crd in $(oc get crd | grep wkc | awk '{print $1}'); do
-  oc get crd "$crd" -o jsonpath='{.spec.names.plural}' -A -o yaml
+  oc get "$crd" -n ${PROJECT_CPD_INST_OPERANDS} -o yaml
 done
 ```
 Review the custom resource content one by one. If it contains the `image_digests` property, then remove it from the custom resource. 
@@ -469,12 +483,12 @@ ${OC_LOGIN}
 <br>
 Get the work directory.
 ```
-WORK_DIR=$(podman inspect "${OLM_UTILS_CONTAINER_NAME}" 2>/dev/null | jq -r '.[0].Mounts[] | select(.Destination == "/tmp/work") | .Source' | head -n 1)
-echo "Detected olm-utils-play-v3 /tmp/work mount: ${WORK_MOUNT}"
+WORK_DIR=$(podman inspect "olm-utils-play-v4" 2>/dev/null | jq -r '.[0].Mounts[] | select(.Destination == "/tmp/work") | .Source' | head -n 1)
+echo "Detected olm-utils-play-v3 /tmp/work mount: ${WORK_DIR}"
 ```
 Apply the cluster-scoped resources  for the platform and services.
 ```
-oc apply -f $WORK_DIR\cluster_scoped_resources.yaml \
+oc apply -f $WORK_DIR/cluster_scoped_resources.yaml \
 --server-side \
 --force-conflicts
 ```
@@ -1044,5 +1058,4 @@ Log in the IBM Software Hub web console using the local admin and then configure
 ## 3.5 Upgrade the cpdbr service
 If IBM Fusion application in use, upgrade it before upgrading the cpdbr service.
 [Updating the cpdbr service](https://www.ibm.com/docs/en/SSNFH6_5.3.x/hub/upgrade/v52/upgrade-platform-bar-recipe.html)
-
 
