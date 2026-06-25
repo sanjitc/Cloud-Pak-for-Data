@@ -105,31 +105,9 @@ if [[ -n "${ZEN_METASTORE_EDB_POD}" ]] && oc -n "${PROJECT_CPD_INST_OPERANDS}" g
 fi
 ```
 
-### 1.1.2 Global Search legacy index compatibility check before upgrade
-<br>
-**Note:** the step 1.1.2 and 1.1.3 can be done as one-go.
-<br>
+### 1.1.2 Uninstall all hot fixes or customization if any
 
-[Known Issue: Global Search Legacy Index Compatibility](https://www.ibm.com/support/pages/node/7268540#pre-upgrade-checklist)
-
-<br>
-
-Edit the CCS custom resource.
-
-```
-oc edit ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS}
-```
-
-Add the following properties to the CCS Custom Resource prior to initiating the upgrade:
-
-```
-opensearch_legacy_core_version: "2.19.3"
-opensearch_legacy_plugin_version: "2.19.3.0"
-```
-
-### 1.1.3 Uninstall all hot fixes or customization if any
-
-#### 1.1.3.1 Uninstal the CCS hotfix and update customization
+#### 1.1.2.1 Uninstal the CCS hotfix and update customization
 <br>
 
 Edit the CCS custom resource
@@ -192,7 +170,7 @@ Wait until the CCS Operator reconcilation completed and also the ccs-cr in 'Comp
 oc get ccs ccs-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 1.1.3.2 Remove Db2aaserviceService from the maintenance mode
+#### 1.1.2.2 Remove Db2aaserviceService from the maintenance mode
 
 <br>
 
@@ -214,7 +192,7 @@ Save and Exit. Wait until the Db2aaserviceService Operator reconcilation complet
 oc get Db2aaserviceService db2aaservice-cr -o yaml -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 1.1.3.3 Take the AnalyticsEngine service out of maintenance mode
+#### 1.1.2.3 Take the AnalyticsEngine service out of maintenance mode
 
 ```
 oc patch AnalyticsEngine analyticsengine-sample -p "{\"spec\":{\"ignoreForMaintenance\": false}}" --type=merge -n ${PROJECT_CPD_INST_OPERANDS}
@@ -226,7 +204,7 @@ Wait until the AnalyticsEngine Operator reconcilation completed and also the ana
 oc get AnalyticsEngine analyticsengine-sample -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 1.1.3.4 Uninstal the WKC hotfix & customization
+#### 1.1.2.4 Uninstal the WKC hotfix & customization
 1)Remove the image_digests section.
 ```
     image_digests:
@@ -292,7 +270,7 @@ Wait until the WKC Operator reconcilation completed and also the wkc-cr in 'Comp
 oc get wkc wkc-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 1.1.3.5 Take the DataLineage service out of maintenance mode
+### 1.1.2.5 Take the DataLineage service out of maintenance mode
 
 Edit the DataLineage datalineage-cr.
 ```
@@ -323,7 +301,7 @@ Wait until the DataLineage Operator reconcilation completed and also the datalin
 oc get DataLineage datalineage-cr -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-#### 1.1.3.6 Remove Db2whService from the maintenance mode
+#### 1.1.2.6 Remove Db2whService from the maintenance mode
 
 <br>
 
@@ -345,14 +323,14 @@ Save and Exit. Wait until the Db2whService Operator reconcilation completed and 
 oc get Db2whService db2wh-cr -o yaml -n ${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 1.1.4 Checking the Common Core services before the upgrade
+### 1.1.3 Checking the Common Core services before the upgrade
 
 - 1. Check whether Global Search configured properly
 - 2. Run the `precheck_migration.sh` to determine whether you can run an automatic migration of the common core services or whether you need to configure common core services to run a semi-automatic migration.
 
 Complete the above two checks by following the steps of the `Before you begin` section in this documentation [Pre-upgrade check for CCS](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=hub-upgrading-software#taskupgrade-instance__prereq__1_)
 
-### 1.1.5 Calculate the required storage for the migration from Db2 to PostgreSQL
+### 1.1.4 Calculate the required storage for the migration from Db2 to PostgreSQL
 [Check the sizes of the current Db2 databases to calculate the storage that is required for the PostgreSQL instances](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=upgrading-post-upgrade-setup-knowledge-catalog#ikc_post_upgrade__expand-pvc__title__1)
 
 ## 1.2 Updating the IBM Software Hub command-line interface
@@ -420,29 +398,21 @@ source ./cpd_vars_531.sh
 Reference: [Updating your environment variables script](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=information-updating-your-environment-variables-script)
 
 # 2. Upgrade
-## 2.1 Migrating to Red Hat OpenShift certificate manager
+## 2.1 Upgrading the License Service
 
-The IBM Certificate manager is deprecated.
-
-If the IBM Certificate manager (ibm-cert-manager) is installed on your cluster, use the following steps to migrate your certificates from the IBM Certificate manager to the Red Hat OpenShift certificate manager (cert-manager Operator).
-
-[Migrating from the IBM Certificate manager to the Red Hat OpenShift certificate manager](https://www.ibm.com/docs/en/software-hub/5.3.x?topic=upgrading-migrating-red-hat-openshift-certificate-manager)
-
-## 2.2 Upgrading the License Service
-
-### 2.2.1 Get the project of the License service
+### 2.1.1 Get the project of the License service
 
 If you're not sure which project the License Service is in, run the following command:
 ```
 oc get deployment -A | grep ibm-licensing-operator
 ```
 
-### 2.2.2  Log in to the Red Hat OpenShift Container Platform cluster
+### 2.1.2  Log in to the Red Hat OpenShift Container Platform cluster
 ```
 ${CPDM_OC_LOGIN}
 ```
 
-### 2.2.3 Upgrading the License Service
+### 2.1.3 Upgrading the License Service
 
 ```
 cpd-cli manage apply-cluster-components \
@@ -457,9 +427,9 @@ Confirm that the License Service pods are Running or Completed:
 oc get pods --namespace=${PROJECT_LICENSE_SERVICE}
 ```
 
-## 2.3 Preparing to upgrade IBM Software Hub
+## 2.2 Preparing to upgrade IBM Software Hub
 
-### 2.3.1 Updating the cluster-scoped resources for the platform and services
+### 2.2.1 Updating the cluster-scoped resources for the platform and services
 
 1.Generate cluster-scoped resources for platform and services
 <br>
@@ -493,8 +463,8 @@ oc apply -f $WORK_DIR/cluster_scoped_resources.yaml \
 --force-conflicts
 ```
 
-## 2.4 Upgrading IBM Software Hub
-## 2.4.1 Creating image pull secrets for an instance of IBM Software Hub
+## 2.3 Upgrading IBM Software Hub
+## 2.3.1 Creating image pull secrets for an instance of IBM Software Hub
 1.Log in to Red Hat® OpenShift® Container Platform as a user with sufficient permissions to complete the task.
 ```
 ${OC_LOGIN}
@@ -528,12 +498,12 @@ oc create secret docker-registry ${IMAGE_PULL_SECRET} \
 --namespace=${PROJECT_CPD_INST_OPERANDS}
 ```
 
-### 2.4.2 Run the cpd-cli manage login-to-ocp command to log in to the cluster
+### 2.3.2 Run the cpd-cli manage login-to-ocp command to log in to the cluster
 ```
 ${CPDM_OC_LOGIN}
 ```
 
-### 2.4.3 Update the saml-secret to avoid TypeError 
+### 2.3.3 Update the saml-secret to avoid TypeError 
 1)Back up the saml-secret
 
 <br>
@@ -563,7 +533,7 @@ To:
 }
 ```
 
-### 2.4.4 Upgrading the required operators and custom resources for the instance
+### 2.3.4 Upgrading the required operators and custom resources for the instance
 ```
 cpd-cli manage install-components \
 --license_acceptance=true \
@@ -585,7 +555,7 @@ cpd-cli manage get-cr-status \
 --components=cpd_platform
 ```
 
-### 2.4.5 Applying the RSI patches
+## 2.4 Applying the RSI patches
 Run the following command to re-apply your existing custom patches.
 ```
 cpd-cli manage apply-rsi-patches --cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
@@ -855,41 +825,7 @@ Put CCS into maintenance mode.
 oc patch -n wkc ccs ccs-cr --type merge --patch '{"spec": {"ignoreForMaintenance": true}}'
 ```
 
-### 3.2.5 Recreate missing CAMS Postgres indexes
-Connect to the ccs-cams-postgres database.
-
-```
-oc -n ${PROJECT_CPD_INST_OPERANDS} exec -it ccs-cams-postgres-1 sh
-sh-5.1$psql -h ccs-cams-postgres-rw -p 5432 -U cams_user -d camsdb
-```
-
-Create the missing indexes.
-
-```
--- Catalog indexes
-CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bss_subtype_state_idx ON cams.catalog(bss_account, subtype, state, is_public, is_consolidated_db) WHERE bss_account IS NOT NULL;  
-   
-CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_active_archive_order_idx ON cams.catalog(state, version, create_time_ticks) WHERE archive_info_state IS NULL; 
-     
-CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bss_uid_state_idx ON cams.catalog(bss_account, uid, state);   
-      
-CREATE INDEX CONCURRENTLY IF NOT EXISTS catalog_bucket_lookup_idx ON cams.catalog(version, state) INCLUDE (id, bucket_container_ids, bucket_states) WHERE bucket_container_ids IS NOT NULL AND bucket_states IS NOT NULL;
-      
--- Asset type indexes 
-CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_active_id_order_idx ON cams.asset_type(id) WHERE asset_type_state_state IN ('CREATED', 'PROCESSING');  
-     
-CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_state_id_idx ON cams.asset_type(asset_type_state_state, id);   
-     
-CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_type_tenancy_account_idx ON cams.asset_type(asset_type_tenancy_level, bss_account_id, asset_type_state_state) INCLUDE (id);
-
-CREATE INDEX asset_catalog_id_name ON cams.asset (catalog_id, name NULLS FIRST)
-
-CREATE INDEX asset_catalog_id_name_set_id ON cams.asset (catalog_id, name, set_id) WHERE set_id IS NOT NULL;
-
-CREATE INDEX CONCURRENTLY IF NOT EXISTS asset_catalog_state_id_pagination_idx ON cams.asset(catalog_id, state, id NULLS FIRST) WHERE is_revision = false AND model_version < 3.0;  
-```
-
-### 3.2.6 Day 0 tuning list:
+### 3.2.5 Day 0 tuning list (tune CAMS Postgres performance):
 
 1. [Enable GS filter for portal catalog](https://github.com/sanjitc/Cloud-Pak-for-Data/blob/main/Upgrade/CPD%205.2.2%20to%205.3.1%20Patch4/UPDATE_CONFIGMAP_INSTRUCTIONS-CATALOG_FILTERS_FROM_GLOBAL_SEARCH.md)
 
@@ -1026,7 +962,7 @@ USING btree (catalog_id, is_revision, state, project_id, created_at DESC NULLS L
 WHERE ((is_revision = false) AND (state = 'available'::text) AND (project_id IS NULL))
 ```
 
-### 3.2.7 Run the global search bulk sync utility
+### 3.2.6 Run the global search bulk sync utility
 If you didn't synchronize the global search index in version 5.1, complete these tasks:
 - To be able to use the global search indexed data for relationships, see [Bulk sync relationships for global search](https://www.ibm.com/docs/en/SSNFH6_5.3.x/wsj/admin/admin-bulk-sync-rel.html).
 - To be able to use the global search indexed data for assets, see [Bulk sync assets for global search](https://www.ibm.com/docs/en/SSNFH6_5.3.x/wsj/admin/admin-bulk-sync.html).
@@ -1058,4 +994,3 @@ Log in the IBM Software Hub web console using the local admin and then configure
 ## 3.5 Upgrade the cpdbr service
 If IBM Fusion application in use, upgrade it before upgrading the cpdbr service.
 [Updating the cpdbr service](https://www.ibm.com/docs/en/SSNFH6_5.3.x/hub/upgrade/v52/upgrade-platform-bar-recipe.html)
-
