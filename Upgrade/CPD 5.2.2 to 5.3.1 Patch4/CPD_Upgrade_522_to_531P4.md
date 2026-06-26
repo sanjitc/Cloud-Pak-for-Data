@@ -818,7 +818,7 @@ VAULT_BRIDGE_TLS_RENEGOTIATE=true
 VAULT_BRIDGE_TOLERATE_SELF_SIGNED=true
 ```
 ## 3.7 Update WKC CR 
-Remove the `wdp_profiling_flight_enabled` variable from the CR. Default value is `true`. Don't need this value to be set in WKC CR.
+Remove the `wdp_profiling_flight_enabled` variable from the CR. Default value is `true`. Don't need this value to be set in WKC CR. You need to remove it from the profiling-cr also.
 
 
 > [!IMPORTANT]
